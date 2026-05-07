@@ -9,9 +9,11 @@ export default function RevealSection({ children, className = "", delay = 0 }) {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => {
+        // Add class when visible, remove when not — animation replays every scroll
         if (e.isIntersecting) {
           el.classList.add("revealed");
-          obs.unobserve(el);
+        } else {
+          el.classList.remove("revealed");
         }
       },
       { threshold: 0.12 }
