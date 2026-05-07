@@ -1,6 +1,9 @@
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollProgress from "./components/ScrollProgress";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import CursorTrail from "./components/CursorTrail";
 
 export const metadata = {
   title: {
@@ -46,9 +49,12 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-full flex flex-col bg-background text-on-surface antialiased font-body-md">
+        <CursorTrail />
+        <ScrollProgress />
         <Navbar />
         <main className="flex-1 pt-20">{children}</main>
         <Footer />
+        <FloatingWhatsApp />
       </body>
     </html>
   );

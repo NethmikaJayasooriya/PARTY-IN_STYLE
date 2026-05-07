@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import RevealSection from "./components/RevealSection";
+import AnimatedCounter from "./components/AnimatedCounter";
+import MarqueeTicker from "./components/MarqueeTicker";
 
 const STATS = [
   { value: "500+", label: "Events Delivered" },
@@ -46,7 +48,7 @@ export default function Home() {
           <h1 className="font-display-xl text-5xl md:text-7xl lg:text-8xl animate-hero-reveal delay-200 leading-tight">
             <span className="gradient-text-white">Unforgettable Events,</span>
             <br />
-            <span className="gradient-text italic font-light animate-text-reveal delay-400">Styled to Perfection.</span>
+            <span className="gradient-text italic font-light">Styled to Perfection.</span>
           </h1>
           <p className="font-body-lg text-base md:text-lg text-on-surface-variant max-w-2xl font-light tracking-wide animate-fade-up delay-500">
             Australia&#39;s premier event planners. Curating exclusive, high-octane experiences for a discerning clientele.
@@ -73,17 +75,17 @@ export default function Home() {
         </div>
       </header>
 
-      {/* ===== STATS ===== */}
+      {/* ===== MARQUEE TICKER ===== */}
+      <MarqueeTicker />
+
+      {/* ===== STATS with animated counters ===== */}
       <RevealSection>
-        <div className="relative py-16 border-y border-outline/30">
+        <div className="relative py-16 border-b border-outline/30">
           <div className="max-w-container-max mx-auto px-6 md:px-margin-x flex flex-wrap justify-center md:justify-between items-center gap-8 md:gap-4">
             {STATS.map((s, i) => (
               <div key={i} className="flex items-center gap-4">
                 {i > 0 && <div className="stat-divider hidden md:block mr-4" />}
-                <div className="text-center md:text-left">
-                  <div className="font-headline-lg text-4xl md:text-5xl gradient-text font-light">{s.value}</div>
-                  <div className="font-label-sm text-[11px] text-on-surface-variant uppercase tracking-[0.2em] mt-1">{s.label}</div>
-                </div>
+                <AnimatedCounter value={s.value} label={s.label} />
               </div>
             ))}
           </div>
@@ -100,7 +102,7 @@ export default function Home() {
             </h2>
             <div className="gold-line-left mt-4" />
           </div>
-          <Link href="/services" className="text-primary font-label-sm text-xs uppercase tracking-widest hover:underline flex items-center gap-1 underline-reveal">
+          <Link href="/services" className="text-primary font-label-sm text-xs uppercase tracking-widest flex items-center gap-1 underline-reveal">
             View All Services <span className="material-symbols-outlined text-sm">arrow_forward</span>
           </Link>
         </RevealSection>

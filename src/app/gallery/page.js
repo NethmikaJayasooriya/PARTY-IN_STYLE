@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import RevealSection from "../components/RevealSection";
+import Lightbox from "../components/Lightbox";
 
 const CATEGORIES = ["All", "Weddings", "Corporate", "Private", "Festivals"];
 
@@ -29,7 +30,7 @@ export default function GalleryPage() {
         <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">Portfolio</p>
         <h1 className="font-display-xl text-5xl md:text-7xl text-on-surface mb-4">Our <span className="gradient-text italic">Work</span></h1>
         <div className="gold-line-left mx-auto mt-4 mb-6" />
-        <p className="font-body-lg text-base text-on-surface-variant font-light max-w-2xl mx-auto">A curated selection of events we&#39;ve had the privilege to design and deliver.</p>
+        <p className="font-body-lg text-base text-on-surface-variant font-light max-w-2xl mx-auto">A curated selection of events we&#39;ve had the privilege to design and deliver. Click any image to view full-size.</p>
       </section>
 
       <div className="max-w-container-max mx-auto px-6 md:px-margin-x mb-12">
@@ -52,13 +53,16 @@ export default function GalleryPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((g, i) => (
             <RevealSection key={`${g.src}-${active}`} delay={i * 60}>
-              <div className="relative rounded-xl overflow-hidden group cursor-pointer image-hover-zoom magnetic-hover aspect-[4/3]">
-                <img src={g.src} alt={g.alt} className="w-full h-full object-cover" loading="lazy" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                  <span className="font-label-sm text-xs text-primary uppercase tracking-widest mb-1">{g.cat}</span>
-                  <span className="font-headline-md text-lg text-on-surface">{g.alt}</span>
+              <Lightbox src={g.src} alt={g.alt}>
+                <div className="relative rounded-xl overflow-hidden group image-hover-zoom magnetic-hover aspect-[4/3]">
+                  <img src={g.src} alt={g.alt} className="w-full h-full object-cover" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+                    <span className="font-label-sm text-xs text-primary uppercase tracking-widest mb-1">{g.cat}</span>
+                    <span className="font-headline-md text-lg text-on-surface">{g.alt}</span>
+                    <span className="material-symbols-outlined text-primary/60 absolute top-4 right-4 text-xl">zoom_in</span>
+                  </div>
                 </div>
-              </div>
+              </Lightbox>
             </RevealSection>
           ))}
         </div>
