@@ -16,27 +16,23 @@ const VALUES = [
 export default function AboutPage() {
   return (
     <>
-      {/* Hero */}
       <section className="relative py-stack-md overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=1600&auto=format&fit=crop&q=80" alt="" className="w-full h-full object-cover opacity-15" />
+          <img src="/images/styling.jpg" alt="" className="w-full h-full object-cover opacity-15" />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background" />
         </div>
         <div className="relative z-10 max-w-container-max mx-auto px-6 md:px-margin-x text-center">
           <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">About Us</p>
-          <h1 className="font-display-xl text-5xl md:text-7xl text-on-surface mb-4">
-            Where Vision Meets <span className="gradient-text italic">Elegance</span>
-          </h1>
+          <h1 className="font-display-xl text-5xl md:text-7xl text-on-surface mb-4">Where Vision Meets <span className="gradient-text italic">Elegance</span></h1>
           <div className="gold-line-left mx-auto mt-4" />
         </div>
       </section>
 
-      {/* Story */}
       <section className="py-stack-sm max-w-container-max mx-auto px-6 md:px-margin-x">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <RevealSection>
             <div className="relative rounded-xl overflow-hidden h-[400px] md:h-[500px] image-hover-zoom animated-border">
-              <img src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&auto=format&fit=crop&q=80" alt="Event styling" className="w-full h-full object-cover" />
+              <img src="/images/styling.jpg" alt="Event styling" className="w-full h-full object-cover" loading="lazy" />
               <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
             </div>
           </RevealSection>
@@ -52,7 +48,7 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-wrap gap-6">
               {[{ icon: "verified", text: "Fully Insured" }, { icon: "workspace_premium", text: "Award Winning" }, { icon: "groups", text: "30+ Team Members" }].map((item) => (
-                <div key={item.text} className="flex items-center gap-2">
+                <div key={item.text} className="flex items-center gap-2 icon-spin-hover">
                   <span className="material-symbols-outlined text-primary text-lg">{item.icon}</span>
                   <span className="font-label-sm text-xs text-on-surface-variant uppercase tracking-wider">{item.text}</span>
                 </div>
@@ -64,7 +60,6 @@ export default function AboutPage() {
 
       <div className="max-w-container-max mx-auto px-6 md:px-margin-x"><div className="gold-line my-stack-md" /></div>
 
-      {/* Values */}
       <section className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x">
         <RevealSection className="text-center mb-16">
           <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">Our Values</p>
@@ -74,7 +69,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {VALUES.map((v, i) => (
             <RevealSection key={i} delay={i * 100}>
-              <div className="glass-panel p-8 rounded-xl glow-hover animated-border text-center h-full flex flex-col items-center gap-4">
+              <div className="glass-panel p-8 rounded-xl magnetic-hover animated-border text-center h-full flex flex-col items-center gap-4 icon-spin-hover">
                 <div className="w-14 h-14 rounded-full border border-primary/20 flex items-center justify-center mb-2">
                   <span className="material-symbols-outlined text-primary text-2xl">{v.icon}</span>
                 </div>
@@ -88,14 +83,11 @@ export default function AboutPage() {
 
       <div className="max-w-container-max mx-auto px-6 md:px-margin-x"><div className="gold-line my-stack-md" /></div>
 
-      {/* CTA */}
       <RevealSection>
         <section className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x text-center">
           <h2 className="font-headline-lg text-3xl md:text-4xl text-on-surface mb-4">Let&#39;s Create Together</h2>
-          <p className="font-body-lg text-base text-on-surface-variant font-light mb-8 max-w-xl mx-auto">
-            Ready to bring your vision to life? Our concierge team is here for you.
-          </p>
-          <Link href="/contact" className="inline-flex items-center gap-2 bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-10 py-4 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-colors">
+          <p className="font-body-lg text-base text-on-surface-variant font-light mb-8 max-w-xl mx-auto">Ready to bring your vision to life? Our concierge team is here for you.</p>
+          <Link href="/contact" className="inline-flex items-center gap-2 bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-10 py-4 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-colors magnetic-hover">
             Get In Touch <span className="material-symbols-outlined text-sm">arrow_forward</span>
           </Link>
         </section>

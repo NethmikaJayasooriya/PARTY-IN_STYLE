@@ -10,9 +10,9 @@ const STATS = [
 ];
 
 const SERVICES_PREVIEW = [
-  { icon: "favorite", title: "Weddings", img: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&auto=format&fit=crop&q=80" },
-  { icon: "business_center", title: "Corporate Events", img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&auto=format&fit=crop&q=80" },
-  { icon: "celebration", title: "Private Parties", img: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&auto=format&fit=crop&q=80" },
+  { icon: "favorite", title: "Weddings", img: "/images/wedding.jpg" },
+  { icon: "business_center", title: "Corporate Events", img: "/images/corporate.jpg" },
+  { icon: "celebration", title: "Private Parties", img: "/images/party.jpg" },
 ];
 
 const TESTIMONIALS = [
@@ -31,7 +31,7 @@ export default function Home() {
             alt="Luxury Gala"
             className="w-full h-full object-cover"
             style={{ animation: "slowZoom 20s ease-in-out alternate infinite" }}
-            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2098&auto=format&fit=crop"
+            src="/images/hero.jpg"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
         </div>
@@ -40,28 +40,28 @@ export default function Home() {
           <img
             src="/logo.png"
             alt="Party in Style"
-            className="h-28 md:h-36 w-auto mb-2 animate-hero-reveal"
+            className="h-28 md:h-36 w-auto mb-2 animate-hero-reveal animate-gentle-float"
             style={{ filter: "drop-shadow(0 2px 12px rgba(212,175,55,0.4))" }}
           />
           <h1 className="font-display-xl text-5xl md:text-7xl lg:text-8xl animate-hero-reveal delay-200 leading-tight">
             <span className="gradient-text-white">Unforgettable Events,</span>
             <br />
-            <span className="gradient-text italic font-light">Styled to Perfection.</span>
+            <span className="gradient-text italic font-light animate-text-reveal delay-400">Styled to Perfection.</span>
           </h1>
-          <p className="font-body-lg text-base md:text-lg text-on-surface-variant max-w-2xl font-light tracking-wide animate-fade-up delay-400">
+          <p className="font-body-lg text-base md:text-lg text-on-surface-variant max-w-2xl font-light tracking-wide animate-fade-up delay-500">
             Australia&#39;s premier event planners. Curating exclusive, high-octane experiences for a discerning clientele.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 mt-6 animate-fade-up delay-600">
+          <div className="flex flex-col sm:flex-row gap-4 mt-6 animate-fade-up delay-700">
             <Link
               href="/contact"
-              className="bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-10 py-4 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-colors flex items-center gap-3"
+              className="bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-10 py-4 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-colors flex items-center gap-3 magnetic-hover"
             >
               <span>Plan Your Event</span>
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </Link>
             <Link
               href="/gallery"
-              className="border border-primary/30 text-primary font-label-sm text-xs px-10 py-4 rounded-sm uppercase tracking-[0.2em] hover:bg-primary/10 transition-colors flex items-center gap-3"
+              className="border border-primary/30 text-primary font-label-sm text-xs px-10 py-4 rounded-sm uppercase tracking-[0.2em] hover:bg-primary/10 transition-colors flex items-center gap-3 magnetic-hover"
             >
               <span>View Our Work</span>
             </Link>
@@ -100,7 +100,7 @@ export default function Home() {
             </h2>
             <div className="gold-line-left mt-4" />
           </div>
-          <Link href="/services" className="text-primary font-label-sm text-xs uppercase tracking-widest hover:underline flex items-center gap-1">
+          <Link href="/services" className="text-primary font-label-sm text-xs uppercase tracking-widest hover:underline flex items-center gap-1 underline-reveal">
             View All Services <span className="material-symbols-outlined text-sm">arrow_forward</span>
           </Link>
         </RevealSection>
@@ -108,8 +108,8 @@ export default function Home() {
           {SERVICES_PREVIEW.map((s, i) => (
             <RevealSection key={i} delay={i * 120}>
               <Link href="/services" className="block">
-                <div className="glass-panel rounded-xl glow-hover group relative overflow-hidden h-80 md:h-96 flex flex-col justify-end image-hover-zoom animated-border">
-                  <img src={s.img} alt={s.title} className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 transition-opacity duration-500" />
+                <div className="glass-panel rounded-xl magnetic-hover group relative overflow-hidden h-80 md:h-96 flex flex-col justify-end image-hover-zoom animated-border">
+                  <img src={s.img} alt={s.title} className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 transition-opacity duration-500" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent z-[1]" />
                   <div className="relative z-10 p-8 md:p-10">
                     <span className="material-symbols-outlined text-3xl text-primary mb-3 block">{s.icon}</span>
@@ -134,7 +134,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {TESTIMONIALS.map((t, i) => (
             <RevealSection key={i} delay={i * 150}>
-              <div className="glass-panel p-8 md:p-10 rounded-xl glow-hover animated-border flex flex-col gap-6 h-full">
+              <div className="glass-panel p-8 md:p-10 rounded-xl magnetic-hover animated-border flex flex-col gap-6 h-full icon-spin-hover">
                 <div className="flex gap-1">
                   {[...Array(5)].map((_, j) => (
                     <span key={j} className="material-symbols-outlined text-primary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
@@ -157,7 +157,7 @@ export default function Home() {
       <RevealSection>
         <section className="py-stack-lg relative overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&auto=format&fit=crop&q=80" alt="" className="w-full h-full object-cover opacity-20" />
+            <img src="/images/festival.jpg" alt="" className="w-full h-full object-cover opacity-20" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background" />
           </div>
           <div className="relative z-10 max-w-container-max mx-auto px-6 md:px-margin-x text-center flex flex-col items-center gap-6">
@@ -168,7 +168,7 @@ export default function Home() {
               Let&#39;s bring your vision to life. Connect with our team today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <Link href="/contact" className="bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-10 py-4 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-colors flex items-center gap-3">
+              <Link href="/contact" className="bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-10 py-4 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-colors flex items-center gap-3 magnetic-hover">
                 <span className="material-symbols-outlined text-sm">mail</span>
                 Get In Touch
               </Link>
@@ -176,7 +176,7 @@ export default function Home() {
                 href="https://wa.me/61290000000?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20event%20planning."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border border-green-500/40 text-green-400 font-label-sm text-xs px-10 py-4 rounded-sm uppercase tracking-[0.2em] hover:bg-green-500/10 transition-colors flex items-center gap-3"
+                className="border border-green-500/40 text-green-400 font-label-sm text-xs px-10 py-4 rounded-sm uppercase tracking-[0.2em] hover:bg-green-500/10 transition-colors flex items-center gap-3 magnetic-hover"
               >
                 <span className="material-symbols-outlined text-sm">chat</span>
                 WhatsApp Us
