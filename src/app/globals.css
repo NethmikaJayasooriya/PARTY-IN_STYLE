@@ -1,26 +1,438 @@
+/* Google Fonts loaded via <link> in layout.js */
+
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Colors — Luxury Dark Gold Palette */
+  --color-background: #0c0d0e;
+  --color-on-surface: #f0eeeb;
+  --color-primary: #d4af37;
+  --color-primary-light: #f2ca50;
+  --color-primary-container: #d4af37;
+  --color-on-primary-container: #1a1400;
+  --color-surface-variant: #1e2020;
+  --color-on-surface-variant: #c8bda5;
+  --color-surface-container-low: #151717;
+  --color-surface: #0c0d0e;
+  --color-surface-container: #1a1c1c;
+  --color-surface-container-lowest: #080909;
+  --color-surface-bright: #252727;
+  --color-outline: #3a3b3b;
+
+  /* Spacing */
+  --spacing-stack-sm: 40px;
+  --spacing-stack-md: 80px;
+  --spacing-margin-x: 80px;
+  --spacing-stack-lg: 120px;
+  --spacing-gutter: 32px;
+  --spacing-unit: 8px;
+  --spacing-container-max: 1320px;
+
+  /* Typography */
+  --font-headline-lg: "Noto Serif", serif;
+  --font-body-lg: "Inter", sans-serif;
+  --font-headline-md: "Noto Serif", serif;
+  --font-display-xl: "Noto Serif", serif;
+  --font-body-md: "Inter", sans-serif;
+  --font-label-sm: "Inter", sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ============================================
+   BASE STYLES
+   ============================================ */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: rgba(212, 175, 55, 0.3);
+  color: #f0eeeb;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0c0d0e;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.5);
+}
+
+/* ============================================
+   MATERIAL ICONS
+   ============================================ */
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ============================================
+   ANIMATIONS — ENTRANCE
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes heroReveal {
+  from {
+    opacity: 0;
+    transform: translateY(60px) scale(0.95);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.25); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes line-grow {
+  from { width: 0; }
+  to { width: 60px; }
+}
+
+@keyframes scroll-hint {
+  0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 0.8; transform: translateX(-50%) translateY(8px); }
+}
+
+/* ============================================
+   UTILITY ANIMATION CLASSES
+   ============================================ */
+
+.animate-fade-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-fade-down {
+  animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-fade-left {
+  animation: fadeInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-fade-right {
+  animation: fadeInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-scale-in {
+  animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-hero-reveal {
+  animation: heroReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+
+/* ============================================
+   METALLIC SHEEN EFFECT
+   ============================================ */
+
+.metallic-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.metallic-sheen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  animation: sheen 4s ease-in-out infinite;
+}
+
+@keyframes sheen {
+  0% { left: -100%; }
+  30% { left: 200%; }
+  100% { left: 200%; }
+}
+
+/* ============================================
+   GLASS PANEL
+   ============================================ */
+
+.glass-panel {
+  background: rgba(21, 23, 23, 0.6);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(212, 175, 55, 0.08);
+}
+
+/* ============================================
+   HOVER EFFECTS
+   ============================================ */
+
+.glow-hover {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glow-hover:hover {
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.12), 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-color: rgba(212, 175, 55, 0.3);
+  transform: translateY(-4px);
+}
+
+/* ============================================
+   VIGNETTE OVERLAY
+   ============================================ */
+
+.vignette::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ============================================
+   GRADIENT TEXT
+   ============================================ */
+
+.gradient-text {
+  background: linear-gradient(135deg, #f2ca50 0%, #d4af37 40%, #e8c84a 60%, #b8941e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-white {
+  background: linear-gradient(135deg, #ffffff 0%, #e3e2e2 50%, #c8bda5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   ANIMATED BORDER
+   ============================================ */
+
+.animated-border {
+  position: relative;
+}
+.animated-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), transparent, rgba(212, 175, 55, 0.15));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* ============================================
+   DECORATIVE GOLD LINE
+   ============================================ */
+
+.gold-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+}
+
+.gold-line-left {
+  height: 2px;
+  width: 60px;
+  background: linear-gradient(90deg, #d4af37, transparent);
+}
+
+/* ============================================
+   IMAGE OVERLAY HOVER
+   ============================================ */
+
+.image-hover-zoom {
+  overflow: hidden;
+}
+.image-hover-zoom img {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.image-hover-zoom:hover img {
+  transform: scale(1.08);
+}
+
+/* ============================================
+   PARTICLES / SPARKLE OVERLAY (CSS only)
+   ============================================ */
+
+.sparkle-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(212, 175, 55, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 60%, rgba(212, 175, 55, 0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 30%, rgba(212, 175, 55, 0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 80%, rgba(212, 175, 55, 0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 15%, rgba(212, 175, 55, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 45%, rgba(212, 175, 55, 0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 85%, rgba(212, 175, 55, 0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 10%, rgba(242, 202, 80, 0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 40% 90%, rgba(242, 202, 80, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%, rgba(212, 175, 55, 0.35) 0%, transparent 100%);
+  animation: float 8s ease-in-out infinite;
+}
+
+/* ============================================
+   NAVBAR — SCROLL STATE TRANSITION
+   ============================================ */
+
+.nav-scrolled {
+  background: rgba(12, 13, 14, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom-color: rgba(212, 175, 55, 0.15) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   STAT COUNTER
+   ============================================ */
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+}
+
+/* ============================================
+   SECTION REVEAL (IntersectionObserver driven)
+   ============================================ */
+
+.reveal-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-section.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   RESPONSIVE OVERRIDES
+   ============================================ */
+
+@media (max-width: 768px) {
+  :root {
+    --spacing-margin-x: 24px;
+    --spacing-gutter: 16px;
+    --spacing-stack-md: 48px;
+    --spacing-stack-lg: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --spacing-margin-x: 16px;
+  }
 }
