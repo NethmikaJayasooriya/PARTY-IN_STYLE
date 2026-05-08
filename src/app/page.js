@@ -5,22 +5,22 @@ import AnimatedCounter from "./components/AnimatedCounter";
 import MarqueeTicker from "./components/MarqueeTicker";
 
 const STATS = [
-  { value: "500+", label: "Events Delivered" },
-  { value: "12", label: "Years of Excellence" },
-  { value: "98%", label: "Client Satisfaction" },
-  { value: "3", label: "Cities Across AU" },
+  { value: "500+", label: "Shoots Delivered" },
+  { value: "10", label: "Years Experience" },
+  { value: "99%", label: "Client Satisfaction" },
+  { value: "3", label: "Studio Locations" },
 ];
 
 const SERVICES_PREVIEW = [
-  { icon: "favorite", title: "Weddings", img: "/images/wedding.jpg" },
-  { icon: "business_center", title: "Corporate Events", img: "/images/corporate.jpg" },
-  { icon: "celebration", title: "Private Parties", img: "/images/party.jpg" },
+  { icon: "photo_camera", title: "Party Photography", img: "/images/wedding.jpg" },
+  { icon: "portrait", title: "Portrait Sessions", img: "/images/corporate.jpg" },
+  { icon: "local_see", title: "Event Coverage", img: "/images/party.jpg" },
 ];
 
 const TESTIMONIALS = [
-  { name: "Sarah & James", role: "Wedding, Sydney", text: "Absolutely beyond our wildest dreams. Every detail was perfect — from the floral installations to the surprise fireworks. Truly once in a lifetime." },
-  { name: "Michael Torres", role: "CEO, Nexus Group", text: "Our annual gala was the talk of the industry. The team's attention to detail and creative vision transformed our event into something extraordinary." },
-  { name: "Priya Sharma", role: "40th Birthday, Melbourne", text: "They turned my birthday into a magazine-worthy celebration. The venue styling was breathtaking and the coordination was seamless." },
+  { name: "Sarah & James", role: "Wedding Shoot, Sydney", text: "The photos are absolutely beyond our wildest dreams. They captured every magical moment perfectly. Truly a once in a lifetime experience." },
+  { name: "Michael Torres", role: "Corporate Event, Nexus Group", text: "The photography team was unobtrusive yet managed to get the most incredible shots of our annual gala. Highly professional and creative." },
+  { name: "Priya Sharma", role: "40th Birthday, Melbourne", text: "They turned my birthday into a magazine-worthy editorial. The lighting and direction were flawless, and the final gallery is breathtaking." },
 ];
 
 export default function Home() {
@@ -46,19 +46,19 @@ export default function Home() {
             style={{ filter: "drop-shadow(0 2px 12px rgba(212,175,55,0.4))" }}
           />
           <h1 className="font-display-xl text-5xl md:text-7xl lg:text-8xl animate-hero-reveal delay-200 leading-tight">
-            <span className="gradient-text-white">Unforgettable Events,</span>
+            <span className="gradient-text-white">Capture the Magic,</span>
             <br />
             <span className="gradient-text italic font-light">Styled to Perfection.</span>
           </h1>
           <p className="font-body-lg text-base md:text-lg text-on-surface-variant max-w-2xl font-light tracking-wide animate-fade-up delay-500">
-            Australia&#39;s premier event planners. Curating exclusive, high-octane experiences for a discerning clientele.
+            Australia&#39;s premier party photography studio. Curating exclusive, high-octane visual stories for a discerning clientele.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-6 animate-fade-up delay-700">
             <Link
               href="/contact"
               className="bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-10 py-4 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-colors flex items-center gap-3 magnetic-hover"
             >
-              <span>Plan Your Event</span>
+              <span>Book a Session</span>
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </Link>
             <Link
@@ -96,14 +96,14 @@ export default function Home() {
       <section className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x">
         <RevealSection className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
           <div className="max-w-xl">
-            <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">What We Do</p>
+            <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">Our Packages</p>
             <h2 className="font-headline-lg text-4xl md:text-5xl text-on-surface">
-              Our <span className="gradient-text">Expertise</span>
+              Photography <span className="gradient-text">Styles</span>
             </h2>
             <div className="gold-line-left mt-4" />
           </div>
           <Link href="/services" className="text-primary font-label-sm text-xs uppercase tracking-widest flex items-center gap-1 underline-reveal">
-            View All Services <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            View All Packages <span className="material-symbols-outlined text-sm">arrow_forward</span>
           </Link>
         </RevealSection>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -159,23 +159,23 @@ export default function Home() {
       <RevealSection>
         <section className="py-stack-lg relative overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img src="/images/festival.jpg" alt="" className="w-full h-full object-cover opacity-20" loading="lazy" />
+            <img src="/images/festival.jpg" alt="Festival event crowd" className="w-full h-full object-cover opacity-20" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background" />
           </div>
           <div className="relative z-10 max-w-container-max mx-auto px-6 md:px-margin-x text-center flex flex-col items-center gap-6">
             <h2 className="font-display-xl text-4xl md:text-6xl text-on-surface leading-tight">
-              Ready to Create Something<br /><span className="gradient-text italic">Extraordinary?</span>
+              Ready to Capture Something<br /><span className="gradient-text italic">Extraordinary?</span>
             </h2>
             <p className="font-body-lg text-base text-on-surface-variant font-light max-w-lg">
-              Let&#39;s bring your vision to life. Connect with our team today.
+              Let&#39;s bring your vision to life. Secure your photoshoot today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
               <Link href="/contact" className="bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-10 py-4 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-colors flex items-center gap-3 magnetic-hover">
                 <span className="material-symbols-outlined text-sm">mail</span>
-                Get In Touch
+                Book Now
               </Link>
               <a
-                href="https://wa.me/61290000000?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20event%20planning."
+                href="https://wa.me/61290000000?text=Hi%2C%20I%27d%20like%20to%20book%20a%20photoshoot."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border border-green-500/40 text-green-400 font-label-sm text-xs px-10 py-4 rounded-sm uppercase tracking-[0.2em] hover:bg-green-500/10 transition-colors flex items-center gap-3 magnetic-hover"
