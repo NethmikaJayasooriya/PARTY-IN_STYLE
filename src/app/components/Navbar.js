@@ -17,9 +17,16 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
+    let ticking = false;
     const onScroll = () => {
-      if (navRef.current)
-        navRef.current.classList.toggle("nav-scrolled", window.scrollY > 60);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (navRef.current)
+            navRef.current.classList.toggle("nav-scrolled", window.scrollY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
@@ -37,14 +44,14 @@ export default function Navbar() {
         ref={navRef}
         className="fixed top-0 w-full z-50 bg-transparent border-b border-transparent transition-all duration-500"
       >
-        <div className="flex justify-between items-center px-6 md:px-margin-x py-2 w-full max-w-container-max mx-auto h-20">
+        <div className="flex justify-between items-center px-6 md:px-margin-x py-3 w-full max-w-container-max mx-auto min-h-[5rem]">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <img
               src="/logo.png"
               alt="Party in Style"
-              className="h-14 w-auto"
-              style={{ filter: "drop-shadow(0 0 6px rgba(212,175,55,0.25))" }}
+              className="h-16 md:h-20 w-auto"
+              style={{ filter: "drop-shadow(0 0 8px rgba(212,175,55,0.3))" }}
             />
           </Link>
 

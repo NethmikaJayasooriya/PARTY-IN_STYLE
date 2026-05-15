@@ -1,0 +1,445 @@
+"use client";
+import { useState, useEffect, useCallback, useRef } from "react";
+
+const EVENT_CATEGORIES = [
+  {
+    id: "birthday",
+    label: "Birthdays",
+    icon: "cake",
+    img: "/images/hero-birthday.png",
+    tagline: "Make Their Special Day Magical",
+    themes: ["Batman", "Spiderman", "Princess", "Unicorn", "Custom Theme"],
+  },
+  {
+    id: "themed",
+    label: "Themed Parties",
+    icon: "theater_comedy",
+    img: "/images/hero-themed.png",
+    tagline: "Unique Themes, Unforgettable Moments",
+    themes: ["Superhero", "Fairy Tale", "Retro", "Tropical", "Custom Theme"],
+  },
+  {
+    id: "wedding",
+    label: "Weddings",
+    icon: "favorite",
+    img: "/images/hero-wedding.jpg",
+    tagline: "Your Dream Day, Perfectly Styled",
+    themes: [],
+  },
+  {
+    id: "corporate",
+    label: "Corporate",
+    icon: "business_center",
+    img: "/images/hero-corporate.jpg",
+    tagline: "Impress. Engage. Elevate.",
+    themes: [],
+  },
+  {
+    id: "festival",
+    label: "Festivals",
+    icon: "nightlife",
+    img: "/images/hero-festival.jpg",
+    tagline: "Grand-Scale Celebrations",
+    themes: [],
+  },
+];
+
+const CYCLE_INTERVAL = 5000;
+
+export default function HeroForm() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [formState, setFormState] = useState("idle"); // idle | sending | success
+  const [formData, setFormData] = useState({
+    name: "",
+    contact: "",
+    eventType: EVENT_CATEGORIES[0].label,
+    theme: "",
+    message: "",
+  });
+  const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
+  const timerRef = useRef(null);
+  const resumeRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  const active = EVENT_CATEGORIES[activeIndex];
+
+  // Auto-cycle
+  const startTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % EVENT_CATEGORIES.length);
+    }, CYCLE_INTERVAL);
+  }, []);
+
+  useEffect(() => {
+    if (!isPaused) startTimer();
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isPaused, startTimer]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsThemeDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Sync event type when category changes
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      eventType: EVENT_CATEGORIES[activeIndex].label,
+      theme: "",
+    }));
+  }, [activeIndex]);
+
+  const handleCategoryClick = (index) => {
+    setActiveIndex(index);
+    setIsPaused(true);
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (resumeRef.current) clearTimeout(resumeRef.current);
+    resumeRef.current = setTimeout(() => setIsPaused(false), 15000);
+  };
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.contact) return;
+    setFormState("sending");
+    setTimeout(() => {
+      setFormState("success");
+      setTimeout(() => {
+        setFormState("idle");
+        setFormData({
+          name: "",
+          contact: "",
+          eventType: active.label,
+          theme: "",
+          message: "",
+        });
+      }, 3000);
+    }, 1200);
+  };
+
+  return (
+    <header
+      className="hero-dynamic relative w-full min-h-screen flex items-center justify-center overflow-hidden -mt-20"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* ===== BACKGROUND IMAGES ===== */}
+      {EVENT_CATEGORIES.map((cat, i) => (
+        <div
+          key={cat.id}
+          className="absolute inset-0 z-0"
+          style={{
+            opacity: i === activeIndex ? 1 : 0,
+            transition: "opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          }}
+        >
+          <img
+            alt={cat.label}
+            className="w-full h-full object-cover"
+            style={{
+              animation: i === activeIndex ? "slowZoom 20s ease-in-out alternate infinite" : "none",
+              filter: "brightness(0.85) contrast(1.1)",
+            }}
+            src={cat.img}
+            width={1920}
+            height={1080}
+            fetchPriority={i < 2 ? "high" : "auto"}
+            loading={i < 2 ? "eager" : "lazy"}
+            decoding="async"
+          />
+        </div>
+      ))}
+
+      {/* Lighter gradient overlays — let images breathe */}
+      <div className="absolute inset-0 z-[1]" style={{
+        background: "linear-gradient(to bottom, rgba(12,13,14,0.55) 0%, rgba(12,13,14,0.25) 40%, rgba(12,13,14,0.7) 85%, rgba(12,13,14,1) 100%)"
+      }} />
+      <div className="absolute inset-0 z-[1] hidden lg:block" style={{
+        background: "linear-gradient(to right, rgba(12,13,14,0.85) 0%, rgba(12,13,14,0.5) 35%, rgba(12,13,14,0.15) 55%, transparent 70%)"
+      }} />
+      <div className="sparkle-overlay" />
+
+      {/* ===== CONTENT ===== */}
+      <div className="relative z-20 w-full max-w-container-max mx-auto px-6 md:px-margin-x pt-28 pb-16 lg:pt-32 lg:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center min-h-[70vh]">
+          {/* LEFT — Branding + Category Tabs */}
+          <div className="flex flex-col gap-6">
+            <div className="animate-hero-reveal">
+              <h1 className="font-display-xl text-4xl md:text-5xl lg:text-6xl leading-tight">
+                <span className="gradient-text-white">Unforgettable Events,</span>
+                <br />
+                <span className="gradient-text italic font-light">Styled to Perfection.</span>
+              </h1>
+              <p className="font-body-lg text-sm md:text-base text-on-surface-variant max-w-lg font-light tracking-wide mt-4">
+                Australia&#39;s premier event planners — from kids&#39; themed birthdays to grand galas. Tell us what you need, we&#39;ll make it happen.
+              </p>
+            </div>
+
+            {/* Step indicator: 1 → Select Event, 2 → Fill Form */}
+            <div className="animate-fade-up delay-200 flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <span className="hero-step-number">1</span>
+                <span className="font-label-sm text-xs text-on-surface-variant/70 uppercase tracking-wider">Pick your event</span>
+              </div>
+              <span className="material-symbols-outlined text-primary/30 text-sm">arrow_forward</span>
+              <div className="flex items-center gap-2">
+                <span className="hero-step-number">2</span>
+                <span className="font-label-sm text-xs text-on-surface-variant/70 uppercase tracking-wider">Quick enquiry</span>
+              </div>
+              <span className="material-symbols-outlined text-primary/30 text-sm">arrow_forward</span>
+              <div className="flex items-center gap-2">
+                <span className="hero-step-number">3</span>
+                <span className="font-label-sm text-xs text-on-surface-variant/70 uppercase tracking-wider">We call you</span>
+              </div>
+            </div>
+
+            {/* Category Pills */}
+            <div className="animate-fade-up delay-300">
+              <div className="flex flex-wrap gap-2">
+                {EVENT_CATEGORIES.map((cat, i) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => handleCategoryClick(i)}
+                    className={`hero-category-pill ${i === activeIndex ? "active" : ""}`}
+                    type="button"
+                  >
+                    <span className="material-symbols-outlined text-base">{cat.icon}</span>
+                    <span>{cat.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Active category tagline */}
+            <div className="animate-fade-up delay-400 hidden lg:block">
+              <div className="flex items-center gap-3">
+                <div className="gold-line-left" />
+                <p
+                  className="font-headline-md text-lg text-on-surface-variant/80 italic transition-all duration-500"
+                  key={active.id}
+                  style={{ animation: "fadeInUp 0.5s ease both" }}
+                >
+                  {active.tagline}
+                </p>
+              </div>
+            </div>
+
+            {/* Progress dots */}
+            <div className="flex gap-2 items-center animate-fade-up delay-500">
+              {EVENT_CATEGORIES.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleCategoryClick(i)}
+                  className="relative h-1 rounded-full overflow-hidden transition-all duration-500"
+                  style={{
+                    width: i === activeIndex ? "32px" : "12px",
+                    backgroundColor: i === activeIndex ? "rgba(212,175,55,0.6)" : "rgba(212,175,55,0.15)",
+                  }}
+                  type="button"
+                  aria-label={`Go to ${EVENT_CATEGORIES[i].label}`}
+                >
+                  {i === activeIndex && !isPaused && (
+                    <span
+                      className="absolute inset-0 bg-primary rounded-full"
+                      style={{ animation: `progressFill ${CYCLE_INTERVAL}ms linear` }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT — Quick Inquiry Form */}
+          <div className="animate-fade-up delay-400 lg:flex lg:justify-end">
+            <div className="hero-form-panel rounded-2xl p-6 md:p-8 relative overflow-hidden animated-border w-full lg:max-w-md">
+              <div className="sparkle-overlay opacity-10" />
+              <div className="relative z-10">
+                {/* Form header — clear purpose */}
+                <div className="flex items-start gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="material-symbols-outlined text-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>event_available</span>
+                  </div>
+                  <div>
+                    <h2 className="font-headline-md text-xl text-on-surface leading-snug">Plan Your Event</h2>
+                    <p className="font-body-md text-xs text-on-surface-variant/60 mt-1">
+                      Fill in the basics — we&#39;ll get back within 24 hours with a free quote.
+                    </p>
+                  </div>
+                </div>
+
+                {formState === "success" ? (
+                  <div className="flex flex-col items-center justify-center py-10 gap-4" style={{ animation: "scaleIn 0.5s ease both" }}>
+                    <div className="w-16 h-16 rounded-full bg-green-500/15 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-green-400 text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                    </div>
+                    <h3 className="font-headline-md text-xl text-on-surface">Thank You!</h3>
+                    <p className="font-body-md text-sm text-on-surface-variant text-center max-w-xs">
+                      We&#39;ve received your enquiry. Our team will reach out shortly.
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                    {/* Event type — clear label above */}
+                    <div>
+                      <label className="font-label-sm text-[10px] text-on-surface-variant/50 uppercase tracking-[0.15em] mb-1.5 block">
+                        Event Type
+                      </label>
+                      <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-primary/20 bg-primary/5">
+                        <span className="material-symbols-outlined text-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{active.icon}</span>
+                        <span className="font-label-sm text-sm text-primary font-medium flex-1">{active.label}</span>
+                        <span className="font-label-sm text-[9px] text-on-surface-variant/40 uppercase tracking-wider bg-primary/8 px-2 py-0.5 rounded-full">Auto-selected</span>
+                      </div>
+                    </div>
+
+                    {/* Theme selector (only for categories with themes) */}
+                    {active.themes.length > 0 && (
+                      <div className="hero-form-field" ref={dropdownRef}>
+                        <label className="font-label-sm text-[10px] text-on-surface-variant/50 uppercase tracking-[0.15em] mb-1.5 block">
+                          Preferred Theme
+                        </label>
+                        <div 
+                          className="relative cursor-pointer w-full bg-transparent border-0 border-b border-outline/30 text-on-surface font-body-md text-sm py-2.5 px-0 transition-colors flex justify-between items-center"
+                          onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
+                          style={{ borderBottomColor: isThemeDropdownOpen ? '#d4af37' : '' }}
+                        >
+                          <span className={formData.theme ? "text-on-surface" : "text-on-surface-variant"}>
+                            {formData.theme || "e.g. Batman, Princess, Spiderman…"}
+                          </span>
+                          <span className={`material-symbols-outlined text-primary/40 text-lg transition-transform duration-300 ${isThemeDropdownOpen ? 'rotate-180' : ''}`}>
+                            expand_more
+                          </span>
+                        </div>
+                        
+                        <div 
+                          className={`absolute left-0 right-0 z-50 mt-1 bg-surface-container border border-outline/30 rounded-lg overflow-hidden shadow-xl transition-all duration-300 ${isThemeDropdownOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'}`}
+                        >
+                          {active.themes.map((t) => (
+                            <div 
+                              key={t}
+                              className="px-4 py-3 text-sm text-on-surface hover:bg-primary/10 hover:text-primary cursor-pointer transition-colors"
+                              onClick={() => {
+                                setFormData((prev) => ({ ...prev, theme: t }));
+                                setIsThemeDropdownOpen(false);
+                              }}
+                            >
+                              {t}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Name */}
+                    <div className="hero-form-field relative">
+                      <input
+                        type="text"
+                        name="name"
+                        id="hero-name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        placeholder="Your Name"
+                        className="hero-input peer placeholder-transparent"
+                      />
+                      <label htmlFor="hero-name" className="hero-label">
+                        Your Name *
+                      </label>
+                    </div>
+
+                    {/* Contact */}
+                    <div className="hero-form-field relative">
+                      <input
+                        type="text"
+                        name="contact"
+                        id="hero-contact"
+                        value={formData.contact}
+                        onChange={handleChange}
+                        required
+                        placeholder="Email or Phone"
+                        className="hero-input peer placeholder-transparent"
+                      />
+                      <label htmlFor="hero-contact" className="hero-label">
+                        Email or Phone *
+                      </label>
+                    </div>
+
+                    {/* Quick message */}
+                    <div className="hero-form-field relative">
+                      <textarea
+                        name="message"
+                        id="hero-message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder="Tell us about your vision..."
+                        rows="2"
+                        className="hero-input peer placeholder-transparent resize-none"
+                      />
+                      <label htmlFor="hero-message" className="hero-label">
+                        Quick Message (Optional)
+                      </label>
+                    </div>
+
+                    {/* Submit */}
+                    <button
+                      type="submit"
+                      disabled={formState === "sending"}
+                      className="mt-1 bg-primary text-on-primary-container font-label-sm text-xs font-bold px-8 py-3.5 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-all flex justify-center items-center gap-3 w-full disabled:opacity-60"
+                    >
+                      {formState === "sending" ? (
+                        <>
+                          <span className="hero-spinner" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <span className="material-symbols-outlined text-sm">send</span>
+                          Get Free Quote
+                        </>
+                      )}
+                    </button>
+
+                    {/* Trust signals */}
+                    <div className="flex items-center justify-center gap-5 mt-0.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-primary/40 text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                        <span className="font-label-sm text-[10px] text-on-surface-variant/50">Free Consultation</span>
+                      </div>
+                      <div className="w-px h-3 bg-outline/20" />
+                      <div className="flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-primary/40 text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
+                        <span className="font-label-sm text-[10px] text-on-surface-variant/50">24hr Response</span>
+                      </div>
+                      <div className="w-px h-3 bg-outline/20" />
+                      <div className="flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-primary/40 text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>shield</span>
+                        <span className="font-label-sm text-[10px] text-on-surface-variant/50">No Obligation</span>
+                      </div>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-6 left-1/2 z-20 flex flex-col items-center gap-2" style={{ animation: "scroll-hint 2s ease-in-out infinite" }}>
+        <span className="font-label-sm text-[10px] text-primary/60 uppercase tracking-[0.3em]">Scroll</span>
+        <span className="material-symbols-outlined text-primary/40 text-lg">expand_more</span>
+      </div>
+    </header>
+  );
+}

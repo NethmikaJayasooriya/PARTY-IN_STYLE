@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import ScrollProgress from "./components/ScrollProgress";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import CursorTrail from "./components/CursorTrail";
+import Preloader from "./components/Preloader";
 
 export const metadata = {
   title: {
@@ -14,9 +15,9 @@ export const metadata = {
     "Luxury event planning across Australia. Weddings, corporate galas, private parties — curated with elegance and executed with precision.",
   keywords: [
     "event planning Australia",
-    "luxury events Sydney",
+    "luxury events Melbourne",
     "wedding planner Melbourne",
-    "corporate events Perth",
+    "corporate events Melbourne",
     "party planner",
     "event stylist",
   ],
@@ -31,7 +32,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -48,7 +49,8 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-on-surface antialiased font-body-md">
+      <body suppressHydrationWarning className="min-h-full flex flex-col bg-background text-on-surface antialiased font-body-md">
+        <Preloader />
         <CursorTrail />
         <ScrollProgress />
         <Navbar />

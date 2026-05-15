@@ -3,12 +3,13 @@ import Link from "next/link";
 import RevealSection from "./components/RevealSection";
 import AnimatedCounter from "./components/AnimatedCounter";
 import MarqueeTicker from "./components/MarqueeTicker";
+import HeroForm from "./components/HeroForm";
 
 const STATS = [
   { value: "500+", label: "Events Delivered" },
   { value: "12", label: "Years of Excellence" },
   { value: "98%", label: "Client Satisfaction" },
-  { value: "3", label: "Cities Across AU" },
+  { value: "100%", label: "Melbourne Focus" },
 ];
 
 const SERVICES_PREVIEW = [
@@ -18,7 +19,7 @@ const SERVICES_PREVIEW = [
 ];
 
 const TESTIMONIALS = [
-  { name: "Sarah & James", role: "Wedding, Sydney", text: "Absolutely beyond our wildest dreams. Every detail was perfect — from the floral installations to the surprise fireworks. Truly once in a lifetime." },
+  { name: "Sarah & James", role: "Wedding, Melbourne", text: "Absolutely beyond our wildest dreams. Every detail was perfect — from the floral installations to the surprise fireworks. Truly once in a lifetime." },
   { name: "Michael Torres", role: "CEO, Nexus Group", text: "Our annual gala was the talk of the industry. The team's attention to detail and creative vision transformed our event into something extraordinary." },
   { name: "Priya Sharma", role: "40th Birthday, Melbourne", text: "They turned my birthday into a magazine-worthy celebration. The venue styling was breathtaking and the coordination was seamless." },
 ];
@@ -26,54 +27,8 @@ const TESTIMONIALS = [
 export default function Home() {
   return (
     <>
-      {/* ===== HERO ===== */}
-      <header className="relative w-full min-h-screen flex items-center justify-center overflow-hidden -mt-20">
-        <div className="absolute inset-0 z-0">
-          <img
-            alt="Luxury Gala"
-            className="w-full h-full object-cover"
-            style={{ animation: "slowZoom 20s ease-in-out alternate infinite" }}
-            src="/images/hero.jpg"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
-        </div>
-        <div className="sparkle-overlay" />
-        <div className="relative z-20 text-center px-6 max-w-5xl mx-auto flex flex-col items-center gap-6">
-          <img
-            src="/logo.png"
-            alt="Party in Style"
-            className="h-28 md:h-36 w-auto mb-2 animate-hero-reveal animate-gentle-float"
-            style={{ filter: "drop-shadow(0 2px 12px rgba(212,175,55,0.4))" }}
-          />
-          <h1 className="font-display-xl text-5xl md:text-7xl lg:text-8xl animate-hero-reveal delay-200 leading-tight">
-            <span className="gradient-text-white">Unforgettable Events,</span>
-            <br />
-            <span className="gradient-text italic font-light">Styled to Perfection.</span>
-          </h1>
-          <p className="font-body-lg text-base md:text-lg text-on-surface-variant max-w-2xl font-light tracking-wide animate-fade-up delay-500">
-            Australia&#39;s premier event planners. Curating exclusive, high-octane experiences for a discerning clientele.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 mt-6 animate-fade-up delay-700">
-            <Link
-              href="/contact"
-              className="bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-10 py-4 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-colors flex items-center gap-3 magnetic-hover"
-            >
-              <span>Plan Your Event</span>
-              <span className="material-symbols-outlined text-sm">arrow_forward</span>
-            </Link>
-            <Link
-              href="/gallery"
-              className="border border-primary/30 text-primary font-label-sm text-xs px-10 py-4 rounded-sm uppercase tracking-[0.2em] hover:bg-primary/10 transition-colors flex items-center gap-3 magnetic-hover"
-            >
-              <span>View Our Work</span>
-            </Link>
-          </div>
-        </div>
-        <div className="absolute bottom-8 left-1/2 z-20 flex flex-col items-center gap-2" style={{ animation: "scroll-hint 2s ease-in-out infinite" }}>
-          <span className="font-label-sm text-[10px] text-primary/60 uppercase tracking-[0.3em]">Scroll</span>
-          <span className="material-symbols-outlined text-primary/40 text-lg">expand_more</span>
-        </div>
-      </header>
+      {/* ===== HERO WITH DYNAMIC BACKGROUNDS + QUICK FORM ===== */}
+      <HeroForm />
 
       {/* ===== MARQUEE TICKER ===== */}
       <MarqueeTicker />
@@ -175,12 +130,14 @@ export default function Home() {
                 Get In Touch
               </Link>
               <a
-                href="https://wa.me/61290000000?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20event%20planning."
+                href="https://wa.me/61494334934?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20event%20planning."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border border-green-500/40 text-green-400 font-label-sm text-xs px-10 py-4 rounded-sm uppercase tracking-[0.2em] hover:bg-green-500/10 transition-colors flex items-center gap-3 magnetic-hover"
               >
-                <span className="material-symbols-outlined text-sm">chat</span>
+                <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                </svg>
                 WhatsApp Us
               </a>
             </div>

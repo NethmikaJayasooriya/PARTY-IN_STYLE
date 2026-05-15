@@ -51,6 +51,13 @@ body {
   overflow-x: hidden;
 }
 
+/* Hide native cursor on desktop — custom cursor takes over */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
 ::selection {
   background-color: rgba(212, 175, 55, 0.3);
   color: #f0eeeb;
@@ -589,4 +596,214 @@ textarea:focus-visible {
 .icon-spin-hover:hover .material-symbols-outlined {
   transform: rotate(15deg);
   transition: transform 0.3s ease;
+}
+
+/* ============================================
+   HERO FORM — DYNAMIC HERO SECTION
+   ============================================ */
+
+/* Category pills */
+.hero-category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  background: rgba(21, 23, 23, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(200, 189, 165, 0.7);
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-category-pill:hover {
+  border-color: rgba(212, 175, 55, 0.25);
+  background: rgba(212, 175, 55, 0.08);
+  color: #d4af37;
+  transform: translateY(-2px);
+}
+
+.hero-category-pill.active {
+  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.12);
+  color: #f2ca50;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.1), inset 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
+.hero-category-pill.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  animation: pillGlow 2s ease-in-out infinite;
+}
+
+@keyframes pillGlow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* Hero form panel */
+.hero-form-panel {
+  background: rgba(12, 13, 14, 0.75);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 40px rgba(212, 175, 55, 0.03);
+}
+
+/* Hero form input styles */
+.hero-input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(58, 59, 59, 0.6);
+  color: #f0eeeb;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  padding: 10px 0;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
+
+.hero-input:focus {
+  border-bottom-color: #d4af37;
+}
+
+.hero-input:focus-visible {
+  outline: none !important;
+}
+
+/* Fix Chrome Autofill white background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+  -webkit-text-fill-color: #f0eeeb !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.hero-label {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  color: rgba(200, 189, 165, 0.5);
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.hero-input:focus ~ .hero-label,
+.hero-input:not(:placeholder-shown) ~ .hero-label {
+  top: -14px;
+  font-size: 10px;
+  color: #d4af37;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Hero form field */
+.hero-form-field {
+  position: relative;
+}
+
+/* Select dropdown styling */
+.hero-form-field select {
+  color-scheme: dark;
+}
+
+.hero-form-field select option {
+  background: #1a1c1c;
+  color: #f0eeeb;
+  padding: 8px;
+}
+
+/* Progress fill animation */
+@keyframes progressFill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* Loading spinner */
+.hero-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(26, 20, 0, 0.3);
+  border-top-color: #1a1400;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   HERO RESPONSIVE OVERRIDES
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .hero-dynamic {
+    min-height: auto;
+    padding-bottom: 2rem;
+  }
+
+  .hero-dynamic .min-h-\[70vh\] {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-category-pill {
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+  
+  .hero-category-pill .material-symbols-outlined {
+    font-size: 14px !important;
+  }
+
+  .hero-form-panel {
+    padding: 20px !important;
+  }
+
+  .hero-step-number {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+}
+
+/* ============================================
+   HERO STEP NUMBERS
+   ============================================ */
+
+.hero-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.08);
+  color: #d4af37;
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  flex-shrink: 0;
 }
