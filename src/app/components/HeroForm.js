@@ -50,9 +50,11 @@ export default function HeroForm() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [formState, setFormState] = useState("idle"); // idle | sending | success
+  const [errorMsg, setErrorMsg] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     contact: "",
+    location: "",
     eventType: EVENT_CATEGORIES[0].label,
     theme: "",
     message: "",
@@ -107,12 +109,35 @@ export default function HeroForm() {
   };
 
   const handleChange = (e) => {
+    setErrorMsg("");
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.contact) return;
+    setErrorMsg("");
+
+    const { name, contact, location } = formData;
+    
+    // Strict Validation
+    if (name.trim().length < 2) {
+      setErrorMsg("Please enter a valid name.");
+      return;
+    }
+    
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+    const isPhone = /^[\d\s\+\-\(\)]{8,15}$/.test(contact);
+    
+    if (!isEmail && !isPhone) {
+      setErrorMsg("Please enter a valid email or phone number.");
+      return;
+    }
+
+    if (location.trim().length < 2) {
+      setErrorMsg("Please enter a valid suburb.");
+      return;
+    }
+
     setFormState("sending");
     setTimeout(() => {
       setFormState("success");
@@ -177,7 +202,7 @@ export default function HeroForm() {
           {/* LEFT — Branding + Category Tabs */}
           <div className="flex flex-col gap-6">
             <div className="animate-hero-reveal">
-              <h1 className="font-display-xl text-4xl md:text-5xl lg:text-6xl leading-tight">
+              <h1 className="font-display-xl text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight">
                 <span className="gradient-text-white">Unforgettable Events,</span>
                 <br />
                 <span className="gradient-text italic font-light">Styled to Perfection.</span>
@@ -188,7 +213,7 @@ export default function HeroForm() {
             </div>
 
             {/* Step indicator: 1 → Select Event, 2 → Fill Form */}
-            <div className="animate-fade-up delay-200 flex items-center gap-4">
+            <div className="animate-fade-up delay-200 flex flex-wrap items-center gap-x-4 gap-y-2">
               <div className="flex items-center gap-2">
                 <span className="hero-step-number">1</span>
                 <span className="font-label-sm text-xs text-on-surface-variant/70 uppercase tracking-wider">Pick your event</span>
@@ -205,8 +230,7 @@ export default function HeroForm() {
               </div>
             </div>
 
-            {/* Category Pills */}
-            <div className="animate-fade-up delay-300">
+            <div className="animate-fade-up delay-300 mt-2">
               <div className="flex flex-wrap gap-2">
                 {EVENT_CATEGORIES.map((cat, i) => (
                   <button
@@ -214,6 +238,7 @@ export default function HeroForm() {
                     onClick={() => handleCategoryClick(i)}
                     className={`hero-category-pill ${i === activeIndex ? "active" : ""}`}
                     type="button"
+                    suppressHydrationWarning
                   >
                     <span className="material-symbols-outlined text-base">{cat.icon}</span>
                     <span>{cat.label}</span>
@@ -249,6 +274,7 @@ export default function HeroForm() {
                   }}
                   type="button"
                   aria-label={`Go to ${EVENT_CATEGORIES[i].label}`}
+                  suppressHydrationWarning
                 >
                   {i === activeIndex && !isPaused && (
                     <span
@@ -352,6 +378,7 @@ export default function HeroForm() {
                         required
                         placeholder="Your Name"
                         className="hero-input peer placeholder-transparent"
+                        suppressHydrationWarning
                       />
                       <label htmlFor="hero-name" className="hero-label">
                         Your Name *
@@ -369,9 +396,28 @@ export default function HeroForm() {
                         required
                         placeholder="Email or Phone"
                         className="hero-input peer placeholder-transparent"
+                        suppressHydrationWarning
                       />
                       <label htmlFor="hero-contact" className="hero-label">
                         Email or Phone *
+                      </label>
+                    </div>
+
+                    {/* Location */}
+                    <div className="hero-form-field relative">
+                      <input
+                        type="text"
+                        name="location"
+                        id="hero-location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        required
+                        placeholder="Suburb (Melbourne Only)"
+                        className="hero-input peer placeholder-transparent"
+                        suppressHydrationWarning
+                      />
+                      <label htmlFor="hero-location" className="hero-label">
+                        Suburb (Melbourne Only) *
                       </label>
                     </div>
 
@@ -385,6 +431,7 @@ export default function HeroForm() {
                         placeholder="Tell us about your vision..."
                         rows="2"
                         className="hero-input peer placeholder-transparent resize-none"
+                        suppressHydrationWarning
                       />
                       <label htmlFor="hero-message" className="hero-label">
                         Quick Message (Optional)
@@ -392,23 +439,31 @@ export default function HeroForm() {
                     </div>
 
                     {/* Submit */}
-                    <button
-                      type="submit"
-                      disabled={formState === "sending"}
-                      className="mt-1 bg-primary text-on-primary-container font-label-sm text-xs font-bold px-8 py-3.5 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-all flex justify-center items-center gap-3 w-full disabled:opacity-60"
-                    >
-                      {formState === "sending" ? (
-                        <>
-                          <span className="hero-spinner" />
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          <span className="material-symbols-outlined text-sm">send</span>
-                          Get Free Quote
-                        </>
+                    <div className="flex flex-col gap-2">
+                      {errorMsg && (
+                        <p className="text-red-400 font-label-sm text-xs text-center bg-red-400/10 py-2 rounded-sm border border-red-400/20">
+                          {errorMsg}
+                        </p>
                       )}
-                    </button>
+                      <button
+                        type="submit"
+                        disabled={formState === "sending"}
+                        className="bg-primary text-on-primary-container font-label-sm text-xs font-bold px-8 py-3.5 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-all flex justify-center items-center gap-3 w-full disabled:opacity-60"
+                        suppressHydrationWarning
+                      >
+                        {formState === "sending" ? (
+                          <>
+                            <span className="hero-spinner" />
+                            Sending...
+                          </>
+                        ) : (
+                          <>
+                            <span className="material-symbols-outlined text-sm">send</span>
+                            Get Free Quote
+                          </>
+                        )}
+                      </button>
+                    </div>
 
                     {/* Trust signals */}
                     <div className="flex items-center justify-center gap-5 mt-0.5">

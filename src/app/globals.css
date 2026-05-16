@@ -259,6 +259,7 @@ html {
 }
 .animate-hero-reveal {
   animation: heroReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
 }
 
 .delay-100 { animation-delay: 100ms; }
@@ -458,6 +459,7 @@ html {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
 }
 
 .reveal-section.revealed {

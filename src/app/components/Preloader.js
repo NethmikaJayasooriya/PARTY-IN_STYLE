@@ -48,7 +48,7 @@ export default function Preloader() {
       >
         {/* Massive Luxury Glow */}
         <div 
-          className="absolute inset-0 bg-primary/20 blur-[80px] rounded-full scale-[2]" 
+          className="absolute inset-0 bg-primary/20 blur-[40px] md:blur-[80px] rounded-full scale-[2]" 
           style={{ animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite" }} 
         />
         
@@ -56,14 +56,14 @@ export default function Preloader() {
         <img
           src="/logo.png"
           alt="Party in Style"
-          className="h-40 md:h-56 lg:h-64 w-auto relative z-10"
+          className="h-28 sm:h-40 md:h-56 lg:h-64 w-auto relative z-10"
           style={{ 
-            filter: "drop-shadow(0 4px 40px rgba(212,175,55,0.6))",
+            filter: "drop-shadow(0 4px 20px rgba(212,175,55,0.4)) md:drop-shadow(0 4px 40px rgba(212,175,55,0.6))",
           }}
         />
         
         {/* Elegant loading line */}
-        <div className="w-56 md:w-72 h-[1px] bg-outline/20 mt-12 rounded-full overflow-hidden relative">
+        <div className="w-48 sm:w-56 md:w-72 h-[1px] bg-outline/20 mt-10 md:mt-12 rounded-full overflow-hidden relative">
           <div 
             className="absolute top-0 left-0 h-full bg-primary rounded-full" 
             style={{ 

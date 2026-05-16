@@ -95,6 +95,7 @@ export default function ContactPage() {
                   { id: "name", label: "Full Name", type: "text" },
                   { id: "email", label: "Email Address", type: "email" },
                   { id: "phone", label: "Phone Number", type: "tel" },
+                  { id: "location", label: "Suburb (Melbourne Only)", type: "text" },
                   { id: "eventType", label: "Event Type", type: "text" },
                 ].map((f) => (
                   <div key={f.id} className="relative group">

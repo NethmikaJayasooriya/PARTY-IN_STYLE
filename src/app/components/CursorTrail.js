@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 
 const GOLD       = "212, 175, 55";
 const GOLD_LIGHT = "242, 202, 80";
@@ -9,6 +9,13 @@ export default function CursorTrail() {
   const dotRef    = useRef(null);
   const ringRef   = useRef(null);
   const canvasRef = useRef(null);
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      setIsTouch(true);
+    }
+  }, []);
 
   const mouse   = useRef({ x: -400, y: -400 });
   const ring    = useRef({ x: -400, y: -400 });
@@ -165,6 +172,7 @@ export default function CursorTrail() {
 
   // ── Setup ─────────────────────────────────────────────────────
   useEffect(() => {
+    if (isTouch) return;
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
     const canvas = canvasRef.current;
@@ -214,7 +222,9 @@ export default function CursorTrail() {
       window.removeEventListener("resize", resize);
       if (raf.current) cancelAnimationFrame(raf.current);
     };
-  }, [draw, burst]);
+  }, [draw, burst, isTouch]);
+
+  if (isTouch) return null;
 
   return (
     <>
