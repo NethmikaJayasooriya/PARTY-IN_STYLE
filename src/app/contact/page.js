@@ -16,7 +16,7 @@ export default function ContactPage() {
         </h1>
         <div className="gold-line-left mx-auto mt-4 mb-6" />
         <p className="font-body-lg text-base text-on-surface-variant font-light max-w-2xl mx-auto">
-          Connect with our concierges to discuss your vision. Discretion and excellence are guaranteed.
+          Connect with our concierges to discuss your vision in Melbourne, Victoria. Discretion and excellence are guaranteed.
         </p>
       </section>
 
@@ -31,7 +31,7 @@ export default function ContactPage() {
                 <div className="gold-line-left mb-8" />
                 <div className="space-y-5">
                   {[
-                    { icon: "location_on", label: "Location", text: "Cranbourne East VIC 3977, Australia" },
+                    { icon: "location_on", label: "Location", text: "Cranbourne East, Melbourne, Victoria 3977, Australia" },
                     { icon: "mail", label: "Email", text: "concierge@partyinstyle.com.au" },
                     { icon: "call", label: "Phone", text: "+61 494 334 934" },
                     { icon: "schedule", label: "Hours", text: "Mon – Sat, 9 AM – 6 PM AEST" },

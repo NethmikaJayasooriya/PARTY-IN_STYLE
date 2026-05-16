@@ -235,7 +235,7 @@ export default function CursorTrail() {
         style={{
           position: "fixed", inset: 0,
           pointerEvents: "none",
-          zIndex: 99999,
+          zIndex: 9999999,
           mixBlendMode: "screen",
         }}
       />
@@ -250,7 +250,7 @@ export default function CursorTrail() {
           background: `rgb(${GOLD_LIGHT})`,
           boxShadow: `0 0 10px rgba(${GOLD}, 1)`,
           pointerEvents: "none",
-          zIndex: 99998,
+          zIndex: 9999998,
           opacity: 0,
           transition: "opacity 0.3s ease",
           willChange: "transform",
@@ -266,7 +266,7 @@ export default function CursorTrail() {
           width: 28, height: 28, borderRadius: "50%",
           border: `1.5px solid rgba(${GOLD}, 0.5)`,
           pointerEvents: "none",
-          zIndex: 99997,
+          zIndex: 9999997,
           opacity: 0,
           transition: "width .3s ease, height .3s ease, border-color .3s ease, box-shadow .3s ease, opacity .3s ease",
           willChange: "transform",

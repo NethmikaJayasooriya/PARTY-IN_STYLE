@@ -3,8 +3,7 @@ const nextConfig = {
   reactCompiler: true,
   allowedDevOrigins: ['192.168.1.4'],
   images: {
-    /* Keep hero backgrounds at full quality — no lossy re-encoding */
-    unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
   },
 };
 

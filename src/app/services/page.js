@@ -1,35 +1,44 @@
 import Link from "next/link";
+import Image from "next/image";
 import RevealSection from "../components/RevealSection";
 
 export const metadata = {
   title: "Services",
-  description: "Luxury event planning services — Weddings, Corporate Events, Private Parties, Festivals & Galas across Australia.",
+  description: "Luxury event planning services — Weddings, Corporate Events, Private Parties, & Intimate Proposals across Australia.",
 };
 
 const SERVICES = [
   {
-    icon: "favorite", title: "Weddings",
+    icon: "favorite", title: "Bespoke Weddings",
     desc: "Bespoke bridal experiences tailored to your unique love story. From intimate harbour-side ceremonies to grand ballroom celebrations, we handle every detail with grace.",
     features: ["Venue Selection", "Floral Design", "Catering Coordination", "Entertainment", "Day-of Coordination"],
-    img: "/images/wedding.jpg",
+    img: "/images/wedding.png",
+    stat: "Dream",
+    statLabel: "Weddings",
   },
   {
-    icon: "business_center", title: "Corporate Events",
-    desc: "High-impact galas, product launches, and executive retreats that elevate your brand. We deliver polished, professional events that leave lasting impressions.",
+    icon: "business_center", title: "Corporate Events & EOFY Celebrations",
+    desc: "High-impact galas, Premium Chrissy Functions, EOFY Celebrations, and executive retreats that elevate your brand. We deliver polished, professional events that leave lasting impressions.",
     features: ["Brand Integration", "AV Production", "Keynote Setup", "VIP Hospitality", "Post-Event Analytics"],
-    img: "/images/corporate.jpg",
+    img: "/images/corporate.png",
+    stat: "50+",
+    statLabel: "Corporate Clients",
   },
   {
-    icon: "celebration", title: "Private Parties",
-    desc: "Exclusive gatherings designed for maximum impact — birthdays, engagements, anniversaries, and milestone celebrations tailored to your personal style.",
+    icon: "celebration", title: "Private Parties & Milestone Birthdays",
+    desc: "Exclusive gatherings designed for maximum impact — Kids Theme Parties, Milestone Birthdays, Lux Hens Nights, and anniversaries tailored to your personal style.",
     features: ["Theme Development", "Custom Décor", "DJ & Live Music", "Bespoke Menus", "Photography"],
-    img: "/images/party.jpg",
+    img: "/images/kids-party.png",
+    stat: "300+",
+    statLabel: "Parties Styled",
   },
   {
-    icon: "nightlife", title: "Festivals & Galas",
-    desc: "Large-scale cultural events and charity galas with world-class production value. We manage logistics, talent, and staging for events of any scale.",
-    features: ["Stage Design", "Lighting & FX", "Crowd Management", "Sponsorship Integration", "Live Streaming"],
-    img: "/images/festival.jpg",
+    icon: "nightlife", title: "Marriage Proposals & Intimate Soirées",
+    desc: "Breathtaking setups for the perfect moment. From private rooftop dinners to candlelit beach proposals, we manage everything to ensure an unforgettable \"Yes\".",
+    features: ["Location Scouting", "Romantic Styling", "Hidden Photography", "Musicians", "Champagne Service"],
+    img: "/images/proposal.png",
+    stat: "100%",
+    statLabel: "Said Yes",
   },
 ];
 
@@ -38,7 +47,7 @@ export default function ServicesPage() {
     <>
       <section className="relative py-stack-md overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src="/images/venue.jpg" alt="" className="w-full h-full object-cover opacity-15" />
+          <Image src="/images/venue.png" alt="" fill sizes="100vw" className="object-cover opacity-15" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background" />
         </div>
         <div className="relative z-10 max-w-container-max mx-auto px-6 md:px-margin-x text-center">
@@ -50,29 +59,60 @@ export default function ServicesPage() {
       </section>
 
       <section className="py-stack-sm max-w-container-max mx-auto px-6 md:px-margin-x">
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col gap-28 md:gap-36">
           {SERVICES.map((s, i) => (
             <RevealSection key={i}>
-              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center`}>
-                <div className={`relative rounded-xl overflow-hidden h-[350px] md:h-[450px] image-hover-zoom animated-border ${i % 2 === 1 ? "lg:order-2" : ""}`}>
-                  <img src={s.img} alt={s.title} className="w-full h-full object-cover" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
+              <article className={`grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center`}>
+                {/* IMAGE PRESENTATION */}
+                <div className={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
+                  {/* Gold accent frame — offset behind */}
+                  <div className="absolute -top-4 -left-4 w-full h-full rounded-xl border-2 border-primary/20 z-0 hidden md:block" />
+                  
+                  {/* Decorative corner dots */}
+                  <div className="absolute -top-2 -left-2 w-3 h-3 rounded-full bg-primary/40 z-10 hidden md:block" />
+                  <div className="absolute -bottom-2 -right-2 w-3 h-3 rounded-full bg-primary/40 z-10 hidden md:block" />
+                  
+                  {/* Main image */}
+                  <div className="relative rounded-xl overflow-hidden h-[350px] md:h-[480px] image-hover-zoom z-[1]">
+                    <Image 
+                      src={s.img} 
+                      alt={s.title} 
+                      fill 
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover" 
+                      loading="lazy" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+                  </div>
+
+                  {/* Floating stat badge */}
+                  <div className="absolute -bottom-6 right-4 md:right-8 z-10 glass-panel rounded-xl px-5 py-4 flex items-center gap-3 shadow-xl shadow-background/50 border border-primary/10">
+                    <span className="font-display-xl text-2xl md:text-3xl gradient-text font-bold">{s.stat}</span>
+                    <span className="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider leading-tight">{s.statLabel}</span>
+                  </div>
                 </div>
+
+                {/* TEXT CONTENT */}
                 <div className={i % 2 === 1 ? "lg:order-1" : ""}>
-                  <span className="material-symbols-outlined text-4xl text-primary mb-4 block">{s.icon}</span>
+                  <div className="inline-flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-2xl text-primary">{s.icon}</span>
+                    </div>
+                    <div className="h-px w-12 bg-gradient-to-r from-primary/40 to-transparent" />
+                  </div>
                   <h2 className="font-headline-lg text-3xl md:text-4xl text-on-surface mb-4">{s.title}</h2>
                   <div className="gold-line-left mb-6" />
                   <p className="font-body-lg text-base text-on-surface-variant font-light leading-relaxed mb-8">{s.desc}</p>
-                  <div className="flex flex-wrap gap-3 mb-8">
+                  <div className="flex flex-wrap gap-2.5 mb-8">
                     {s.features.map((f) => (
-                      <span key={f} className="glass-panel px-4 py-2 rounded-full text-xs text-on-surface-variant uppercase tracking-wider font-label-sm">{f}</span>
+                      <span key={f} className="glass-panel px-4 py-2 rounded-full text-xs text-on-surface-variant uppercase tracking-wider font-label-sm border border-outline/10 hover:border-primary/30 hover:text-primary transition-colors duration-300">{f}</span>
                     ))}
                   </div>
                   <Link href="/contact" className="inline-flex items-center gap-2 bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-8 py-3 rounded-sm uppercase tracking-[0.15em] metallic-sheen hover:bg-primary-light transition-colors magnetic-hover">
                     Enquire Now <span className="material-symbols-outlined text-sm">arrow_forward</span>
                   </Link>
                 </div>
-              </div>
+              </article>
             </RevealSection>
           ))}
         </div>

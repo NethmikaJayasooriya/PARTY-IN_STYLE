@@ -1,12 +1,31 @@
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import ScrollProgress from "./components/ScrollProgress";
-import FloatingWhatsApp from "./components/FloatingWhatsApp";
-import CursorTrail from "./components/CursorTrail";
 import Preloader from "./components/Preloader";
+import ScrollProgress from "./components/ScrollProgress";
+import CursorTrail from "./components/CursorTrail";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import { Inter, Noto_Serif } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
+  preload: true,
+  variable: "--font-inter",
+});
+
+const notoSerif = Noto_Serif({
+  subsets: ["latin"],
+  weight: ["300", "400", "600"],
+  style: ["normal", "italic"],
+  display: "swap",
+  preload: true,
+  variable: "--font-noto",
+});
 
 export const metadata = {
+  metadataBase: new URL("https://partyinstyle.com.au"),
   title: {
     default: "Party in Style | Australia's Premier Event Planners",
     template: "%s | Party in Style",
@@ -14,26 +33,136 @@ export const metadata = {
   description:
     "Luxury event planning across Australia. Weddings, corporate galas, private parties — curated with elegance and executed with precision.",
   keywords: [
-    "event planning Australia",
-    "luxury events Melbourne",
-    "wedding planner Melbourne",
-    "corporate events Melbourne",
-    "party planner",
+    "Luxury event planner Melbourne",
+    "milestone birthday party planner",
+    "corporate function coordinators Victoria",
+    "EOFY party planners Melbourne",
+    "high-end office parties",
+    "luxury private functions",
+    "bespoke weddings",
     "event stylist",
   ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Party in Style | Australia's Premier Event Planners",
-    description:
-      "Curating exclusive, high-octane experiences for a discerning clientele.",
-    type: "website",
+    description: "Curating exclusive, high-octane experiences for a discerning clientele.",
+    url: "https://partyinstyle.com.au",
+    siteName: "Party in Style",
+    images: [
+      {
+        url: "/images/hero-wedding.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Luxury wedding banquet table setup with gold cutlery in Melbourne",
+      },
+    ],
     locale: "en_AU",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Party in Style | Australia's Premier Event Planners",
+    description: "Curating exclusive, high-octane experiences for a discerning clientele.",
+    images: ["/images/hero-wedding.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
 };
 
 export default function RootLayout({ children }) {
+  const eventBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "EventPlanningBusiness",
+    name: "Party in Style",
+    description: "Luxury event planning across Australia. Bespoke Weddings, Corporate Functions, EOFY Parties, Milestone Birthdays, and Exclusive Private Events.",
+    url: "https://partyinstyle.com.au",
+    logo: "https://partyinstyle.com.au/logo.png",
+    telephone: "+61494334934",
+    priceRange: "$$$",
+    makesOffer: [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bespoke Weddings" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Corporate Functions" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "EOFY Parties" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Milestone Birthdays" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exclusive Private Events" } }
+    ],
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Melbourne",
+      addressRegion: "VIC",
+      addressCountry: "AU",
+    },
+    sameAs: [
+      "https://www.facebook.com/share/18SWJEeoe5/",
+      "https://www.instagram.com/partyinstyle111",
+    ],
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What types of events do you plan in Melbourne?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "We organize everything from bespoke weddings to luxury corporate functions, EOFY parties, and milestone birthdays across Victoria.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can you organize high-end office parties or corporate functions?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Absolutely. We specialize in premium corporate events, brand launches, and executive dinners designed to impress.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How much does a luxury event planner in Melbourne cost?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Because every event is bespoke and styled to perfection, pricing varies based on scale, theme, and requirements. We offer a free initial consultation and bespoke quoting tailored to your specific event needs.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can Party in Style handle last-minute event bookings?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "While we recommend booking well in advance for large-scale and complex events, our experienced team is equipped to manage tight turnarounds and deliver extraordinary results when necessary.",
+        },
+      },
+    ],
+  };
+
   return (
-    <html lang="en" className="h-full" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en-AU" className="h-full" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(eventBusinessSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -41,7 +170,7 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
           rel="stylesheet"
         />
         <link
@@ -49,7 +178,13 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning className="min-h-full flex flex-col bg-background text-on-surface antialiased font-body-md">
+      <body suppressHydrationWarning={true} className={`min-h-full flex flex-col bg-background text-on-surface antialiased font-body-md selection:bg-primary/30 selection:text-primary-light ${inter.variable} ${notoSerif.variable}`}>
+        {/* Ambient luxury glow orbs */}
+        <div className="ambient-glow" aria-hidden="true">
+          <div className="ambient-orb ambient-orb-1" />
+          <div className="ambient-orb ambient-orb-2" />
+          <div className="ambient-orb ambient-orb-3" />
+        </div>
         <Preloader />
         <CursorTrail />
         <ScrollProgress />

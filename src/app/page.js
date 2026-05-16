@@ -1,9 +1,17 @@
-"use client";
 import Link from "next/link";
+import Image from "next/image";
 import RevealSection from "./components/RevealSection";
-import AnimatedCounter from "./components/AnimatedCounter";
-import MarqueeTicker from "./components/MarqueeTicker";
+
+export const metadata = {
+  title: "Australia's Premier Event Planners",
+  description: "Melbourne's top luxury event planners. We specialise in bespoke weddings, high-end corporate galas, and immersive private parties.",
+};
+import dynamic from "next/dynamic";
 import HeroForm from "./components/HeroForm";
+
+const MarqueeTicker = dynamic(() => import("./components/MarqueeTicker"));
+
+const AnimatedCounter = dynamic(() => import("./components/AnimatedCounter"));
 
 const STATS = [
   { value: "500+", label: "Events Delivered" },
@@ -13,9 +21,9 @@ const STATS = [
 ];
 
 const SERVICES_PREVIEW = [
-  { icon: "favorite", title: "Weddings", img: "/images/wedding.jpg" },
-  { icon: "business_center", title: "Corporate Events", img: "/images/corporate.jpg" },
-  { icon: "celebration", title: "Private Parties", img: "/images/party.jpg" },
+  { icon: "favorite", title: "Weddings", img: "/images/wedding.png" },
+  { icon: "business_center", title: "Corporate Events", img: "/images/corporate.png" },
+  { icon: "celebration", title: "Private Parties", img: "/images/kids-party.png" },
 ];
 
 const TESTIMONIALS = [
@@ -35,7 +43,7 @@ export default function Home() {
 
       {/* ===== STATS with animated counters ===== */}
       <RevealSection>
-        <div className="relative py-16 border-b border-outline/30">
+        <section aria-label="Our achievements" className="relative py-16 border-b border-outline/30">
           <div className="max-w-container-max mx-auto px-6 md:px-margin-x flex flex-wrap justify-center md:justify-between items-center gap-8 md:gap-4">
             {STATS.map((s, i) => (
               <div key={i} className="flex items-center gap-4">
@@ -44,15 +52,15 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </div>
+        </section>
       </RevealSection>
 
       {/* ===== SERVICE PREVIEWS ===== */}
-      <section className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x">
+      <section aria-labelledby="services-heading" className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x">
         <RevealSection className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
           <div className="max-w-xl">
             <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">What We Do</p>
-            <h2 className="font-headline-lg text-4xl md:text-5xl text-on-surface">
+            <h2 id="services-heading" className="font-headline-lg text-4xl md:text-5xl text-on-surface">
               Our <span className="gradient-text">Expertise</span>
             </h2>
             <div className="gold-line-left mt-4" />
@@ -66,7 +74,17 @@ export default function Home() {
             <RevealSection key={i} delay={i * 120}>
               <Link href="/services" className="block">
                 <div className="glass-panel rounded-xl magnetic-hover group relative overflow-hidden h-80 md:h-96 flex flex-col justify-end image-hover-zoom animated-border">
-                  <img src={s.img} alt={s.title} className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 transition-opacity duration-500" loading="lazy" />
+                  <Image 
+                    src={s.img} 
+                    alt={
+                      s.title === "Weddings" ? "Luxury wedding banquet table setup in Melbourne" :
+                      s.title === "Corporate Events" ? "High-end corporate function and EOFY party venue styling in Victoria" :
+                      "Exclusive milestone birthday party decorations with a premium dark and gold aesthetic"
+                    } 
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 transition-opacity duration-500" 
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent z-[1]" />
                   <div className="relative z-10 p-8 md:p-10">
                     <span className="material-symbols-outlined text-3xl text-primary mb-3 block">{s.icon}</span>
@@ -81,11 +99,45 @@ export default function Home() {
 
       <div className="max-w-container-max mx-auto px-6 md:px-margin-x"><div className="gold-line my-stack-md" /></div>
 
+      {/* ===== CURATED EXPERIENCES (HYPER-LOCAL SEO) ===== */}
+      <section aria-labelledby="experiences-heading" className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x">
+        <RevealSection className="text-center mb-16">
+          <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">Our Specialties</p>
+          <h2 id="experiences-heading" className="font-headline-lg text-4xl md:text-5xl text-on-surface">Curated <span className="gradient-text">Experiences</span></h2>
+          <div className="gold-line-left mx-auto mt-4" />
+        </RevealSection>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            "Lux Hens Nights & Bespoke Bucks Parties",
+            "Premium Chrissy Functions & EOFY Celebrations",
+            "VIP Spring Racing Marquees & Melbourne Cup After-Parties",
+            "Exclusive Arvo Soirées & High-Tea Gatherings",
+            "Engagement Dos & Intimate Elopements",
+            "High-End Office Parties & Private Celebrations"
+          ].map((exp, i) => (
+            <RevealSection key={i} delay={i * 100}>
+              <article className="glass-panel p-6 md:p-8 rounded-xl animated-border flex items-center gap-4 group h-full">
+                <span className="material-symbols-outlined text-primary text-2xl group-hover:scale-110 transition-transform duration-300">star</span>
+                <h3 className="font-headline-md text-lg text-on-surface leading-snug">{exp}</h3>
+              </article>
+            </RevealSection>
+          ))}
+        </div>
+
+        {/* SR-Only Hidden SEO Text */}
+        <span className="sr-only">
+          Find the best party planners for bucks and hens in Melbourne Victoria. We specialise in luxury chrissy parties, EOFY events, Spring Racing marquees, Melbourne Cup after-parties, high-tea arvo soirées, engagement dos, and intimate elopements across Australia.
+        </span>
+      </section>
+
+      <div className="max-w-container-max mx-auto px-6 md:px-margin-x"><div className="gold-line my-stack-md" /></div>
+
       {/* ===== TESTIMONIALS ===== */}
-      <section className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x">
+      <section aria-labelledby="testimonials-heading" className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x">
         <RevealSection className="text-center mb-16">
           <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">Testimonials</p>
-          <h2 className="font-headline-lg text-4xl md:text-5xl text-on-surface">What Our Clients <span className="gradient-text">Say</span></h2>
+          <h2 id="testimonials-heading" className="font-headline-lg text-4xl md:text-5xl text-on-surface">What Our Clients <span className="gradient-text">Say</span></h2>
           <div className="gold-line-left mx-auto mt-4" />
         </RevealSection>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -110,11 +162,49 @@ export default function Home() {
 
       <div className="max-w-container-max mx-auto px-6 md:px-margin-x"><div className="gold-line my-stack-md" /></div>
 
+      {/* ===== FAQ ===== */}
+      <section aria-labelledby="faq-heading" className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x">
+        <RevealSection className="text-center mb-16">
+          <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">Answers</p>
+          <h2 id="faq-heading" className="font-headline-lg text-4xl md:text-5xl text-on-surface">Frequently Asked <span className="gradient-text">Questions</span></h2>
+          <div className="gold-line-left mx-auto mt-4" />
+        </RevealSection>
+        <div className="max-w-3xl mx-auto flex flex-col gap-4">
+          {[
+            { q: "What types of events do you plan in Melbourne?", a: "We organize everything from bespoke weddings to luxury corporate functions, intimate marriage proposals, kids theme parties, and milestone birthdays across Victoria." },
+            { q: "Can you organize high-end office parties or corporate functions?", a: "Absolutely. We specialize in premium corporate events, brand launches, and executive dinners designed to impress." },
+            { q: "How much does a luxury event planner in Melbourne cost?", a: "Because every event is bespoke and styled to perfection, pricing varies based on scale, theme, and requirements. We offer a free initial consultation and bespoke quoting tailored to your specific event needs." },
+            { q: "Can Party in Style handle last-minute event bookings?", a: "While we recommend booking well in advance for large-scale and complex events, our experienced team is equipped to manage tight turnarounds and deliver extraordinary results when necessary." }
+          ].map((faq, i) => (
+            <RevealSection key={i} delay={i * 100}>
+              <details className="faq-details group glass-panel rounded-xl animated-border overflow-hidden">
+                <summary className="faq-summary font-headline-md text-lg md:text-xl text-on-surface p-6 md:p-8 cursor-pointer list-none flex justify-between items-center gap-4 outline-none focus-visible:ring-2 focus-visible:ring-primary/50">
+                  {faq.q}
+                  <span className="material-symbols-outlined text-primary transition-transform duration-300 group-open:rotate-180">expand_more</span>
+                </summary>
+                <div className="faq-content px-6 md:px-8 pb-6 md:pb-8 text-on-surface-variant font-body-md text-sm leading-relaxed border-t border-outline/20 mt-2 pt-6">
+                  {faq.a}
+                </div>
+              </details>
+            </RevealSection>
+          ))}
+        </div>
+      </section>
+
+      <div className="max-w-container-max mx-auto px-6 md:px-margin-x"><div className="gold-line my-stack-md" /></div>
+
       {/* ===== CTA ===== */}
       <RevealSection>
-        <section className="py-stack-lg relative overflow-hidden">
+        <section aria-label="Get in touch" className="py-stack-lg relative overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img src="/images/festival.jpg" alt="" className="w-full h-full object-cover opacity-20" loading="lazy" />
+            <Image 
+              src="/images/proposal.png" 
+              alt="Romantic private marriage proposal setup styled by Party in Style Melbourne" 
+              fill
+              sizes="100vw"
+              loading="lazy"
+              className="w-full h-full object-cover opacity-20" 
+            />
             <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background" />
           </div>
           <div className="relative z-10 max-w-container-max mx-auto px-6 md:px-margin-x text-center flex flex-col items-center gap-6">

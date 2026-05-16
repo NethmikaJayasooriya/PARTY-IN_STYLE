@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
+import Image from "next/image";
 
 const EVENT_CATEGORIES = [
   {
@@ -22,7 +23,7 @@ const EVENT_CATEGORIES = [
     id: "wedding",
     label: "Weddings",
     icon: "favorite",
-    img: "/images/hero-wedding.jpg",
+    img: "/images/hero-wedding-user.png",
     tagline: "Your Dream Day, Perfectly Styled",
     themes: [],
   },
@@ -30,7 +31,7 @@ const EVENT_CATEGORIES = [
     id: "corporate",
     label: "Corporate",
     icon: "business_center",
-    img: "/images/hero-corporate.jpg",
+    img: "/images/hero-corporate-user.png",
     tagline: "Impress. Engage. Elevate.",
     themes: [],
   },
@@ -60,11 +61,13 @@ export default function HeroForm() {
     message: "",
   });
   const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const timerRef = useRef(null);
   const resumeRef = useRef(null);
   const dropdownRef = useRef(null);
 
   const active = EVENT_CATEGORIES[activeIndex];
+  const selectedCategory = EVENT_CATEGORIES.find(c => c.label === formData.eventType) || EVENT_CATEGORIES[0];
 
   // Auto-cycle
   const startTimer = useCallback(() => {
@@ -93,15 +96,22 @@ export default function HeroForm() {
 
   // Sync event type when category changes
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      eventType: EVENT_CATEGORIES[activeIndex].label,
-      theme: "",
-    }));
-  }, [activeIndex]);
+    if (!hasInteracted) {
+      setFormData((prev) => ({
+        ...prev,
+        eventType: EVENT_CATEGORIES[activeIndex].label,
+        theme: "",
+      }));
+    }
+  }, [activeIndex, hasInteracted]);
 
   const handleCategoryClick = (index) => {
     setActiveIndex(index);
+    setFormData((prev) => ({
+      ...prev,
+      eventType: EVENT_CATEGORIES[index].label,
+      theme: "",
+    }));
     setIsPaused(true);
     if (timerRef.current) clearInterval(timerRef.current);
     if (resumeRef.current) clearTimeout(resumeRef.current);
@@ -109,6 +119,7 @@ export default function HeroForm() {
   };
 
   const handleChange = (e) => {
+    setHasInteracted(true);
     setErrorMsg("");
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -117,7 +128,7 @@ export default function HeroForm() {
     e.preventDefault();
     setErrorMsg("");
 
-    const { name, contact, location } = formData;
+    const { name, contact, location, eventType, theme, message } = formData;
     
     // Strict Validation
     if (name.trim().length < 2) {
@@ -139,19 +150,39 @@ export default function HeroForm() {
     }
 
     setFormState("sending");
+    
     setTimeout(() => {
       setFormState("success");
+      
+      // Construct WhatsApp Message
+      const text = `Hello Party in Style! 🎉
+I would like to inquire about an event booking.
+
+*Full Name:* ${name}
+*Contact:* ${contact}
+*Suburb:* ${location}
+*Event Type:* ${eventType}${theme ? `\n*Theme:* ${theme}` : ""}
+*Brief Details:* ${message || "N/A"}`;
+
+      const encodedText = encodeURIComponent(text);
+      const whatsappUrl = `https://wa.me/61494334934?text=${encodedText}`;
+      
+      // Redirect to WhatsApp
+      window.open(whatsappUrl, "_blank");
+
       setTimeout(() => {
         setFormState("idle");
+        setHasInteracted(false);
         setFormData({
           name: "",
           contact: "",
+          location: "",
           eventType: active.label,
           theme: "",
           message: "",
         });
       }, 3000);
-    }, 1200);
+    }, 800);
   };
 
   return (
@@ -168,21 +199,26 @@ export default function HeroForm() {
           style={{
             opacity: i === activeIndex ? 1 : 0,
             transition: "opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)",
+            willChange: "opacity",
+            backfaceVisibility: "hidden",
+            backgroundColor: "#0c0d0e",
           }}
         >
-          <img
-            alt={cat.label}
+          <Image
+            alt={`Luxury ${cat.label.toLowerCase()} event styling and design in Melbourne`}
             className="w-full h-full object-cover"
             style={{
               animation: i === activeIndex ? "slowZoom 20s ease-in-out alternate infinite" : "none",
-              filter: "brightness(0.85) contrast(1.1)",
+              filter: "brightness(0.5) contrast(1.1)",
+              willChange: "transform",
+              backfaceVisibility: "hidden",
+              transform: "translateZ(0)",
             }}
             src={cat.img}
-            width={1920}
-            height={1080}
-            fetchPriority={i < 2 ? "high" : "auto"}
-            loading={i < 2 ? "eager" : "lazy"}
-            decoding="async"
+            fill
+            sizes="100vw"
+            priority={i === 0}
+            unoptimized={true}
           />
         </div>
       ))}
@@ -238,6 +274,8 @@ export default function HeroForm() {
                     onClick={() => handleCategoryClick(i)}
                     className={`hero-category-pill ${i === activeIndex ? "active" : ""}`}
                     type="button"
+                    aria-label={`Select ${cat.label} category`}
+                    aria-pressed={i === activeIndex}
                     suppressHydrationWarning
                   >
                     <span className="material-symbols-outlined text-base">{cat.icon}</span>
@@ -306,7 +344,7 @@ export default function HeroForm() {
                 </div>
 
                 {formState === "success" ? (
-                  <div className="flex flex-col items-center justify-center py-10 gap-4" style={{ animation: "scaleIn 0.5s ease both" }}>
+                  <div role="alert" aria-live="polite" className="flex flex-col items-center justify-center py-10 gap-4" style={{ animation: "scaleIn 0.5s ease both" }}>
                     <div className="w-16 h-16 rounded-full bg-green-500/15 flex items-center justify-center">
                       <span className="material-symbols-outlined text-green-400 text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                     </div>
@@ -316,21 +354,23 @@ export default function HeroForm() {
                     </p>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-5" aria-label="Quick enquiry form">
                     {/* Event type — clear label above */}
                     <div>
                       <label className="font-label-sm text-[10px] text-on-surface-variant/50 uppercase tracking-[0.15em] mb-1.5 block">
                         Event Type
                       </label>
                       <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-primary/20 bg-primary/5">
-                        <span className="material-symbols-outlined text-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{active.icon}</span>
-                        <span className="font-label-sm text-sm text-primary font-medium flex-1">{active.label}</span>
-                        <span className="font-label-sm text-[9px] text-on-surface-variant/40 uppercase tracking-wider bg-primary/8 px-2 py-0.5 rounded-full">Auto-selected</span>
+                        <span className="material-symbols-outlined text-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{selectedCategory.icon}</span>
+                        <span className="font-label-sm text-sm text-primary font-medium flex-1">{selectedCategory.label}</span>
+                        <span className="font-label-sm text-[9px] text-on-surface-variant/40 uppercase tracking-wider bg-primary/8 px-2 py-0.5 rounded-full">
+                          {hasInteracted ? "Selected" : "Auto-selected"}
+                        </span>
                       </div>
                     </div>
 
                     {/* Theme selector (only for categories with themes) */}
-                    {active.themes.length > 0 && (
+                    {selectedCategory.themes.length > 0 && (
                       <div className="hero-form-field" ref={dropdownRef}>
                         <label className="font-label-sm text-[10px] text-on-surface-variant/50 uppercase tracking-[0.15em] mb-1.5 block">
                           Preferred Theme
@@ -351,11 +391,12 @@ export default function HeroForm() {
                         <div 
                           className={`absolute left-0 right-0 z-50 mt-1 bg-surface-container border border-outline/30 rounded-lg overflow-hidden shadow-xl transition-all duration-300 ${isThemeDropdownOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'}`}
                         >
-                          {active.themes.map((t) => (
+                          {selectedCategory.themes.map((t) => (
                             <div 
                               key={t}
                               className="px-4 py-3 text-sm text-on-surface hover:bg-primary/10 hover:text-primary cursor-pointer transition-colors"
                               onClick={() => {
+                                setHasInteracted(true);
                                 setFormData((prev) => ({ ...prev, theme: t }));
                                 setIsThemeDropdownOpen(false);
                               }}

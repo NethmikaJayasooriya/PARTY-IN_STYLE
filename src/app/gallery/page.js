@@ -1,65 +1,114 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import RevealSection from "../components/RevealSection";
 import Lightbox from "../components/Lightbox";
+import { CATEGORIES, GALLERY_ITEMS } from "./galleryData";
 
-const CATEGORIES = ["All", "Weddings", "Corporate", "Private", "Festivals"];
-
-const GALLERY_ITEMS = [
-  { src: "/images/wedding.jpg", alt: "Elegant Wedding Setup", cat: "Weddings" },
-  { src: "/images/hero.jpg", alt: "Grand Ballroom Gala", cat: "Corporate" },
-  { src: "/images/party.jpg", alt: "Confetti Celebration", cat: "Private" },
-  { src: "/images/festival.jpg", alt: "Festival Fireworks", cat: "Festivals" },
-  { src: "/images/venue.jpg", alt: "Venue Styling", cat: "Weddings" },
-  { src: "/images/corporate.jpg", alt: "Corporate Conference", cat: "Corporate" },
-  { src: "/images/candles.jpg", alt: "Candlelit Dinner", cat: "Private" },
-  { src: "/images/concert.jpg", alt: "Music Festival Stage", cat: "Festivals" },
-  { src: "/images/table.jpg", alt: "Luxury Table Setting", cat: "Weddings" },
-  { src: "/images/cocktail.jpg", alt: "Cocktail Evening", cat: "Corporate" },
-  { src: "/images/sparklers.jpg", alt: "Sparkler Celebration", cat: "Private" },
-  { src: "/images/atmosphere.jpg", alt: "Party Atmosphere", cat: "Festivals" },
-];
+function isVideo(src) {
+  return /\.(mp4|webm|ogg|mov)$/i.test(src);
+}
 
 export default function GalleryPage() {
   const [active, setActive] = useState("All");
-  const filtered = active === "All" ? GALLERY_ITEMS : GALLERY_ITEMS.filter((g) => g.cat === active);
+
+  const filtered = useMemo(() => {
+    return active === "All" ? GALLERY_ITEMS : GALLERY_ITEMS.filter((g) => g.cat === active);
+  }, [active]);
+
+  // Count per category
+  const counts = useMemo(() => {
+    const c = {};
+    CATEGORIES.forEach((cat) => {
+      c[cat] = cat === "All" ? GALLERY_ITEMS.length : GALLERY_ITEMS.filter((g) => g.cat === cat).length;
+    });
+    return c;
+  }, []);
 
   return (
     <>
+      {/* ── Hero Header ── */}
       <section className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x text-center">
         <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">Portfolio</p>
-        <h1 className="font-display-xl text-5xl md:text-7xl text-on-surface mb-4">Our <span className="gradient-text italic">Work</span></h1>
+        <h1 className="font-display-xl text-5xl md:text-7xl text-on-surface mb-4">
+          Our <span className="gradient-text italic">Work</span>
+        </h1>
         <div className="gold-line-left mx-auto mt-4 mb-6" />
-        <p className="font-body-lg text-base text-on-surface-variant font-light max-w-2xl mx-auto">A curated selection of events we&#39;ve had the privilege to design and deliver. Click any image to view full-size.</p>
+        <p className="font-body-lg text-base text-on-surface-variant font-light max-w-2xl mx-auto">
+          A curated collection of events we&#39;ve had the privilege to design and deliver. Click any piece to explore.
+        </p>
       </section>
 
+      {/* ── Filter Tabs ── */}
       <div className="max-w-container-max mx-auto px-6 md:px-margin-x mb-12">
         <div className="flex flex-wrap justify-center gap-3">
           {CATEGORIES.map((c) => (
             <button
               key={c}
               onClick={() => setActive(c)}
-              className={`font-label-sm text-xs uppercase tracking-widest px-6 py-2.5 rounded-full transition-all duration-300 ${
-                active === c ? "bg-primary text-on-primary-container" : "glass-panel text-on-surface-variant hover:text-primary hover:border-primary/30"
+              className={`font-label-sm text-xs uppercase tracking-widest px-6 py-2.5 rounded-full transition-all duration-300 flex items-center gap-2 ${
+                active === c
+                  ? "bg-primary text-on-primary-container shadow-lg shadow-primary/20"
+                  : "glass-panel text-on-surface-variant hover:text-primary hover:border-primary/30"
               }`}
             >
               {c}
+              <span className={`text-[10px] font-semibold rounded-full w-5 h-5 flex items-center justify-center ${
+                active === c ? "bg-on-primary-container/20 text-on-primary-container" : "bg-outline/20 text-on-surface-variant/60"
+              }`}>
+                {counts[c]}
+              </span>
             </button>
           ))}
         </div>
       </div>
 
+      {/* ── Masonry Gallery Grid ── */}
       <section className="max-w-container-max mx-auto px-6 md:px-margin-x pb-stack-md">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="gallery-masonry">
           {filtered.map((g, i) => (
             <RevealSection key={`${g.src}-${active}`} delay={i * 60}>
-              <Lightbox src={g.src} alt={g.alt}>
-                <div className="relative rounded-xl overflow-hidden group image-hover-zoom magnetic-hover aspect-[4/3]">
-                  <img src={g.src} alt={g.alt} className="w-full h-full object-cover" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                    <span className="font-label-sm text-xs text-primary uppercase tracking-widest mb-1">{g.cat}</span>
-                    <span className="font-headline-md text-lg text-on-surface">{g.alt}</span>
-                    <span className="material-symbols-outlined text-primary/60 absolute top-4 right-4 text-xl">zoom_in</span>
+              <Lightbox src={g.src} alt={g.alt} galleryItems={filtered} currentIndex={i}>
+                <div className={`gallery-item relative rounded-xl overflow-hidden group ${
+                  g.aspect === "tall" ? "gallery-tall" : g.aspect === "wide" ? "gallery-wide" : ""
+                }`}>
+                  {/* Image or Video thumbnail */}
+                  {isVideo(g.src) ? (
+                    <video
+                      src={g.src}
+                      muted
+                      loop
+                      playsInline
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      onMouseOver={(e) => e.target.play()}
+                      onMouseOut={(e) => { e.target.pause(); e.target.currentTime = 0; }}
+                      poster={g.poster}
+                    />
+                  ) : (
+                    <img
+                      src={g.src}
+                      alt={g.alt}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                    />
+                  )}
+
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-5">
+                    <span className="font-label-sm text-[10px] text-primary uppercase tracking-[0.2em] mb-1">{g.cat}</span>
+                    <span className="font-body-md text-sm text-on-surface leading-snug line-clamp-2">{g.alt}</span>
+                  </div>
+
+                  {/* Top-right action icon */}
+                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                    {isVideo(g.src) ? (
+                      <div className="w-10 h-10 rounded-full glass-panel flex items-center justify-center border border-primary/20">
+                        <span className="material-symbols-outlined text-primary text-lg">play_arrow</span>
+                      </div>
+                    ) : (
+                      <div className="w-10 h-10 rounded-full glass-panel flex items-center justify-center border border-primary/20">
+                        <span className="material-symbols-outlined text-primary text-lg">zoom_in</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Lightbox>

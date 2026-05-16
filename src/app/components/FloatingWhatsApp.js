@@ -72,6 +72,7 @@ export default function FloatingContact() {
 
       {/* Main Toggle Button */}
       <button
+        suppressHydrationWarning={true}
         onClick={() => setIsOpen(!isOpen)}
         className="w-14 h-14 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-110 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 relative group"
         aria-label="Contact Options"
