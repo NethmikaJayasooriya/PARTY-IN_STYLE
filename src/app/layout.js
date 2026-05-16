@@ -170,7 +170,7 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_forward,business_center,cake,call,celebration,check_circle,chevron_left,chevron_right,close,diamond,eco,event_available,expand_more,favorite,forum,groups,handshake,location_on,mail,menu,nightlife,palette,play_arrow,schedule,send,shield,star,theater_comedy,verified,workspace_premium,zoom_in&display=swap"
           rel="stylesheet"
         />
       </head>

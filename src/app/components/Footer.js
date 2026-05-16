@@ -42,7 +42,7 @@ export default function Footer() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-on-surface-variant/60 text-xs uppercase tracking-wider hover:text-primary transition-colors"
+                className="text-on-surface-variant/80 text-xs uppercase tracking-wider hover:text-primary transition-colors py-2"
               >
                 {l.label}
               </Link>
@@ -51,11 +51,11 @@ export default function Footer() {
         </div>
         <div className="gold-line mb-8" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="font-body-md text-xs text-on-surface-variant/40 uppercase tracking-widest">
+          <p className="font-body-md text-xs text-on-surface-variant/70 uppercase tracking-widest">
             &copy; 2026 Party in Style. All rights reserved.
           </p>
 
-          <p className="font-body-md text-xs text-on-surface-variant/40">
+          <p className="font-body-md text-xs text-on-surface-variant/70">
             Melbourne Based
           </p>
         </div>
