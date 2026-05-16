@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -47,10 +48,13 @@ export default function Navbar() {
         <div className="flex justify-between items-center px-6 md:px-margin-x py-3 w-full max-w-container-max mx-auto min-h-[5rem]">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <img
+            <Image
               src="/logo.png"
               alt="Party in Style"
+              width={80}
+              height={80}
               className="h-16 md:h-20 w-auto"
+              priority
               style={{ filter: "drop-shadow(0 0 8px rgba(212,175,55,0.3))" }}
             />
           </Link>

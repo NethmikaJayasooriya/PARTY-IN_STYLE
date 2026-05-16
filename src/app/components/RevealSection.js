@@ -7,13 +7,19 @@ export default function RevealSection({ children, className = "", delay = 0 }) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    // If already in viewport on mount (e.g. navigating back), reveal instantly
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add("revealed");
+      return;
+    }
+
     const obs = new IntersectionObserver(
       ([e]) => {
-        // Add class when visible, remove when not — animation replays every scroll
         if (e.isIntersecting) {
           el.classList.add("revealed");
-        } else {
-          el.classList.remove("revealed");
+          obs.unobserve(el); // Once revealed, stay revealed — no pop-in on re-visit
         }
       },
       { threshold: 0.12 }
