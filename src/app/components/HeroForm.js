@@ -306,21 +306,27 @@ I would like to inquire about an event booking.
                 <button
                   key={i}
                   onClick={() => handleCategoryClick(i)}
-                  className="relative h-1 rounded-full overflow-hidden transition-all duration-500"
+                  className="relative rounded-full overflow-hidden transition-all duration-500 py-5"
                   style={{
                     width: i === activeIndex ? "32px" : "12px",
-                    backgroundColor: i === activeIndex ? "rgba(212,175,55,0.6)" : "rgba(212,175,55,0.15)",
                   }}
                   type="button"
                   aria-label={`Go to ${EVENT_CATEGORIES[i].label}`}
                   suppressHydrationWarning
                 >
-                  {i === activeIndex && !isPaused && (
-                    <span
-                      className="absolute inset-0 bg-primary rounded-full"
-                      style={{ animation: `progressFill ${CYCLE_INTERVAL}ms linear` }}
-                    />
-                  )}
+                  <span 
+                    className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-1 rounded-full transition-colors duration-500 overflow-hidden"
+                    style={{
+                      backgroundColor: i === activeIndex ? "rgba(212,175,55,0.6)" : "rgba(212,175,55,0.15)",
+                    }}
+                  >
+                    {i === activeIndex && !isPaused && (
+                      <span
+                        className="absolute inset-0 bg-primary rounded-full"
+                        style={{ animation: `progressFill ${CYCLE_INTERVAL}ms linear` }}
+                      />
+                    )}
+                  </span>
                 </button>
               ))}
             </div>

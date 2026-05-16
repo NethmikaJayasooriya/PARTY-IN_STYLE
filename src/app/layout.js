@@ -52,7 +52,7 @@ export const metadata = {
     siteName: "Party in Style",
     images: [
       {
-        url: "/images/hero-wedding.jpg",
+        url: "/images/hero-wedding-user.webp",
         width: 1200,
         height: 630,
         alt: "Luxury wedding banquet table setup with gold cutlery in Melbourne",
@@ -65,7 +65,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Party in Style | Australia's Premier Event Planners",
     description: "Curating exclusive, high-octane experiences for a discerning clientele.",
-    images: ["/images/hero-wedding.jpg"],
+    images: ["/images/hero-wedding-user.webp"],
   },
   robots: {
     index: true,
