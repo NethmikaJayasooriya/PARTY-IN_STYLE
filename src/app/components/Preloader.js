@@ -56,7 +56,11 @@ export default function Preloader() {
         <img
           src="/logo.png"
           alt="Party in Style"
+          width={256}
+          height={256}
           className="h-28 sm:h-40 md:h-56 lg:h-64 w-auto relative z-10"
+          fetchPriority="high"
+          decoding="sync"
           style={{ 
             filter: "drop-shadow(0 4px 20px rgba(212,175,55,0.4)) md:drop-shadow(0 4px 40px rgba(212,175,55,0.6))",
           }}

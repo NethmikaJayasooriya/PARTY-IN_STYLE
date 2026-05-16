@@ -87,8 +87,11 @@ export default function GalleryPage() {
                     <img
                       src={g.src}
                       alt={g.alt}
+                      width={800}
+                      height={g.aspect === "tall" ? 1067 : g.aspect === "wide" ? 450 : 600}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       loading="lazy"
+                      decoding="async"
                     />
                   )}
 

@@ -57,8 +57,9 @@ export default function FloatingContact() {
             key={contact.id}
             href={contact.href}
             target={contact.id === "whatsapp" ? "_blank" : undefined}
-            rel="noopener noreferrer"
+            rel={contact.id === "whatsapp" ? "noopener noreferrer" : undefined}
             className="flex items-center gap-3 group"
+            aria-label={contact.label}
           >
             <span className="font-label-sm text-xs text-on-surface bg-surface-container border border-outline/20 px-3 py-1.5 rounded-md shadow-lg opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
               {contact.label}
