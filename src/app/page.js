@@ -21,9 +21,9 @@ const STATS = [
 ];
 
 const SERVICES_PREVIEW = [
-  { icon: "favorite", title: "Weddings", img: "/images/wedding.png" },
-  { icon: "business_center", title: "Corporate Events", img: "/images/corporate.png" },
-  { icon: "celebration", title: "Private Parties", img: "/images/kids-party.png" },
+  { icon: "favorite", title: "Weddings", img: "/images/wedding.webp" },
+  { icon: "business_center", title: "Corporate Events", img: "/images/corporate.webp" },
+  { icon: "celebration", title: "Private Parties", img: "/images/kids-party.webp" },
 ];
 
 const TESTIMONIALS = [
@@ -198,7 +198,7 @@ export default function Home() {
         <section aria-label="Get in touch" className="py-stack-lg relative overflow-hidden">
           <div className="absolute inset-0 z-0">
             <Image 
-              src="/images/proposal.png" 
+              src="/images/proposal.webp" 
               alt="Romantic private marriage proposal setup styled by Party in Style Melbourne" 
               fill
               sizes="100vw"

@@ -12,7 +12,7 @@ const SERVICES = [
     icon: "favorite", title: "Bespoke Weddings",
     desc: "Bespoke bridal experiences tailored to your unique love story. From intimate harbour-side ceremonies to grand ballroom celebrations, we handle every detail with grace.",
     features: ["Venue Selection", "Floral Design", "Catering Coordination", "Entertainment", "Day-of Coordination"],
-    img: "/images/wedding.png",
+    img: "/images/wedding.webp",
     stat: "Dream",
     statLabel: "Weddings",
   },
@@ -20,7 +20,7 @@ const SERVICES = [
     icon: "business_center", title: "Corporate Events & EOFY Celebrations",
     desc: "High-impact galas, Premium Chrissy Functions, EOFY Celebrations, and executive retreats that elevate your brand. We deliver polished, professional events that leave lasting impressions.",
     features: ["Brand Integration", "AV Production", "Keynote Setup", "VIP Hospitality", "Post-Event Analytics"],
-    img: "/images/corporate.png",
+    img: "/images/corporate.webp",
     stat: "50+",
     statLabel: "Corporate Clients",
   },
@@ -28,7 +28,7 @@ const SERVICES = [
     icon: "celebration", title: "Private Parties & Milestone Birthdays",
     desc: "Exclusive gatherings designed for maximum impact — Kids Theme Parties, Milestone Birthdays, Lux Hens Nights, and anniversaries tailored to your personal style.",
     features: ["Theme Development", "Custom Décor", "DJ & Live Music", "Bespoke Menus", "Photography"],
-    img: "/images/kids-party.png",
+    img: "/images/kids-party.webp",
     stat: "300+",
     statLabel: "Parties Styled",
   },
@@ -36,7 +36,7 @@ const SERVICES = [
     icon: "nightlife", title: "Marriage Proposals & Intimate Soirées",
     desc: "Breathtaking setups for the perfect moment. From private rooftop dinners to candlelit beach proposals, we manage everything to ensure an unforgettable \"Yes\".",
     features: ["Location Scouting", "Romantic Styling", "Hidden Photography", "Musicians", "Champagne Service"],
-    img: "/images/proposal.png",
+    img: "/images/proposal.webp",
     stat: "100%",
     statLabel: "Said Yes",
   },
@@ -47,7 +47,7 @@ export default function ServicesPage() {
     <>
       <section className="relative py-stack-md overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <Image src="/images/venue.png" alt="" fill sizes="100vw" className="object-cover opacity-15" priority />
+          <Image src="/images/venue.webp" alt="" fill sizes="100vw" className="object-cover opacity-15" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background" />
         </div>
         <div className="relative z-10 max-w-container-max mx-auto px-6 md:px-margin-x text-center">

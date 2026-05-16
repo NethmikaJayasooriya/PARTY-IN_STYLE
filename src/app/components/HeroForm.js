@@ -7,7 +7,7 @@ const EVENT_CATEGORIES = [
     id: "birthday",
     label: "Birthdays",
     icon: "cake",
-    img: "/images/hero-birthday.png",
+    img: "/images/hero-birthday.webp",
     tagline: "Make Their Special Day Magical",
     themes: ["Batman", "Spiderman", "Princess", "Unicorn", "Custom Theme"],
   },
@@ -15,7 +15,7 @@ const EVENT_CATEGORIES = [
     id: "themed",
     label: "Themed Parties",
     icon: "theater_comedy",
-    img: "/images/hero-themed.png",
+    img: "/images/hero-themed.webp",
     tagline: "Unique Themes, Unforgettable Moments",
     themes: ["Superhero", "Fairy Tale", "Retro", "Tropical", "Custom Theme"],
   },
@@ -23,7 +23,7 @@ const EVENT_CATEGORIES = [
     id: "wedding",
     label: "Weddings",
     icon: "favorite",
-    img: "/images/hero-wedding-user.png",
+    img: "/images/hero-wedding-user.webp",
     tagline: "Your Dream Day, Perfectly Styled",
     themes: [],
   },
@@ -31,7 +31,7 @@ const EVENT_CATEGORIES = [
     id: "corporate",
     label: "Corporate",
     icon: "business_center",
-    img: "/images/hero-corporate-user.png",
+    img: "/images/hero-corporate-user.webp",
     tagline: "Impress. Engage. Elevate.",
     themes: [],
   },
@@ -218,7 +218,7 @@ I would like to inquire about an event booking.
             fill
             sizes="100vw"
             priority={i === 0}
-            unoptimized={true}
+            quality={80}
           />
         </div>
       ))}
