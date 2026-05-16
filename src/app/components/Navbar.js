@@ -49,7 +49,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="Party in Style"
               width={80}
               height={80}

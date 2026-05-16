@@ -39,7 +39,7 @@ const EVENT_CATEGORIES = [
     id: "festival",
     label: "Festivals",
     icon: "nightlife",
-    img: "/images/hero-festival.jpg",
+    img: "/images/hero-festival.webp",
     tagline: "Grand-Scale Celebrations",
     themes: [],
   },
@@ -217,7 +217,8 @@ I would like to inquire about an event booking.
             src={cat.img}
             fill
             sizes="100vw"
-            priority={i === 0}
+            priority={i < 2}
+            loading={i < 2 ? "eager" : "lazy"}
             quality={80}
           />
         </div>

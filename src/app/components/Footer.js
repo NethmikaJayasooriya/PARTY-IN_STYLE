@@ -15,7 +15,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center gap-6">
             <Link href="/">
               <img
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Party in Style"
                 width={80}
                 height={80}
