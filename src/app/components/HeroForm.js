@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const EVENT_CATEGORIES = [
   {
@@ -9,7 +11,7 @@ const EVENT_CATEGORIES = [
     icon: "cake",
     img: "/images/hero-birthday.webp",
     tagline: "Make Their Special Day Magical",
-    themes: ["Batman", "Spiderman", "Princess", "Unicorn", "Custom Theme"],
+    themes: ["Premium Gold", "Midnight Black", "Rose Gold Elegance", "Tropical Luxe", "Custom Theme"],
   },
   {
     id: "themed",
@@ -17,7 +19,7 @@ const EVENT_CATEGORIES = [
     icon: "theater_comedy",
     img: "/images/hero-themed.webp",
     tagline: "Unique Themes, Unforgettable Moments",
-    themes: ["Superhero", "Fairy Tale", "Retro", "Tropical", "Custom Theme"],
+    themes: ["Neon Night", "Classic Elegance", "Festival Luxe", "Custom Theme"],
   },
   {
     id: "wedding",
@@ -47,7 +49,29 @@ const EVENT_CATEGORIES = [
 
 const CYCLE_INTERVAL = 5000;
 
-export default function HeroForm() {
+export default function HeroForm({ settings = {} }) {
+  // Use dynamic settings from CMS if available
+  const activeCategories = EVENT_CATEGORIES.map(cat => ({ ...cat, themes: [...cat.themes] }));
+  
+  if (settings.heroImage) {
+    activeCategories[0].img = settings.heroImage;
+  }
+  if (settings.eventThemesNew) {
+    activeCategories.forEach(cat => {
+      if (cat.id === "birthday") {
+        cat.themes = settings.eventThemesNew.birthday || cat.themes;
+      } else if (cat.id === "themed") {
+        cat.themes = settings.eventThemesNew.party || cat.themes;
+      }
+    });
+  } else if (settings.eventThemes && settings.eventThemes.length > 0) {
+    // Fallback for older data format
+    activeCategories.forEach(cat => {
+      if (cat.id === "birthday" || cat.id === "themed") {
+        cat.themes = settings.eventThemes;
+      }
+    });
+  }
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [formState, setFormState] = useState("idle"); // idle | sending | success
@@ -56,7 +80,7 @@ export default function HeroForm() {
     name: "",
     contact: "",
     location: "",
-    eventType: EVENT_CATEGORIES[0].label,
+    eventType: activeCategories[0].label,
     theme: "",
     message: "",
   });
@@ -66,14 +90,14 @@ export default function HeroForm() {
   const resumeRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  const active = EVENT_CATEGORIES[activeIndex];
-  const selectedCategory = EVENT_CATEGORIES.find(c => c.label === formData.eventType) || EVENT_CATEGORIES[0];
+  const active = activeCategories[activeIndex];
+  const selectedCategory = activeCategories.find(c => c.label === formData.eventType) || activeCategories[0];
 
   // Auto-cycle
   const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % EVENT_CATEGORIES.length);
+      setActiveIndex((prev) => (prev + 1) % activeCategories.length);
     }, CYCLE_INTERVAL);
   }, []);
 
@@ -99,7 +123,7 @@ export default function HeroForm() {
     if (!hasInteracted) {
       setFormData((prev) => ({
         ...prev,
-        eventType: EVENT_CATEGORIES[activeIndex].label,
+        eventType: activeCategories[activeIndex].label,
         theme: "",
       }));
     }
@@ -109,7 +133,7 @@ export default function HeroForm() {
     setActiveIndex(index);
     setFormData((prev) => ({
       ...prev,
-      eventType: EVENT_CATEGORIES[index].label,
+      eventType: activeCategories[index].label,
       theme: "",
     }));
     setIsPaused(true);
@@ -124,7 +148,7 @@ export default function HeroForm() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
 
@@ -151,6 +175,22 @@ export default function HeroForm() {
 
     setFormState("sending");
     
+    // Save inquiry to Firestore
+    try {
+      await addDoc(collection(db, "inquiries"), {
+        name: name.trim(),
+        contact: contact.trim(),
+        location: location.trim(),
+        eventType,
+        theme: theme || "",
+        message: message || "",
+        timestamp: serverTimestamp(),
+      });
+    } catch (err) {
+      console.error("Failed to save inquiry:", err);
+      // Continue to WhatsApp even if Firestore fails
+    }
+
     setTimeout(() => {
       setFormState("success");
       
@@ -192,7 +232,7 @@ I would like to inquire about an event booking.
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* ===== BACKGROUND IMAGES ===== */}
-      {EVENT_CATEGORIES.map((cat, i) => (
+      {activeCategories.map((cat, i) => (
         <div
           key={cat.id}
           className="absolute inset-0 z-0"
@@ -224,12 +264,12 @@ I would like to inquire about an event booking.
         </div>
       ))}
 
-      {/* Lighter gradient overlays — let images breathe */}
+      {/* Darker gradient overlays to ensure text readability */}
       <div className="absolute inset-0 z-[1]" style={{
-        background: "linear-gradient(to bottom, rgba(12,13,14,0.55) 0%, rgba(12,13,14,0.25) 40%, rgba(12,13,14,0.7) 85%, rgba(12,13,14,1) 100%)"
+        background: "linear-gradient(to bottom, rgba(12,13,14,0.75) 0%, rgba(12,13,14,0.4) 40%, rgba(12,13,14,0.85) 85%, rgba(12,13,14,1) 100%)"
       }} />
       <div className="absolute inset-0 z-[1] hidden lg:block" style={{
-        background: "linear-gradient(to right, rgba(12,13,14,0.85) 0%, rgba(12,13,14,0.5) 35%, rgba(12,13,14,0.15) 55%, transparent 70%)"
+        background: "linear-gradient(to right, rgba(12,13,14,0.95) 0%, rgba(12,13,14,0.7) 40%, rgba(12,13,14,0.2) 65%, transparent 85%)"
       }} />
       <div className="sparkle-overlay" />
 
@@ -239,37 +279,37 @@ I would like to inquire about an event booking.
           {/* LEFT — Branding + Category Tabs */}
           <div className="flex flex-col gap-6">
             <div className="animate-hero-reveal">
-              <h1 className="font-display-xl text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight">
-                <span className="gradient-text-white">Unforgettable Events,</span>
+              <h1 className="font-display-xl text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
+                <span className="text-white font-bold tracking-wide">Unforgettable Events,</span>
                 <br />
-                <span className="gradient-text italic font-light">Styled to Perfection.</span>
+                <span className="gradient-text italic font-medium">Styled to Perfection.</span>
               </h1>
-              <p className="font-body-lg text-sm md:text-base text-on-surface-variant max-w-lg font-light tracking-wide mt-4">
+              <p className="font-body-lg text-sm md:text-base text-[#f0eeeb] max-w-lg font-medium tracking-wide mt-6 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] bg-black/20 p-2 rounded-lg backdrop-blur-sm -ml-2">
                 Australia&#39;s premier event planners — from kids&#39; themed birthdays to grand galas. Tell us what you need, we&#39;ll make it happen.
               </p>
             </div>
 
             {/* Step indicator: 1 → Select Event, 2 → Fill Form */}
-            <div className="animate-fade-up delay-200 flex flex-wrap items-center gap-x-4 gap-y-2">
+            <div className="animate-fade-up delay-200 flex flex-wrap items-center gap-x-4 gap-y-2 mt-2 drop-shadow-md">
               <div className="flex items-center gap-2">
-                <span className="hero-step-number">1</span>
-                <span className="font-label-sm text-xs text-on-surface-variant/70 uppercase tracking-wider">Pick your event</span>
+                <span className="hero-step-number bg-primary/20 border border-primary/40 text-primary font-bold">1</span>
+                <span className="font-label-sm text-[11px] text-[#f0eeeb] uppercase tracking-wider font-semibold">Pick your event</span>
               </div>
-              <span className="material-symbols-outlined text-primary/30 text-sm">arrow_forward</span>
+              <span className="material-symbols-outlined text-primary text-sm">arrow_forward</span>
               <div className="flex items-center gap-2">
-                <span className="hero-step-number">2</span>
-                <span className="font-label-sm text-xs text-on-surface-variant/70 uppercase tracking-wider">Quick enquiry</span>
+                <span className="hero-step-number bg-primary/20 border border-primary/40 text-primary font-bold">2</span>
+                <span className="font-label-sm text-[11px] text-[#f0eeeb] uppercase tracking-wider font-semibold">Quick enquiry</span>
               </div>
-              <span className="material-symbols-outlined text-primary/30 text-sm">arrow_forward</span>
+              <span className="material-symbols-outlined text-primary text-sm">arrow_forward</span>
               <div className="flex items-center gap-2">
-                <span className="hero-step-number">3</span>
-                <span className="font-label-sm text-xs text-on-surface-variant/70 uppercase tracking-wider">We call you</span>
+                <span className="hero-step-number bg-primary/20 border border-primary/40 text-primary font-bold">3</span>
+                <span className="font-label-sm text-[11px] text-[#f0eeeb] uppercase tracking-wider font-semibold">We call you</span>
               </div>
             </div>
 
             <div className="animate-fade-up delay-300 mt-2">
               <div className="flex flex-wrap gap-2">
-                {EVENT_CATEGORIES.map((cat, i) => (
+                {activeCategories.map((cat, i) => (
                   <button
                     key={cat.id}
                     onClick={() => handleCategoryClick(i)}
@@ -302,7 +342,7 @@ I would like to inquire about an event booking.
 
             {/* Progress dots */}
             <div className="flex gap-2 items-center animate-fade-up delay-500">
-              {EVENT_CATEGORIES.map((_, i) => (
+              {activeCategories.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => handleCategoryClick(i)}
@@ -311,7 +351,7 @@ I would like to inquire about an event booking.
                     width: i === activeIndex ? "32px" : "12px",
                   }}
                   type="button"
-                  aria-label={`Go to ${EVENT_CATEGORIES[i].label}`}
+                  aria-label={`Go to ${activeCategories[i].label}`}
                   suppressHydrationWarning
                 >
                   <span 
@@ -396,21 +436,24 @@ I would like to inquire about an event booking.
                         </div>
                         
                         <div 
-                          className={`absolute left-0 right-0 z-50 mt-1 bg-surface-container border border-outline/30 rounded-lg overflow-hidden shadow-xl transition-all duration-300 ${isThemeDropdownOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'}`}
+                          className={`absolute left-0 right-0 z-50 mt-2 bg-background/95 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-300 ${isThemeDropdownOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none'}`}
                         >
-                          {selectedCategory.themes.map((t) => (
-                            <div 
-                              key={t}
-                              className="px-4 py-3 text-sm text-on-surface hover:bg-primary/10 hover:text-primary cursor-pointer transition-colors"
-                              onClick={() => {
-                                setHasInteracted(true);
-                                setFormData((prev) => ({ ...prev, theme: t }));
-                                setIsThemeDropdownOpen(false);
-                              }}
-                            >
-                              {t}
-                            </div>
-                          ))}
+                          <div className="max-h-60 overflow-y-auto py-2" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(212,175,55,0.3) transparent' }}>
+                            {selectedCategory.themes.map((t) => (
+                              <div 
+                                key={t}
+                                className="px-5 py-3 text-sm text-on-surface hover:bg-primary/10 hover:text-primary cursor-pointer transition-colors flex items-center gap-3 group"
+                                onClick={() => {
+                                  setHasInteracted(true);
+                                  setFormData((prev) => ({ ...prev, theme: t }));
+                                  setIsThemeDropdownOpen(false);
+                                }}
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary group-hover:scale-150 transition-transform duration-300" />
+                                {t}
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     )}

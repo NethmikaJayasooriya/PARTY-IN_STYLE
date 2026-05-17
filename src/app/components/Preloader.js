@@ -23,7 +23,7 @@ export default function Preloader() {
   const isRevealing = phase === "revealing";
 
   return (
-    <div className={`fixed inset-0 z-[999999] flex items-center justify-center overflow-hidden ${isRevealing ? "pointer-events-none" : ""}`}>
+    <div className={`site-chrome fixed inset-0 z-[999999] flex items-center justify-center overflow-hidden ${isRevealing ? "pointer-events-none" : ""}`}>
       {/* Cinematic Split Doors */}
       <div 
         className={`absolute top-0 left-0 w-full h-1/2 bg-[#0c0d0e] transition-transform duration-[400ms] ease-[cubic-bezier(0.7,0,0.3,1)] ${

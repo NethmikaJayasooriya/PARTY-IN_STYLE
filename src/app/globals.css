@@ -65,6 +65,58 @@ body {
   *, *::before, *::after {
     cursor: none !important;
   }
+  /* Restore text cursor for input fields */
+  input, textarea, select, [contenteditable="true"] {
+    cursor: text !important;
+  }
+  select {
+    cursor: pointer !important;
+  }
+  /* Restore pointer for admin panel */
+  .admin-cursor-restore, .admin-cursor-restore * {
+    cursor: auto !important;
+  }
+  .admin-cursor-restore input,
+  .admin-cursor-restore textarea {
+    cursor: text !important;
+  }
+  .admin-cursor-restore button,
+  .admin-cursor-restore a,
+  .admin-cursor-restore select,
+  .admin-cursor-restore label[for],
+  .admin-cursor-restore [role="button"] {
+    cursor: pointer !important;
+  }
+}
+
+/* ============================================
+   ADMIN MODE — hide site chrome, restore cursor
+   ============================================ */
+body.admin-mode .site-chrome,
+body.admin-mode #main-navbar,
+body.admin-mode #main-footer,
+body.admin-mode .preloader-wrapper,
+body.admin-mode #scroll-progress,
+body.admin-mode .floating-whatsapp {
+  display: none !important;
+}
+body.admin-mode main {
+  padding-top: 0 !important;
+}
+body.admin-mode {
+  cursor: auto !important;
+}
+@media (pointer: fine) {
+  body.admin-mode *, body.admin-mode *::before, body.admin-mode *::after {
+    cursor: auto !important;
+  }
+}
+body.admin-mode input, body.admin-mode textarea {
+  cursor: text !important;
+}
+body.admin-mode button, body.admin-mode a, body.admin-mode select,
+body.admin-mode label, body.admin-mode [role="button"] {
+  cursor: pointer !important;
 }
 
 ::selection {
@@ -93,6 +145,7 @@ body {
 
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  text-transform: none !important;
 }
 
 /* ============================================
@@ -304,6 +357,7 @@ html {
   );
   transform: skewX(-25deg);
   animation: sheen 4s ease-in-out infinite;
+  pointer-events: none;
 }
 
 @keyframes sheen {
@@ -452,6 +506,7 @@ html {
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
+  pointer-events: none;
 }
 
 /* ============================================

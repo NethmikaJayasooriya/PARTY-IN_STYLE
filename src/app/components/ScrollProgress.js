@@ -29,7 +29,7 @@ export default function ScrollProgress() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-[3px] z-[100] pointer-events-none">
+    <div className="site-chrome fixed top-0 left-0 w-full h-[3px] z-[100] pointer-events-none">
       <div
         ref={barRef}
         className="h-full"

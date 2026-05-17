@@ -14,12 +14,16 @@ const VALUES = [
   { icon: "eco", title: "Sustainability", desc: "We prioritise eco-conscious practices without compromising on luxury." },
 ];
 
-export default function AboutPage() {
+import { getSettings } from "@/lib/getSettings";
+
+export default async function AboutPage() {
+  const settings = (await getSettings()) || {};
+  const featureImage = settings.aboutImage || "/images/styling.webp";
   return (
     <>
       <section className="relative py-stack-md overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <Image src="/images/styling.webp" alt="" fill sizes="100vw" className="object-cover opacity-15" priority />
+          <Image src={featureImage} alt="" fill sizes="100vw" className="object-cover opacity-15" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background" />
         </div>
         <div className="relative z-10 max-w-container-max mx-auto px-6 md:px-margin-x text-center">
@@ -43,7 +47,7 @@ export default function AboutPage() {
               {/* Main image */}
               <div className="relative rounded-xl overflow-hidden h-[400px] md:h-[540px] image-hover-zoom z-[1]">
                 <Image 
-                  src="/images/styling.webp" 
+                  src={featureImage} 
                   alt="Event styling by Party in Style" 
                   fill 
                   sizes="(max-width: 1024px) 100vw, 50vw"

@@ -3,6 +3,7 @@ export default function robots() {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: "/admin",
     },
     sitemap: "https://partyinstyle.com.au/sitemap.xml",
     host: "https://partyinstyle.com.au",

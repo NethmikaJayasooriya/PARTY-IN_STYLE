@@ -84,7 +84,10 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+import { getSettings } from "@/lib/getSettings";
+
+export default async function RootLayout({ children }) {
+  const settings = (await getSettings()) || {};
   const eventBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "EventPlanningBusiness",
@@ -170,24 +173,24 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_forward,business_center,cake,call,celebration,check_circle,chevron_left,chevron_right,close,diamond,eco,event_available,expand_more,favorite,forum,groups,handshake,location_on,mail,menu,nightlife,palette,play_arrow,schedule,send,shield,star,theater_comedy,verified,workspace_premium,zoom_in&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,arrow_forward,business_center,cake,call,celebration,check_circle,chevron_left,chevron_right,close,cloud_upload,delete,diamond,eco,error,event_available,expand_more,favorite,forum,groups,handshake,image,inbox,list_alt,location_on,logout,mail,menu,nightlife,palette,photo_library,play_arrow,progress_activity,save,schedule,sell,send,settings,shield,star,theater_comedy,tune,upload,verified,workspace_premium,zoom_in&display=swap"
           rel="stylesheet"
         />
       </head>
       <body suppressHydrationWarning={true} className={`min-h-full flex flex-col bg-background text-on-surface antialiased font-body-md selection:bg-primary/30 selection:text-primary-light ${inter.variable} ${notoSerif.variable}`}>
         {/* Ambient luxury glow orbs */}
-        <div className="ambient-glow" aria-hidden="true">
+        <div className="ambient-glow site-chrome" aria-hidden="true">
           <div className="ambient-orb ambient-orb-1" />
           <div className="ambient-orb ambient-orb-2" />
           <div className="ambient-orb ambient-orb-3" />
         </div>
         <Preloader />
-        <CursorTrail />
+        <div className="site-chrome"><CursorTrail /></div>
         <ScrollProgress />
         <Navbar />
         <main className="flex-1 pt-20">{children}</main>
         <Footer />
-        <FloatingWhatsApp />
+        <FloatingWhatsApp settings={settings} />
       </body>
     </html>
   );

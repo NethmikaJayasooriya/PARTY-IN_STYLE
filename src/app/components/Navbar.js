@@ -42,6 +42,7 @@ export default function Navbar() {
   return (
     <>
       <nav
+        id="main-navbar"
         ref={navRef}
         className="fixed top-0 w-full z-50 bg-transparent border-b border-transparent transition-all duration-500"
       >

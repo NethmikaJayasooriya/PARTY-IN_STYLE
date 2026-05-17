@@ -32,11 +32,15 @@ const TESTIMONIALS = [
   { name: "Priya Sharma", role: "40th Birthday, Melbourne", text: "They turned my birthday into a magazine-worthy celebration. The venue styling was breathtaking and the coordination was seamless." },
 ];
 
-export default function Home() {
+import { getSettings } from "@/lib/getSettings";
+
+export default async function Home() {
+  const settings = (await getSettings()) || {};
+
   return (
     <>
       {/* ===== HERO WITH DYNAMIC BACKGROUNDS + QUICK FORM ===== */}
-      <HeroForm />
+      <HeroForm settings={settings} />
 
       {/* ===== MARQUEE TICKER ===== */}
       <MarqueeTicker />
