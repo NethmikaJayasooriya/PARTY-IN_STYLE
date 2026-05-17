@@ -219,7 +219,7 @@ I would like to inquire about an event booking.
             sizes="100vw"
             priority={i < 2}
             loading={i < 2 ? "eager" : "lazy"}
-            quality={90}
+            unoptimized
           />
         </div>
       ))}
@@ -539,9 +539,11 @@ I would like to inquire about an event booking.
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2" style={{ animation: "scroll-hint 2s ease-in-out infinite" }}>
-        <span className="font-label-sm text-[10px] text-primary/60 uppercase tracking-[0.3em]">Scroll</span>
-        <span className="material-symbols-outlined text-primary/40 text-lg">expand_more</span>
+      <div className="absolute bottom-6 z-20 w-full flex justify-center pointer-events-none">
+        <div className="flex flex-col items-center gap-2" style={{ animation: "scroll-hint 2s ease-in-out infinite" }}>
+          <span className="font-label-sm text-[10px] text-primary/60 uppercase tracking-[0.3em]">Scroll</span>
+          <span className="material-symbols-outlined text-primary/40 text-lg">expand_more</span>
+        </div>
       </div>
     </header>
   );
