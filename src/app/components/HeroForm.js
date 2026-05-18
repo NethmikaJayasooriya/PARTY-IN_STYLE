@@ -51,11 +51,15 @@ const CYCLE_INTERVAL = 5000;
 
 export default function HeroForm({ settings = {} }) {
   // Use dynamic settings from CMS if available
-  const activeCategories = EVENT_CATEGORIES.map(cat => ({ ...cat, themes: [...cat.themes] }));
+  const activeCategories = EVENT_CATEGORIES.map(cat => {
+    const dynamicImg = settings[`heroImage_${cat.id}`];
+    // Fallback to legacy single heroImage for birthday if dynamicImg isn't set yet
+    if (cat.id === "birthday" && !dynamicImg && settings.heroImage) {
+      return { ...cat, themes: [...cat.themes], img: settings.heroImage };
+    }
+    return { ...cat, themes: [...cat.themes], img: dynamicImg || cat.img };
+  });
   
-  if (settings.heroImage) {
-    activeCategories[0].img = settings.heroImage;
-  }
   if (settings.eventThemesNew) {
     activeCategories.forEach(cat => {
       if (cat.id === "birthday") {

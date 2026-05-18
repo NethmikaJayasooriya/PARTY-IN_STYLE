@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import { db } from "@/lib/firebase";
+import { db, storage } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const DEFAULT_SERVICES = [
   {
@@ -51,6 +52,7 @@ export default function TabServices() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState("");
+  const [uploadingIndex, setUploadingIndex] = useState(null);
 
   useEffect(() => {
     const loadServices = async () => {
@@ -87,6 +89,32 @@ export default function TabServices() {
       alert("Save failed: " + err.message);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleImageUpload = async (index, file) => {
+    if (!file) return;
+    setUploadingIndex(index);
+    try {
+      const path = `services/${Date.now()}_${file.name.split(".").pop()}`;
+      const storageRef = ref(storage, path);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      
+      const newServices = [...services];
+      newServices[index].img = url;
+      setServices(newServices);
+      
+      // Auto-save when image uploads
+      await setDoc(doc(db, "settings", "content"), { servicesList: newServices }, { merge: true });
+      
+      setSuccess("Service image uploaded successfully!");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
+      console.error("Image upload error:", err);
+      alert("Upload failed: " + err.message);
+    } finally {
+      setUploadingIndex(null);
     }
   };
 
@@ -209,6 +237,42 @@ export default function TabServices() {
                   className="w-full bg-surface-container-lowest border border-outline/30 rounded-lg px-4 py-3 text-on-surface focus:border-primary focus:outline-none transition-colors"
                   placeholder="e.g. Venue Selection, Catering, DJ"
                 />
+              </div>
+              <div className="lg:col-span-2">
+                <label className="block text-xs font-label-sm text-primary uppercase tracking-widest mb-2">Service Feature Image</label>
+                <div className="flex items-center gap-4">
+                  <div className="w-24 h-24 rounded-lg overflow-hidden border border-outline/20 bg-surface-container-lowest flex-shrink-0 relative">
+                    {service.img ? (
+                      <img src={service.img} alt={service.title} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-on-surface-variant/30">
+                        <span className="material-symbols-outlined text-2xl">image</span>
+                      </div>
+                    )}
+                    {uploadingIndex === index && (
+                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                        <span className="material-symbols-outlined text-white animate-spin">progress_activity</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id={`service-img-${index}`}
+                      className="hidden"
+                      onChange={(e) => handleImageUpload(index, e.target.files[0])}
+                    />
+                    <label
+                      htmlFor={`service-img-${index}`}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-surface-container border border-outline/30 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest cursor-pointer transition-colors"
+                    >
+                      <span className="material-symbols-outlined lowercase normal-case text-sm">upload</span>
+                      Upload Image
+                    </label>
+                    <p className="text-[10px] text-on-surface-variant/50 mt-2">Recommended: 800×1000px (Portrait). Optimized automatically.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

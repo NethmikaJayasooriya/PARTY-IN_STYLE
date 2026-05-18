@@ -5,9 +5,13 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const IMAGE_ZONES = [
-  { key: "heroImage", label: "Hero Section Background", desc: "Main homepage hero image (1920×1080 recommended)" },
+  { key: "heroImage_birthday", label: "Hero: Birthdays", desc: "Background for Birthdays (1920×1080)" },
+  { key: "heroImage_themed", label: "Hero: Themed Parties", desc: "Background for Themed Parties (1920×1080)" },
+  { key: "heroImage_wedding", label: "Hero: Weddings", desc: "Background for Weddings (1920×1080)" },
+  { key: "heroImage_corporate", label: "Hero: Corporate", desc: "Background for Corporate (1920×1080)" },
+  { key: "heroImage_festival", label: "Hero: Festivals", desc: "Background for Festivals (1920×1080)" },
   { key: "aboutImage", label: "About Section Feature", desc: "About page hero/feature image" },
-  { key: "servicesImage", label: "Services Section Card", desc: "Services page background image" },
+  { key: "servicesImage", label: "Services Section Background", desc: "Services page background image" },
 ];
 
 export default function TabContent() {
@@ -17,7 +21,12 @@ export default function TabContent() {
     facebook: "https://www.facebook.com/share/18SWJEeoe5/",
     instagram: "https://www.instagram.com/partyinstyle111",
     whatsapp: "61494334934",
-    heroImage: "",
+    heroImage_birthday: "",
+    heroImage_themed: "",
+    heroImage_wedding: "",
+    heroImage_corporate: "",
+    heroImage_festival: "",
+    heroImage: "", // legacy
     aboutImage: "",
     servicesImage: "",
   });
