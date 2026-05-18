@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { db, storage } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { optimizeImage } from "@/lib/imageOptimization";
 
 const DEFAULT_SERVICES = [
   {
@@ -92,10 +93,11 @@ export default function TabServices() {
     }
   };
 
-  const handleImageUpload = async (index, file) => {
-    if (!file) return;
+  const handleImageUpload = async (index, rawFile) => {
+    if (!rawFile) return;
     setUploadingIndex(index);
     try {
+      const file = await optimizeImage(rawFile);
       const path = `services/${Date.now()}_${file.name.split(".").pop()}`;
       const storageRef = ref(storage, path);
       await uploadBytes(storageRef, file);

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { db, storage } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { optimizeImage } from "@/lib/imageOptimization";
 
 const IMAGE_ZONES = [
   { key: "heroImage_birthday", label: "Hero: Birthdays", desc: "Background for Birthdays (1920×1080)" },
@@ -65,10 +66,11 @@ export default function TabContent() {
     }
   };
 
-  const handleImageUpload = async (key, file) => {
-    if (!file) return;
+  const handleImageUpload = async (key, rawFile) => {
+    if (!rawFile) return;
     setUploadingKey(key);
     try {
+      const file = await optimizeImage(rawFile);
       const path = `admin-uploads/${key}_${Date.now()}.${file.name.split(".").pop()}`;
       const storageRef = ref(storage, path);
       await uploadBytes(storageRef, file);

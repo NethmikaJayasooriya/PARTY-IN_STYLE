@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { db, storage } from "@/lib/firebase";
 import { collection, addDoc, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import { optimizeImage } from "@/lib/imageOptimization";
 
 const CATEGORIES = ["Weddings", "Corporate", "Private", "Proposals"];
 
@@ -26,8 +27,18 @@ export default function TabGallery() {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
+    
+    // Check video size limit immediately
+    for (let f of files) {
+      if (f.type.startsWith('video/') && f.size > 10 * 1024 * 1024) {
+        alert(`File ${f.name} is too large. Videos must be strictly under 10MB.`);
+        e.target.value = "";
+        return;
+      }
+    }
+
     setFile(files);
-    setPreview(files.length === 1 ? URL.createObjectURL(files[0]) : `${files.length} files selected`);
+    setPreview(files.length === 1 ? (files[0].type.startsWith('video/') ? "Video Selected" : URL.createObjectURL(files[0])) : `${files.length} files selected`);
   };
 
   const handleUpload = async (e) => {
@@ -36,7 +47,11 @@ export default function TabGallery() {
     setUploading(true);
 
     try {
-      const uploadPromises = file.map(async (f) => {
+      const uploadPromises = file.map(async (rawFile) => {
+        // Optimize images before upload, ignore videos (they pass through)
+        const f = rawFile.type.startsWith('image/') ? await optimizeImage(rawFile) : rawFile;
+
+        const isVideo = f.type.startsWith('video/');
         const fileName = `gallery/${Date.now()}_${Math.random().toString(36).substring(7)}_${f.name}`;
         const storageRef = ref(storage, fileName);
         await uploadBytes(storageRef, f);
@@ -47,7 +62,7 @@ export default function TabGallery() {
           storagePath: fileName,
           alt: form.alt,
           cat: form.cat,
-          type: "image",
+          type: isVideo ? "video" : "image",
           aspect: form.aspect || "",
           createdAt: serverTimestamp(),
         });
