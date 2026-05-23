@@ -278,7 +278,7 @@ I would like to inquire about an event booking.
       <div className="sparkle-overlay" />
 
       {/* ===== CONTENT ===== */}
-      <div className="relative z-20 w-full max-w-container-max mx-auto px-6 md:px-margin-x pt-20 pb-12 lg:pt-32 lg:pb-20">
+      <div className="relative z-20 w-full max-w-container-max mx-auto px-6 md:px-margin-x pt-28 pb-12 lg:pt-36 lg:pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[70vh]">
           {/* LEFT — Branding + Category Tabs */}
           <div className="flex flex-col gap-6">

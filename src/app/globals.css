@@ -49,6 +49,17 @@ body {
   background-color: var(--color-background);
   color: var(--color-on-surface);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+p {
+  line-height: 1.6;
 }
 
 /* Respect user's motion preferences */
@@ -759,7 +770,7 @@ textarea:focus-visible {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: rgba(200, 189, 165, 0.7);
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-outfit), "Outfit", sans-serif;
   font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
@@ -816,7 +827,7 @@ textarea:focus-visible {
   border: 0;
   border-bottom: 1px solid rgba(58, 59, 59, 0.6);
   color: #f0eeeb;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-outfit), "Outfit", sans-serif;
   font-size: 13px;
   padding: 10px 0;
   transition: border-color 0.3s ease;
@@ -846,7 +857,7 @@ input:-webkit-autofill:active {
   left: 0;
   top: 10px;
   color: rgba(200, 189, 165, 0.5);
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-outfit), "Outfit", sans-serif;
   font-size: 13px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
@@ -953,7 +964,7 @@ input:-webkit-autofill:active {
   border: 1px solid rgba(212, 175, 55, 0.3);
   background: rgba(212, 175, 55, 0.08);
   color: #d4af37;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-outfit), "Outfit", sans-serif;
   font-size: 10px;
   font-weight: 600;
   flex-shrink: 0;
