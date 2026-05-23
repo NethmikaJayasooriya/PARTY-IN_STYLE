@@ -278,8 +278,8 @@ I would like to inquire about an event booking.
       <div className="sparkle-overlay" />
 
       {/* ===== CONTENT ===== */}
-      <div className="relative z-20 w-full max-w-container-max mx-auto px-6 md:px-margin-x pt-28 pb-16 lg:pt-32 lg:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center min-h-[70vh]">
+      <div className="relative z-20 w-full max-w-container-max mx-auto px-6 md:px-margin-x pt-20 pb-12 lg:pt-32 lg:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[70vh]">
           {/* LEFT — Branding + Category Tabs */}
           <div className="flex flex-col gap-6">
             <div className="animate-hero-reveal">
@@ -294,7 +294,7 @@ I would like to inquire about an event booking.
             </div>
 
             {/* Step indicator: 1 → Select Event, 2 → Fill Form */}
-            <div className="animate-fade-up delay-200 flex flex-wrap items-center gap-x-4 gap-y-2 mt-2 drop-shadow-md">
+            <div className="animate-fade-up delay-200 hidden md:flex flex-wrap items-center gap-x-4 gap-y-2 mt-2 drop-shadow-md">
               <div className="flex items-center gap-2">
                 <span className="hero-step-number bg-primary/20 border border-primary/40 text-primary font-bold">1</span>
                 <span className="font-label-sm text-[11px] text-[#f0eeeb] uppercase tracking-wider font-semibold">Pick your event</span>
@@ -311,13 +311,13 @@ I would like to inquire about an event booking.
               </div>
             </div>
 
-            <div className="animate-fade-up delay-300 mt-2">
-              <div className="flex flex-wrap gap-2">
+            <div className="animate-fade-up delay-300 mt-2 w-full">
+              <div className="flex overflow-x-auto pb-2 -mx-2 px-2 md:mx-0 md:px-0 md:pb-0 md:flex-wrap md:overflow-visible gap-3 hide-scrollbar snap-x snap-mandatory">
                 {activeCategories.map((cat, i) => (
                   <button
                     key={cat.id}
                     onClick={() => handleCategoryClick(i)}
-                    className={`hero-category-pill ${i === activeIndex ? "active" : ""}`}
+                    className={`hero-category-pill whitespace-nowrap snap-start flex-shrink-0 ${i === activeIndex ? "active" : ""}`}
                     type="button"
                     aria-label={`Select ${cat.label} category`}
                     aria-pressed={i === activeIndex}

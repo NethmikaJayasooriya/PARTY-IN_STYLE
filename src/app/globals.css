@@ -29,12 +29,12 @@
   --spacing-container-max: 1320px;
 
   /* Typography */
-  --font-headline-lg: var(--font-noto), "Noto Serif", serif;
-  --font-body-lg: var(--font-inter), "Inter", sans-serif;
-  --font-headline-md: var(--font-noto), "Noto Serif", serif;
-  --font-display-xl: var(--font-noto), "Noto Serif", serif;
-  --font-body-md: var(--font-inter), "Inter", sans-serif;
-  --font-label-sm: var(--font-inter), "Inter", sans-serif;
+  --font-headline-lg: var(--font-playfair), "Playfair Display", serif;
+  --font-body-lg: var(--font-outfit), "Outfit", sans-serif;
+  --font-headline-md: var(--font-playfair), "Playfair Display", serif;
+  --font-display-xl: var(--font-playfair), "Playfair Display", serif;
+  --font-body-md: var(--font-outfit), "Outfit", sans-serif;
+  --font-label-sm: var(--font-outfit), "Outfit", sans-serif;
 }
 
 /* ============================================
@@ -137,6 +137,15 @@ body.admin-mode label, body.admin-mode [role="button"] {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(212, 175, 55, 0.5);
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* ============================================

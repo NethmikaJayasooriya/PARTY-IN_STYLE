@@ -5,23 +5,23 @@ import Preloader from "./components/Preloader";
 import ScrollProgress from "./components/ScrollProgress";
 import CursorTrail from "./components/CursorTrail";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
-import { Inter, Noto_Serif } from "next/font/google";
+import { Outfit, Playfair_Display } from "next/font/google";
 
-const inter = Inter({
+const outfit = Outfit({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   display: "swap",
   preload: true,
-  variable: "--font-inter",
+  variable: "--font-outfit",
 });
 
-const notoSerif = Noto_Serif({
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
-  weight: ["300", "400", "600"],
+  weight: ["400", "500", "600", "700", "800"],
   style: ["normal", "italic"],
   display: "swap",
   preload: true,
-  variable: "--font-noto",
+  variable: "--font-playfair",
 });
 
 export const metadata = {
@@ -177,7 +177,7 @@ export default async function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning={true} className={`min-h-full flex flex-col bg-background text-on-surface antialiased font-body-md selection:bg-primary/30 selection:text-primary-light ${inter.variable} ${notoSerif.variable}`}>
+      <body suppressHydrationWarning={true} className={`min-h-full flex flex-col bg-background text-on-surface antialiased font-body-md selection:bg-primary/30 selection:text-primary-light ${outfit.variable} ${playfairDisplay.variable}`}>
         {/* Ambient luxury glow orbs */}
         <div className="ambient-glow site-chrome" aria-hidden="true">
           <div className="ambient-orb ambient-orb-1" />
