@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { blogPosts } from "@/lib/blogData";
-import RevealSection from "../../../components/RevealSection";
-import JsonLd from "../../../components/JsonLd";
+import RevealSection from "../../components/RevealSection";
+import JsonLd from "../../components/JsonLd";
 
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({

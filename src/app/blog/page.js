@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import RevealSection from "../../components/RevealSection";
-import JsonLd from "../../components/JsonLd";
+import RevealSection from "../components/RevealSection";
+import JsonLd from "../components/JsonLd";
 import { blogPosts } from "@/lib/blogData";
 
 export const metadata = {
