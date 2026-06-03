@@ -5,6 +5,7 @@ import Preloader from "./components/Preloader";
 import ScrollProgress from "./components/ScrollProgress";
 import CursorTrail from "./components/CursorTrail";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Outfit, Playfair_Display } from "next/font/google";
 
 const outfit = Outfit({
@@ -243,6 +244,7 @@ export default async function RootLayout({ children }) {
         <main className="flex-1 pt-20">{children}</main>
         <Footer />
         <FloatingWhatsApp settings={settings} />
+        <GoogleAnalytics gaId="G-4181F1Z5W0" />
       </body>
     </html>
   );
