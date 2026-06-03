@@ -3,12 +3,14 @@ import { useEffect, useRef, useState } from "react";
 
 export default function AnimatedCounter({ value, label }) {
   const ref = useRef(null);
-  const [display, setDisplay] = useState("0");
+  const [display, setDisplay] = useState(value); // SSR + crawlers + no-JS see the REAL value
   const hasAnimated = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Honour reduced-motion: keep the real value, skip the animation entirely
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const obs = new IntersectionObserver(
       ([e]) => {
@@ -24,30 +26,25 @@ export default function AnimatedCounter({ value, label }) {
   }, [value]);
 
   function animateValue(target) {
-    const numericPart = parseInt(target.replace(/[^0-9]/g, ""), 10);
-    const suffix = target.replace(/[0-9]/g, "");
-    const duration = 2000;
+    const numericPart = parseInt(String(target).replace(/[^0-9]/g, ""), 10);
+    const suffix = String(target).replace(/[0-9]/g, "");
+    if (!numericPart) return; // nothing numeric to animate
     const steps = 60;
+    const duration = 2000;
     const increment = numericPart / steps;
-    let current = 0;
     let step = 0;
-
+    setDisplay("0" + suffix);
     const timer = setInterval(() => {
       step++;
-      current = Math.min(Math.round(increment * step), numericPart);
-      setDisplay(current + suffix);
+      setDisplay(Math.min(Math.round(increment * step), numericPart) + suffix);
       if (step >= steps) clearInterval(timer);
     }, duration / steps);
   }
 
   return (
     <div ref={ref} className="text-center md:text-left">
-      <div className="font-headline-lg text-4xl md:text-5xl gradient-text font-light">
-        {display}
-      </div>
-      <div className="font-label-sm text-[11px] text-on-surface-variant uppercase tracking-[0.2em] mt-1">
-        {label}
-      </div>
+      <div className="font-headline-lg text-4xl md:text-5xl gradient-text font-light">{display}</div>
+      <div className="font-label-sm text-[11px] text-on-surface-variant uppercase tracking-[0.2em] mt-1">{label}</div>
     </div>
   );
 }
