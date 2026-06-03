@@ -3,8 +3,8 @@ import Image from "next/image";
 import RevealSection from "./components/RevealSection";
 
 export const metadata = {
-  title: "Australia's Premier Event Planners",
-  description: "Melbourne's top luxury event planners. We specialise in bespoke weddings, high-end corporate galas, and immersive private parties.",
+  title: "Melbourne's Premier Luxury Event Planners",
+  description: "Melbourne's top luxury event planners with Australia-wide capability. We specialise in bespoke weddings, high-end corporate galas, and immersive private parties.",
 };
 import dynamic from "next/dynamic";
 import HeroForm from "./components/HeroForm";

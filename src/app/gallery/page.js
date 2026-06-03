@@ -2,6 +2,7 @@
 import { useState, useMemo, useEffect } from "react";
 import RevealSection from "../components/RevealSection";
 import Lightbox from "../components/Lightbox";
+import JsonLd from "../components/JsonLd";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 
@@ -47,8 +48,18 @@ export default function GalleryPage() {
     return c;
   }, [items]);
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://partyinstyle.com.au/" },
+      { "@type": "ListItem", position: 2, name: "Gallery", item: "https://partyinstyle.com.au/gallery" }
+    ]
+  };
+
   return (
     <>
+      <JsonLd schema={breadcrumbSchema} />
       {/* ── Hero Header ── */}
       <section className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x text-center">
         <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">Portfolio</p>

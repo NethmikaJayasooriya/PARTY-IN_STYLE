@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import RevealSection from "../components/RevealSection";
+import JsonLd from "../components/JsonLd";
 
 export const metadata = {
   title: "About",
@@ -19,8 +20,19 @@ import { getSettings } from "@/lib/getSettings";
 export default async function AboutPage() {
   const settings = (await getSettings()) || {};
   const featureImage = settings.aboutImage || "/images/styling.webp";
+  
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://partyinstyle.com.au/" },
+      { "@type": "ListItem", position: 2, name: "About", item: "https://partyinstyle.com.au/about" }
+    ]
+  };
+
   return (
     <>
+      <JsonLd schema={breadcrumbSchema} />
       <section className="relative py-stack-md overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image src={featureImage} alt="" fill sizes="100vw" className="object-cover opacity-15" priority />

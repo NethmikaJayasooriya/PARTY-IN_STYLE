@@ -27,11 +27,11 @@ const playfairDisplay = Playfair_Display({
 export const metadata = {
   metadataBase: new URL("https://partyinstyle.com.au"),
   title: {
-    default: "Party in Style | Australia's Premier Event Planners",
+    default: "Party in Style | Melbourne's Premier Luxury Event Planners",
     template: "%s | Party in Style",
   },
   description:
-    "Luxury event planning across Australia. Weddings, corporate galas, private parties — curated with elegance and executed with precision.",
+    "Melbourne's premier luxury event planners with Australia-wide capability. Weddings, corporate galas, private parties — curated with elegance.",
   keywords: [
     "Luxury event planner Melbourne",
     "milestone birthday party planner",
@@ -46,8 +46,8 @@ export const metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Party in Style | Australia's Premier Event Planners",
-    description: "Curating exclusive, high-octane experiences for a discerning clientele.",
+    title: "Party in Style | Melbourne's Premier Luxury Event Planners",
+    description: "Curating exclusive, high-octane experiences for a discerning clientele in Melbourne and across Australia.",
     url: "https://partyinstyle.com.au",
     siteName: "Party in Style",
     images: [
@@ -63,8 +63,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Party in Style | Australia's Premier Event Planners",
-    description: "Curating exclusive, high-octane experiences for a discerning clientele.",
+    title: "Party in Style | Melbourne's Premier Luxury Event Planners",
+    description: "Curating exclusive, high-octane experiences for a discerning clientele in Melbourne and across Australia.",
     images: ["/images/hero-wedding-user.webp"],
   },
   robots: {
@@ -105,12 +105,33 @@ export default async function RootLayout({ children }) {
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Milestone Birthdays" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exclusive Private Events" } }
     ],
+    "@id": "https://partyinstyle.com.au/#business",
+    email: "concierge@partyinstyle.com.au",
     address: {
       "@type": "PostalAddress",
+      streetAddress: "Cranbourne East",
       addressLocality: "Melbourne",
       addressRegion: "VIC",
+      postalCode: "3977",
       addressCountry: "AU",
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: "TODO", // TODO: Update with exact latitude
+      longitude: "TODO", // TODO: Update with exact longitude
+    },
+    areaServed: [
+      { "@type": "City", name: "Melbourne" },
+      { "@type": "State", name: "Victoria" },
+    ],
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        opens: "09:00",
+        closes: "18:00",
+      }
+    ],
     sameAs: [
       "https://www.facebook.com/share/18SWJEeoe5/",
       "https://www.instagram.com/partyinstyle111",
@@ -189,6 +210,38 @@ export default async function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(eventBusinessSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "@id": "https://partyinstyle.com.au/#organization",
+              name: "Party in Style",
+              url: "https://partyinstyle.com.au",
+              logo: "https://partyinstyle.com.au/logo.webp",
+              sameAs: [
+                "https://www.facebook.com/share/18SWJEeoe5/",
+                "https://www.instagram.com/partyinstyle111",
+              ]
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": "https://partyinstyle.com.au/#website",
+              url: "https://partyinstyle.com.au",
+              name: "Party in Style",
+              publisher: {
+                "@id": "https://partyinstyle.com.au/#organization"
+              }
+            })
+          }}
         />
         <script
           type="application/ld+json"

@@ -1,5 +1,6 @@
 import RevealSection from "../components/RevealSection";
 import ClientContactForm from "./ClientContactForm";
+import JsonLd from "../components/JsonLd";
 
 export const metadata = {
   title: "Contact",
@@ -7,8 +8,18 @@ export const metadata = {
 };
 
 export default function ContactPage() {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://partyinstyle.com.au/" },
+      { "@type": "ListItem", position: 2, name: "Contact", item: "https://partyinstyle.com.au/contact" }
+    ]
+  };
+
   return (
     <>
+      <JsonLd schema={breadcrumbSchema} />
       {/* Hero */}
       <section className="py-stack-md max-w-container-max mx-auto px-6 md:px-margin-x text-center">
         <p className="font-label-sm text-xs text-primary uppercase tracking-[0.3em] mb-3">Get In Touch</p>

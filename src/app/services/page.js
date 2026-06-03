@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import RevealSection from "../components/RevealSection";
+import JsonLd from "../components/JsonLd";
 
 export const metadata = {
   title: "Services",
@@ -54,8 +55,30 @@ export default async function ServicesPage() {
 
   const activeServices = (settings.servicesList && settings.servicesList.length > 0) ? settings.servicesList : SERVICES;
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://partyinstyle.com.au/" },
+      { "@type": "ListItem", position: 2, name: "Services", item: "https://partyinstyle.com.au/services" }
+    ]
+  };
+
+  const serviceSchemas = SERVICES.map((s) => ({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: s.title,
+    description: s.desc,
+    provider: { "@id": "https://partyinstyle.com.au/#business" },
+    areaServed: { "@type": "City", name: "Melbourne" }
+  }));
+
   return (
     <>
+      <JsonLd schema={breadcrumbSchema} />
+      {serviceSchemas.map((schema, i) => (
+        <JsonLd key={i} schema={schema} />
+      ))}
       <section className="relative py-stack-md overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image src={bgImage} alt="" fill sizes="100vw" className="object-cover opacity-15" priority />
