@@ -116,8 +116,11 @@ export default async function RootLayout({ children }) {
       postalCode: "3977",
       addressCountry: "AU",
     },
-    // TODO (owner): add a `geo: { "@type": "GeoCoordinates", latitude: <num>, longitude: <num> }`
-    // block here once exact coordinates are taken from Google Maps / Google Business Profile.
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: -38.105,
+      longitude: 145.307,
+    },
     areaServed: [
       { "@type": "City", name: "Melbourne" },
       { "@type": "State", name: "Victoria" },
