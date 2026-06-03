@@ -1,4 +1,5 @@
 import RevealSection from "../components/RevealSection";
+import ClientContactForm from "./ClientContactForm";
 
 export const metadata = {
   title: "Contact",
@@ -90,63 +91,7 @@ export default function ContactPage() {
               <div className="sparkle-overlay opacity-20" />
               <h2 className="font-headline-md text-2xl text-on-surface mb-2 relative z-10">Send an Enquiry</h2>
               <p className="font-body-md text-sm text-on-surface-variant mb-8 relative z-10">We&#39;ll get back to you within 24 hours.</p>
-              <form className="flex flex-col gap-7 relative z-10">
-                {[
-                  { id: "name", label: "Full Name", type: "text" },
-                  { id: "email", label: "Email Address", type: "email" },
-                  { id: "phone", label: "Phone Number", type: "tel" },
-                  { id: "location", label: "Suburb (Melbourne Only)", type: "text" },
-                  { id: "eventType", label: "Event Type", type: "text" },
-                ].map((f) => (
-                  <div key={f.id} className="relative group">
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/40 focus:border-primary focus:outline-none text-on-surface font-body-md text-sm py-3 px-0 transition-colors peer placeholder-transparent"
-                      id={f.id}
-                      placeholder={f.label}
-                      required
-                      type={f.type}
-                    />
-                    <label
-                      className="absolute left-0 top-3 text-on-surface-variant/60 font-body-md text-sm transition-all peer-focus:-top-4 peer-focus:text-[11px] peer-focus:text-primary peer-focus:uppercase peer-focus:tracking-widest peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-[11px] peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-widest pointer-events-none"
-                      htmlFor={f.id}
-                    >
-                      {f.label}
-                    </label>
-                  </div>
-                ))}
-                <div className="relative group">
-                  <input
-                    className="w-full bg-transparent border-0 border-b border-outline/40 focus:border-primary focus:outline-none text-on-surface font-body-md text-sm py-3 px-0 transition-colors [color-scheme:dark]"
-                    id="date"
-                    required
-                    type="date"
-                  />
-                  <label className="absolute left-0 -top-4 text-[11px] text-on-surface-variant/60 uppercase tracking-widest pointer-events-none" htmlFor="date">
-                    Estimated Date
-                  </label>
-                </div>
-                <div className="relative group">
-                  <textarea
-                    className="w-full bg-transparent border-0 border-b border-outline/40 focus:border-primary focus:outline-none text-on-surface font-body-md text-sm py-3 px-0 transition-colors resize-none peer placeholder-transparent"
-                    id="message"
-                    placeholder="Tell us about your vision"
-                    rows="3"
-                  />
-                  <label
-                    className="absolute left-0 top-3 text-on-surface-variant/60 font-body-md text-sm transition-all peer-focus:-top-4 peer-focus:text-[11px] peer-focus:text-primary peer-focus:uppercase peer-focus:tracking-widest peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-[11px] peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-widest pointer-events-none"
-                    htmlFor="message"
-                  >
-                    Tell Us About Your Vision
-                  </label>
-                </div>
-                <button
-                  className="mt-2 bg-primary text-on-primary-container font-label-sm text-xs font-bold px-8 py-4 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-colors flex justify-center items-center gap-3 w-full"
-                  type="button"
-                >
-                  <span className="material-symbols-outlined text-sm">send</span>
-                  Send Enquiry
-                </button>
-              </form>
+              <ClientContactForm />
             </div>
           </RevealSection>
         </div>
