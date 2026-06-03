@@ -6,6 +6,22 @@ export default function AnimatedCounter({ value, label }) {
   const [display, setDisplay] = useState(value); // SSR + crawlers + no-JS see the REAL value
   const hasAnimated = useRef(false);
 
+  function animateValue(target) {
+    const numericPart = parseInt(String(target).replace(/[^0-9]/g, ""), 10);
+    const suffix = String(target).replace(/[0-9]/g, "");
+    if (!numericPart) return; // nothing numeric to animate
+    const steps = 60;
+    const duration = 2000;
+    const increment = numericPart / steps;
+    let step = 0;
+    setDisplay("0" + suffix);
+    const timer = setInterval(() => {
+      step++;
+      setDisplay(Math.min(Math.round(increment * step), numericPart) + suffix);
+      if (step >= steps) clearInterval(timer);
+    }, duration / steps);
+  }
+
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -24,22 +40,6 @@ export default function AnimatedCounter({ value, label }) {
     obs.observe(el);
     return () => obs.disconnect();
   }, [value]);
-
-  function animateValue(target) {
-    const numericPart = parseInt(String(target).replace(/[^0-9]/g, ""), 10);
-    const suffix = String(target).replace(/[0-9]/g, "");
-    if (!numericPart) return; // nothing numeric to animate
-    const steps = 60;
-    const duration = 2000;
-    const increment = numericPart / steps;
-    let step = 0;
-    setDisplay("0" + suffix);
-    const timer = setInterval(() => {
-      step++;
-      setDisplay(Math.min(Math.round(increment * step), numericPart) + suffix);
-      if (step >= steps) clearInterval(timer);
-    }, duration / steps);
-  }
 
   return (
     <div ref={ref} className="text-center md:text-left">

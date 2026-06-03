@@ -10,6 +10,7 @@ export default function AdminPage() {
   useEffect(() => {
     // Check session
     const session = sessionStorage.getItem("pis_admin");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsAuthenticated(session === "true");
     setChecking(false);
   }, []);

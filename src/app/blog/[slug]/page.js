@@ -118,7 +118,7 @@ export default async function BlogPostPage({ params }) {
 
         <RevealSection delay={300}>
           <div 
-            className="prose prose-invert prose-lg max-w-none prose-p:font-body-md prose-p:text-on-surface-variant prose-p:font-light prose-p:leading-relaxed prose-headings:font-headline-md prose-headings:text-on-surface prose-headings:font-normal prose-a:text-primary prose-a:no-underline hover:prose-a:underline"
+            className="blog-content"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
         </RevealSection>

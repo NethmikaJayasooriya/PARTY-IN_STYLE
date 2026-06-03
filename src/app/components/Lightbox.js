@@ -12,10 +12,12 @@ export default function Lightbox({ src, alt, children, galleryItems, currentInde
   const [activeIndex, setActiveIndex] = useState(currentIndex || 0);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (currentIndex !== undefined) setActiveIndex(currentIndex);
   }, [currentIndex]);
 

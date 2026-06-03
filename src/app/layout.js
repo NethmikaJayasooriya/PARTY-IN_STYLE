@@ -115,11 +115,8 @@ export default async function RootLayout({ children }) {
       postalCode: "3977",
       addressCountry: "AU",
     },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: "TODO", // TODO: Update with exact latitude
-      longitude: "TODO", // TODO: Update with exact longitude
-    },
+    // TODO (owner): add a `geo: { "@type": "GeoCoordinates", latitude: <num>, longitude: <num> }`
+    // block here once exact coordinates are taken from Google Maps / Google Business Profile.
     areaServed: [
       { "@type": "City", name: "Melbourne" },
       { "@type": "State", name: "Victoria" },
@@ -254,11 +251,12 @@ export default async function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,arrow_forward,business_center,cake,call,celebration,check_circle,chevron_left,chevron_right,close,cloud_upload,delete,diamond,eco,error,event_available,expand_more,favorite,forum,groups,handshake,image,inbox,list_alt,location_on,logout,mail,menu,nightlife,palette,photo_library,play_arrow,progress_activity,save,schedule,sell,send,settings,shield,star,theater_comedy,tune,upload,verified,workspace_premium,zoom_in&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,arrow_back,arrow_forward,business_center,cake,call,celebration,check_circle,chevron_left,chevron_right,close,cloud_upload,delete,diamond,eco,error,event_available,expand_more,favorite,forum,groups,handshake,image,inbox,list_alt,location_on,logout,mail,menu,nightlife,palette,photo_library,play_arrow,progress_activity,save,schedule,sell,send,settings,shield,star,theater_comedy,tune,upload,verified,workspace_premium,zoom_in&display=swap"
           rel="stylesheet"
         />
       </head>
       <body suppressHydrationWarning={true} className={`min-h-full flex flex-col bg-background text-on-surface antialiased font-body-md selection:bg-primary/30 selection:text-primary-light ${outfit.variable} ${playfairDisplay.variable}`}>
+        <script dangerouslySetInnerHTML={{__html: "document.documentElement.classList.add('js')"}} />
         {/* Ambient luxury glow orbs */}
         <div className="ambient-glow site-chrome" aria-hidden="true">
           <div className="ambient-orb ambient-orb-1" />

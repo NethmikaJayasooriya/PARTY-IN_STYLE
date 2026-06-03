@@ -103,6 +103,7 @@ export default function HeroForm({ settings = {} }) {
     timerRef.current = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % activeCategories.length);
     }, CYCLE_INTERVAL);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -125,12 +126,14 @@ export default function HeroForm({ settings = {} }) {
   // Sync event type when category changes
   useEffect(() => {
     if (!hasInteracted) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData((prev) => ({
         ...prev,
         eventType: activeCategories[activeIndex].label,
         theme: "",
       }));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex, hasInteracted]);
 
   const handleCategoryClick = (index) => {

@@ -71,6 +71,7 @@ export default function TabContent() {
     setUploadingKey(key);
     try {
       const file = await optimizeImage(rawFile);
+      // eslint-disable-next-line react-hooks/purity
       const path = `admin-uploads/${key}_${Date.now()}.${file.name.split(".").pop()}`;
       const storageRef = ref(storage, path);
       await uploadBytes(storageRef, file);

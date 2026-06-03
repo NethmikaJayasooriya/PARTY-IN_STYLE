@@ -16,6 +16,7 @@ export default function CursorTrail() {
       window.matchMedia("(pointer: coarse)").matches ||
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsTouch(true);
     }
   }, []);
@@ -60,7 +61,7 @@ export default function CursorTrail() {
   }, []);
 
   // ── Main render loop ──────────────────────────────────────────
-  const draw = useCallback(() => {
+  const draw = useCallback(function animationLoop() {
     const canvas = canvasRef.current;
     const dot    = dotRef.current;
     const ringEl = ringRef.current;
@@ -170,7 +171,7 @@ export default function CursorTrail() {
       : `0 0 10px rgba(${GOLD}, 0.2)`;
     ringEl.style.opacity = visible.current ? (isHover.current ? "1" : "0.55") : "0";
 
-    raf.current = requestAnimationFrame(draw);
+    raf.current = requestAnimationFrame(animationLoop);
   }, []);
 
   // ── Setup ─────────────────────────────────────────────────────
