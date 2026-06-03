@@ -5,6 +5,11 @@ export default function Preloader() {
   const [phase, setPhase] = useState("visible"); // visible -> revealing -> done
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setPhase("done");
+      return;
+    }
+
     // Start reveal immediately — zero delay to minimize LCP impact
     requestAnimationFrame(() => {
       setPhase("revealing");

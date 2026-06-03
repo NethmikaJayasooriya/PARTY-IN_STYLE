@@ -12,7 +12,10 @@ export default function CursorTrail() {
   const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) {
+    if (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       setIsTouch(true);
     }
   }, []);
