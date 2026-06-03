@@ -133,33 +133,6 @@ export default async function RootLayout({ children }) {
       "https://www.facebook.com/share/18SWJEeoe5/",
       "https://www.instagram.com/partyinstyle111",
     ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "5.0",
-      reviewCount: "3",
-      bestRating: "5",
-      worstRating: "1",
-    },
-    review: [
-      {
-        "@type": "Review",
-        author: { "@type": "Person", name: "Sarah & James" },
-        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-        reviewBody: "Absolutely beyond our wildest dreams. Every detail was perfect — from the floral installations to the surprise fireworks. Truly once in a lifetime.",
-      },
-      {
-        "@type": "Review",
-        author: { "@type": "Person", name: "Michael Torres" },
-        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-        reviewBody: "Our annual gala was the talk of the industry. The team's attention to detail and creative vision transformed our event into something extraordinary.",
-      },
-      {
-        "@type": "Review",
-        author: { "@type": "Person", name: "Priya Sharma" },
-        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-        reviewBody: "They turned my birthday into a magazine-worthy celebration. The venue styling was breathtaking and the coordination was seamless.",
-      },
-    ],
   };
 
   const faqSchema = {
