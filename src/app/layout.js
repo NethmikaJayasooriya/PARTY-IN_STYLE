@@ -90,7 +90,7 @@ export const metadata = {
   },
 };
 
-import SmoothScroll from "./components/SmoothScroll";
+
 import { getSettings } from "@/lib/getSettings";
 
 export default async function RootLayout({ children }) {
@@ -254,7 +254,7 @@ export default async function RootLayout({ children }) {
           <div className="ambient-orb ambient-orb-2" />
           <div className="ambient-orb ambient-orb-3" />
         </div>
-        <SmoothScroll />
+
         <Preloader />
         <div className="site-chrome"><CursorTrail /></div>
         <ScrollProgress />
