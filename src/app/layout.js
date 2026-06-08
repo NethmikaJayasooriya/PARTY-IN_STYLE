@@ -46,6 +46,11 @@ export const metadata = {
   alternates: {
     canonical: "/",
   },
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
   openGraph: {
     title: "Party in Style | Melbourne's Premier Luxury Event Planners",
     description: "Curating exclusive, high-octane experiences for a discerning clientele in Melbourne and across Australia.",
@@ -53,10 +58,10 @@ export const metadata = {
     siteName: "Party in Style",
     images: [
       {
-        url: "/images/hero-wedding-user.webp",
+        url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "Luxury wedding banquet table setup with gold cutlery in Melbourne",
+        alt: "Party in Style Logo",
       },
     ],
     locale: "en_AU",
@@ -66,7 +71,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Party in Style | Melbourne's Premier Luxury Event Planners",
     description: "Curating exclusive, high-octane experiences for a discerning clientele in Melbourne and across Australia.",
-    images: ["/images/hero-wedding-user.webp"],
+    images: ["/logo.png"],
   },
   robots: {
     index: true,
@@ -85,6 +90,7 @@ export const metadata = {
   },
 };
 
+import SmoothScroll from "./components/SmoothScroll";
 import { getSettings } from "@/lib/getSettings";
 
 export default async function RootLayout({ children }) {
@@ -182,10 +188,14 @@ export default async function RootLayout({ children }) {
     <html lang="en-AU" className="h-full" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script
+          id="schema-event-business"
+          suppressHydrationWarning
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(eventBusinessSchema) }}
         />
         <script
+          id="schema-organization"
+          suppressHydrationWarning
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -203,6 +213,8 @@ export default async function RootLayout({ children }) {
           }}
         />
         <script
+          id="schema-website"
+          suppressHydrationWarning
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -218,6 +230,8 @@ export default async function RootLayout({ children }) {
           }}
         />
         <script
+          id="schema-faq"
+          suppressHydrationWarning
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
@@ -240,6 +254,7 @@ export default async function RootLayout({ children }) {
           <div className="ambient-orb ambient-orb-2" />
           <div className="ambient-orb ambient-orb-3" />
         </div>
+        <SmoothScroll />
         <Preloader />
         <div className="site-chrome"><CursorTrail /></div>
         <ScrollProgress />
