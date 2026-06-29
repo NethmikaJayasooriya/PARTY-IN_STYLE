@@ -184,6 +184,10 @@ export default function CursorTrail() {
     const ringEl = ringRef.current;
     if (!canvas || !dot || !ringEl) return;
 
+    // Take over the native cursor only now (scoped via this class so
+    // reduced-motion / touch users keep their normal cursor).
+    document.documentElement.classList.add("cursor-custom");
+
     const resize = () => {
       canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -202,7 +206,7 @@ export default function CursorTrail() {
     const onLeave  = () => { visible.current = false; dot.style.opacity = "0"; };
     const onEnter  = () => { visible.current = true;  dot.style.opacity = "1"; };
 
-    const HOVER_SEL = "a, button, [role='button'], input, textarea, select, label, .hero-category-pill, .magnetic-hover";
+    const HOVER_SEL = "a, button, [role='button'], input, textarea, select, label, .hero-category-pill, .magnetic-hover, .jewel-glow-hover";
     const onOver = (e) => { if (e.target.closest(HOVER_SEL)) isHover.current = true; };
     const onOut  = (e) => { if (e.target.closest(HOVER_SEL)) isHover.current = false; };
     const onClick = (e) => burst(e.clientX, e.clientY);
@@ -217,6 +221,7 @@ export default function CursorTrail() {
     raf.current = requestAnimationFrame(draw);
 
     return () => {
+      document.documentElement.classList.remove("cursor-custom");
       document.removeEventListener("mousemove",  onMove);
       document.removeEventListener("click",      onClick);
       document.removeEventListener("mouseover",  onOver);
@@ -240,7 +245,7 @@ export default function CursorTrail() {
           position: "fixed", inset: 0,
           pointerEvents: "none",
           zIndex: 9999999,
-          mixBlendMode: "screen",
+          mixBlendMode: "normal",
         }}
       />
 

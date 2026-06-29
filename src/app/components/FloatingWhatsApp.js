@@ -18,7 +18,7 @@ export default function FloatingContact({ settings = {} }) {
 
   // Use dynamic settings with fallbacks
   const phone = settings.phone || "+61 494 334 934";
-  const email = settings.email || "concierge@partyinstyle.com.au";
+  const email = settings.email || "Kosatheman@gmail.com";
   const whatsappNum = settings.whatsapp || "61494334934";
 
   // Use a reliable WhatsApp URL format (wa.me)

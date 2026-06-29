@@ -1,40 +1,52 @@
 /**
  * Gallery Data Configuration
  * ===========================
- * To add new media, simply add a new object to the array below.
- * 
+ * Party in Style mainly does themed KIDS BIRTHDAY parties, plus weddings &
+ * corporate. Categories below mirror the Home / Services line-up.
+ *
  * Fields:
- *   src     — Path to the image or video (place files in /public/gallery/)
- *   alt     — Description for accessibility & SEO
- *   cat     — Category name (must match one in CATEGORIES below)
- *   type    — "image" or "video"
- *   poster  — (videos only) Thumbnail image path
- *   aspect  — (optional) "tall", "wide", or leave empty for standard
- * 
- * Categories:
- *   Update the CATEGORIES array if you add new category names.
+ *   src    — Path to the image (files live in /public/images/)
+ *   alt    — Description for accessibility & SEO
+ *   cat    — Category (must match one in CATEGORIES below)
+ *   type   — "image" or "video"
+ *   aspect — (optional) "tall", "wide", or leave empty for standard
  */
 
-export const CATEGORIES = ["All", "Weddings", "Corporate", "Private", "Proposals"];
+export const CATEGORIES = [
+  "All",
+  "Superheroes",
+  "Princess & Barbie",
+  "1st Birthdays",
+  "Themed",
+  "Weddings",
+  "Corporate",
+];
 
 export const GALLERY_ITEMS = [
+  // ── Superheroes ──
+  { src: "/images/hero-superhero-ls.webp", alt: "Spider-Man & Batman superhero birthday party styling in Melbourne", cat: "Superheroes", type: "image", aspect: "wide" },
+  { src: "/images/hero-superhero.webp", alt: "Superhero themed balloon arch and backdrop for a kids birthday", cat: "Superheroes", type: "image" },
+
+  // ── Princess & Barbie ──
+  { src: "/images/hero-barbie-ls.webp", alt: "Barbie pink princess birthday party setup with balloons", cat: "Princess & Barbie", type: "image", aspect: "wide" },
+  { src: "/images/hero-barbie.webp", alt: "Fairytale princess dessert table and pink balloon styling", cat: "Princess & Barbie", type: "image" },
+
+  // ── 1st Birthdays ──
+  { src: "/images/hero-1stbday-ls.webp", alt: "First birthday party styling with balloon garland and cake table", cat: "1st Birthdays", type: "image", aspect: "wide" },
+  { src: "/images/hero-kids-1.webp", alt: "Kids birthday party celebration styled in Melbourne", cat: "1st Birthdays", type: "image", aspect: "tall" },
+  { src: "/images/hero-1stbday.webp", alt: "Milestone first birthday cake table and pastel decor", cat: "1st Birthdays", type: "image" },
+  { src: "/images/hero-kids-2.webp", alt: "Children's themed party styling, games and decorations", cat: "1st Birthdays", type: "image", aspect: "tall" },
+
+  // ── Themed / Custom ──
+  { src: "/images/hero-themed-ls.webp", alt: "Custom themed party backdrop and prop styling", cat: "Themed", type: "image", aspect: "wide" },
+  { src: "/images/hero-kids-3.webp", alt: "Jungle and adventure themed kids party setup", cat: "Themed", type: "image", aspect: "wide" },
+  { src: "/images/hero-themed.webp", alt: "Bespoke themed birthday decoration and balloon installation", cat: "Themed", type: "image" },
+
   // ── Weddings ──
-  { src: "/images/wedding.webp",   alt: "Bespoke luxury wedding ceremony setup in Victoria",        cat: "Weddings",   type: "image", aspect: "tall" },
-  { src: "/images/venue.webp",     alt: "Intimate elopement and engagement venue styling",           cat: "Weddings",   type: "image" },
-  { src: "/images/table.webp",     alt: "Luxury wedding banquet table with gold cutlery",            cat: "Weddings",   type: "image", aspect: "wide" },
+  { src: "/images/hero-wedding-ls.webp", alt: "Elegant luxury wedding reception styling in Melbourne", cat: "Weddings", type: "image", aspect: "wide" },
+  { src: "/images/hero-wedding.webp", alt: "Floral wedding ceremony arch and luxury table styling", cat: "Weddings", type: "image" },
 
   // ── Corporate ──
-  { src: "/images/hero.webp",      alt: "Premium corporate gala and function in Melbourne",          cat: "Corporate",  type: "image" },
-  { src: "/images/corporate.webp", alt: "EOFY celebration and high-end office party decor",          cat: "Corporate",  type: "image", aspect: "tall" },
-  { src: "/images/cocktail.webp",  alt: "Corporate cocktail evening and executive dinner styling",   cat: "Corporate",  type: "image" },
-
-  // ── Private ──
-  { src: "/images/party.webp",     alt: "Lux Hens Night and exclusive private party styling",        cat: "Private",    type: "image", aspect: "wide" },
-  { src: "/images/candles.webp",   alt: "Elegant table styling for a milestone birthday",            cat: "Private",    type: "image" },
-  { src: "/images/sparklers.webp", alt: "Bespoke celebration with sparklers and festive lighting",    cat: "Private",    type: "image", aspect: "tall" },
-
-  // ── Proposals ──
-  { src: "/images/proposal.webp",  alt: "Romantic private proposal setup with candles and roses",    cat: "Proposals",  type: "image", aspect: "tall" },
-  { src: "/images/atmosphere.webp",alt: "Intimate gathering and romantic evening atmosphere",        cat: "Proposals",  type: "image" },
-  { src: "/images/styling.webp",   alt: "Beautiful floral styling for intimate events",              cat: "Proposals",  type: "image", aspect: "wide" },
+  { src: "/images/hero-corporate-ls.webp", alt: "Premium corporate gala and EOFY function styling", cat: "Corporate", type: "image", aspect: "wide" },
+  { src: "/images/hero-corporate.webp", alt: "Executive corporate event styling and décor in Melbourne", cat: "Corporate", type: "image" },
 ];

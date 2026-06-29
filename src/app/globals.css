@@ -3,21 +3,40 @@
 @import "tailwindcss";
 
 @theme {
-  /* Colors — Luxury Dark Gold Palette */
-  --color-background: #0c0d0e;
-  --color-on-surface: #f0eeeb;
-  --color-primary: #d4af37;
-  --color-primary-light: #f2ca50;
-  --color-primary-container: #d4af37;
-  --color-on-primary-container: #1a1400;
-  --color-surface-variant: #1e2020;
-  --color-on-surface-variant: #c8bda5;
-  --color-surface-container-low: #151717;
-  --color-surface: #0c0d0e;
-  --color-surface-container: #1a1c1c;
-  --color-surface-container-lowest: #080909;
-  --color-surface-bright: #252727;
-  --color-outline: #3a3b3b;
+  /* Colors — "Warm Champagne Cream" : Rich, Warm, Colourful & Professional */
+  /* Base: warm champagne cream — NOT plain white */
+  --color-background: #FAF5EB;            /* Warm champagne cream */
+  --color-on-surface: #1C1710;            /* Rich dark espresso */
+  --color-on-surface-variant: #5C4E3C;    /* Warm brown for secondary text */
+
+  /* Primary: vivid champagne gold */
+  --color-primary: #C9A24B;               /* Classic vivid gold */
+  --color-primary-light: #E0BE5A;
+  --color-primary-container: #F0E4C4;
+  --color-on-primary-container: #1C1710;  /* Dark text on gold for contrast */
+
+  /* Champagne gradient endpoints */
+  --color-champagne: #EDD9A3;
+  --color-gold-deep: #8B6914;             /* Deep gold for text highlights */
+
+  /* Jewel / theme accents — bright and cheerful */
+  --color-emerald: #059669;        
+  --color-emerald-light: #34D399;
+  --color-blush: #E11D48;          
+  --color-blush-light: #FB7185;
+  --color-amethyst: #9333EA;       
+  --color-amethyst-light: #C084FC;
+  --color-heroblue: #2563EB;       
+  --color-heropink: #DB2777;       
+
+  /* Surfaces — warm frosted glassmorphic tints */
+  --color-surface: rgba(255, 252, 242, 0.92);
+  --color-surface-container-lowest: #FFFCF5;
+  --color-surface-container-low: rgba(250, 243, 225, 0.8);
+  --color-surface-container: rgba(244, 233, 207, 0.85);
+  --color-surface-variant: rgba(237, 222, 190, 0.9);
+  --color-surface-bright: #FFFCF5;
+  --color-outline: rgba(201, 162, 75, 0.3);
 
   /* Spacing */
   --spacing-stack-sm: 40px;
@@ -28,13 +47,14 @@
   --spacing-unit: 8px;
   --spacing-container-max: 1320px;
 
-  /* Typography */
-  --font-headline-lg: var(--font-playfair), "Playfair Display", serif;
-  --font-body-lg: var(--font-outfit), "Outfit", sans-serif;
-  --font-headline-md: var(--font-playfair), "Playfair Display", serif;
-  --font-display-xl: var(--font-playfair), "Playfair Display", serif;
-  --font-body-md: var(--font-outfit), "Outfit", sans-serif;
-  --font-label-sm: var(--font-outfit), "Outfit", sans-serif;
+  /* Typography — Fraunces (display) + Manrope (body) + Italianno (script) */
+  --font-display-xl: var(--font-fraunces), "Fraunces", "Playfair Display", serif;
+  --font-headline-lg: var(--font-fraunces), "Fraunces", "Playfair Display", serif;
+  --font-headline-md: var(--font-fraunces), "Fraunces", "Playfair Display", serif;
+  --font-body-lg: var(--font-manrope), "Manrope", "Outfit", sans-serif;
+  --font-body-md: var(--font-manrope), "Manrope", "Outfit", sans-serif;
+  --font-label-sm: var(--font-manrope), "Manrope", "Outfit", sans-serif;
+  --font-script: var(--font-script), "Italianno", cursive;
 }
 
 /* ============================================
@@ -46,7 +66,13 @@ html {
 }
 
 body {
-  background-color: var(--color-background);
+  background-color: #FAF5EB;
+  background-image:
+    radial-gradient(1200px 700px at 80% -8%, rgba(201, 162, 75, 0.18), transparent 55%),
+    radial-gradient(1000px 600px at -5% 15%, rgba(225, 29, 72, 0.06), transparent 50%),
+    radial-gradient(900px 550px at 50% 110%, rgba(147, 51, 234, 0.05), transparent 50%),
+    radial-gradient(800px 500px at 15% 55%, rgba(5, 150, 105, 0.04), transparent 50%),
+    linear-gradient(180deg, #FAF5EB 0%, #F3EADB 50%, #EDE0CC 100%);
   color: var(--color-on-surface);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -71,31 +97,38 @@ p {
   }
 }
 
-/* Hide native cursor on desktop — custom cursor takes over */
+/* Hide native cursor on desktop ONLY when the custom moon cursor is active.
+   The component adds html.cursor-custom; reduced-motion / touch keep the native cursor. */
 @media (pointer: fine) {
-  *, *::before, *::after {
+  html.cursor-custom *,
+  html.cursor-custom *::before,
+  html.cursor-custom *::after {
     cursor: none !important;
   }
   /* Restore text cursor for input fields */
-  input, textarea, select, [contenteditable="true"] {
+  html.cursor-custom input,
+  html.cursor-custom textarea,
+  html.cursor-custom select,
+  html.cursor-custom [contenteditable="true"] {
     cursor: text !important;
   }
-  select {
+  html.cursor-custom select {
     cursor: pointer !important;
   }
   /* Restore pointer for admin panel */
-  .admin-cursor-restore, .admin-cursor-restore * {
+  html.cursor-custom .admin-cursor-restore,
+  html.cursor-custom .admin-cursor-restore * {
     cursor: auto !important;
   }
-  .admin-cursor-restore input,
-  .admin-cursor-restore textarea {
+  html.cursor-custom .admin-cursor-restore input,
+  html.cursor-custom .admin-cursor-restore textarea {
     cursor: text !important;
   }
-  .admin-cursor-restore button,
-  .admin-cursor-restore a,
-  .admin-cursor-restore select,
-  .admin-cursor-restore label[for],
-  .admin-cursor-restore [role="button"] {
+  html.cursor-custom .admin-cursor-restore button,
+  html.cursor-custom .admin-cursor-restore a,
+  html.cursor-custom .admin-cursor-restore select,
+  html.cursor-custom .admin-cursor-restore label[for],
+  html.cursor-custom .admin-cursor-restore [role="button"] {
     cursor: pointer !important;
   }
 }
@@ -131,8 +164,8 @@ body.admin-mode label, body.admin-mode [role="button"] {
 }
 
 ::selection {
-  background-color: rgba(212, 175, 55, 0.3);
-  color: #f0eeeb;
+  background-color: rgba(201, 162, 75, 0.35);
+  color: #1A150F;
 }
 
 /* Custom scrollbar */
@@ -140,7 +173,7 @@ body.admin-mode label, body.admin-mode [role="button"] {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0c0d0e;
+  background: #E7D7B6;
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(212, 175, 55, 0.3);
@@ -177,11 +210,11 @@ html {
 }
 
 .nav-scrolled {
-  background: rgba(12, 13, 14, 0.85) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom-color: rgba(212, 175, 55, 0.12) !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  border-bottom-color: rgba(212, 175, 55, 0.15) !important;
+  box-shadow: 0 10px 40px rgba(20, 14, 8, 0.08);
 }
 
 /* Marquee ticker */
@@ -316,8 +349,8 @@ html {
 }
 
 @keyframes scroll-hint {
-  0%, 100% { opacity: 0.4; transform: translate3d(-50%, 0, 0); }
-  50% { opacity: 0.8; transform: translate3d(-50%, 8px, 0); }
+  0%, 100% { opacity: 0.7; transform: translate3d(0, 0, 0); }
+  50% { opacity: 1; transform: translate3d(0, 8px, 0); }
 }
 
 /* ============================================
@@ -391,10 +424,11 @@ html {
    ============================================ */
 
 .glass-panel {
-  background: rgba(21, 23, 23, 0.6);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(212, 175, 55, 0.08);
+  background: linear-gradient(158deg, rgba(255, 252, 245, 0.92) 0%, rgba(252, 244, 230, 0.88) 55%, rgba(250, 239, 222, 0.9) 100%);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(201, 162, 75, 0.22);
+  box-shadow: 0 10px 30px rgba(120, 90, 30, 0.08);
   will-change: transform, opacity;
   backface-visibility: hidden;
   transform: translateZ(0);
@@ -453,8 +487,8 @@ html {
 .ambient-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.06;
+  filter: blur(150px);
+  opacity: 0.1;
   will-change: transform;
 }
 
@@ -470,18 +504,20 @@ html {
 .ambient-orb-2 {
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, #b8941e 0%, transparent 70%);
+  background: radial-gradient(circle, #1f8a6b 0%, transparent 70%);
   bottom: 20%;
   left: -8%;
+  opacity: 0.08;
   animation: ambient-drift-2 30s ease-in-out infinite;
 }
 
 .ambient-orb-3 {
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, #f2ca50 0%, transparent 70%);
+  background: radial-gradient(circle, #7a5ca8 0%, transparent 70%);
   top: 50%;
   right: 15%;
+  opacity: 0.08;
   animation: ambient-drift-3 20s ease-in-out infinite;
 }
 
@@ -500,6 +536,37 @@ html {
 @keyframes ambient-drift-3 {
   0%, 100% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(-35px, -25px) scale(1.1); }
+}
+
+.ambient-orb-4 {
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(circle, #c75b7a 0%, transparent 70%); /* blush */
+  top: 76%;
+  left: 32%;
+  opacity: 0.09;
+  animation: ambient-drift-4 26s ease-in-out infinite;
+}
+
+.ambient-orb-5 {
+  width: 540px;
+  height: 540px;
+  background: radial-gradient(circle, #43b693 0%, transparent 70%); /* emerald */
+  top: 38%;
+  right: 30%;
+  opacity: 0.08;
+  animation: ambient-drift-5 22s ease-in-out infinite;
+}
+
+@keyframes ambient-drift-4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40% { transform: translate(50px, -36px) scale(1.12); }
+  70% { transform: translate(-30px, 20px) scale(0.94); }
+}
+
+@keyframes ambient-drift-5 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-48px, 34px) scale(1.1); }
 }
 
 .gradient-text-white {
@@ -534,8 +601,7 @@ html {
    ============================================ */
 
 .gold-line {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+  display: none; /* User requested removing section dividing lines globally */
 }
 
 .gold-line-left {
@@ -589,10 +655,10 @@ html {
    ============================================ */
 
 .nav-scrolled {
-  background: rgba(12, 13, 14, 0.85) !important;
+  background: rgba(247, 240, 226, 0.9) !important;
   backdrop-filter: blur(20px) saturate(180%) !important;
   border-bottom-color: rgba(212, 175, 55, 0.15) !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 30px rgba(120, 90, 30, 0.12);
 }
 
 /* ============================================
@@ -773,12 +839,12 @@ textarea:focus-visible {
   gap: 6px;
   padding: 8px 14px;
   border-radius: 100px;
-  border: 1px solid rgba(212, 175, 55, 0.1);
-  background: rgba(21, 23, 23, 0.4);
+  border: 1px solid color-mix(in srgb, var(--jewel) 14%, transparent);
+  background: rgba(33, 24, 41, 0.5);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: rgba(200, 189, 165, 0.7);
-  font-family: var(--font-outfit), "Outfit", sans-serif;
+  color: rgba(201, 188, 174, 0.7);
+  font-family: var(--font-manrope), "Manrope", sans-serif;
   font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
@@ -790,17 +856,18 @@ textarea:focus-visible {
 }
 
 .hero-category-pill:hover {
-  border-color: rgba(212, 175, 55, 0.25);
-  background: rgba(212, 175, 55, 0.08);
-  color: #d4af37;
+  border-color: color-mix(in srgb, var(--jewel) 35%, transparent);
+  background: color-mix(in srgb, var(--jewel) 10%, transparent);
+  color: var(--jewel-light);
   transform: translateY(-2px);
 }
 
 .hero-category-pill.active {
-  border-color: rgba(212, 175, 55, 0.4);
-  background: rgba(212, 175, 55, 0.12);
-  color: #f2ca50;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.1), inset 0 0 20px rgba(212, 175, 55, 0.05);
+  border-color: color-mix(in srgb, var(--jewel) 45%, transparent);
+  background: color-mix(in srgb, var(--jewel) 14%, transparent);
+  color: var(--jewel-light);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--jewel) 16%, transparent),
+              inset 0 0 20px color-mix(in srgb, var(--jewel) 7%, transparent);
 }
 
 .hero-category-pill.active::after {
@@ -810,7 +877,7 @@ textarea:focus-visible {
   left: 20%;
   width: 60%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  background: linear-gradient(90deg, transparent, var(--jewel), transparent);
   animation: pillGlow 2s ease-in-out infinite;
 }
 
@@ -821,7 +888,7 @@ textarea:focus-visible {
 
 /* Hero form panel */
 .hero-form-panel {
-  background: rgba(12, 13, 14, 0.75);
+  background: rgba(21, 16, 26, 0.8);
   backdrop-filter: blur(30px) saturate(180%);
   -webkit-backdrop-filter: blur(30px) saturate(180%);
   border: 1px solid rgba(212, 175, 55, 0.1);
@@ -835,7 +902,7 @@ textarea:focus-visible {
   border: 0;
   border-bottom: 1px solid rgba(58, 59, 59, 0.6);
   color: #f0eeeb;
-  font-family: var(--font-outfit), "Outfit", sans-serif;
+  font-family: var(--font-manrope), "Manrope", sans-serif;
   font-size: 13px;
   padding: 10px 0;
   transition: border-color 0.3s ease;
@@ -865,7 +932,7 @@ input:-webkit-autofill:active {
   left: 0;
   top: 10px;
   color: rgba(200, 189, 165, 0.5);
-  font-family: var(--font-outfit), "Outfit", sans-serif;
+  font-family: var(--font-manrope), "Manrope", sans-serif;
   font-size: 13px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
@@ -891,8 +958,8 @@ input:-webkit-autofill:active {
 }
 
 .hero-form-field select option {
-  background: #1a1c1c;
-  color: #f0eeeb;
+  background: #211829;
+  color: #f2ede9;
   padding: 8px;
 }
 
@@ -972,7 +1039,7 @@ input:-webkit-autofill:active {
   border: 1px solid rgba(212, 175, 55, 0.3);
   background: rgba(212, 175, 55, 0.08);
   color: #d4af37;
-  font-family: var(--font-outfit), "Outfit", sans-serif;
+  font-family: var(--font-manrope), "Manrope", sans-serif;
   font-size: 10px;
   font-weight: 600;
   flex-shrink: 0;
@@ -1101,4 +1168,920 @@ input:-webkit-autofill:active {
   border-left: 3px solid var(--color-primary);
   font-style: italic;
   color: var(--color-on-surface);
+}
+
+/* ============================================
+   JEWEL CATEGORY COLOUR-CODING SYSTEM
+   Each event category carries a signature hue.
+   Apply data-jewel="gold|emerald|blush|amethyst"
+   (or the .jewel-* class) to set --jewel locally.
+   ============================================ */
+
+[data-jewel="gold"],     .jewel-gold     { --jewel: #C9A24B; --jewel-light: #E6C766; }
+[data-jewel="emerald"],  .jewel-emerald  { --jewel: #4F9E82; --jewel-light: #7FC3A9; }
+[data-jewel="blush"],    .jewel-blush    { --jewel: #E86A8E; --jewel-light: #F4A6BE; }
+[data-jewel="amethyst"], .jewel-amethyst { --jewel: #9A6FD0; --jewel-light: #C2A3E8; }
+[data-jewel="heroblue"], .jewel-heroblue { --jewel: #3C7DD6; --jewel-light: #6FA3E6; }
+[data-jewel="heropink"], .jewel-heropink { --jewel: #E84C9A; --jewel-light: #F38CC2; }
+
+/* Fallback so anything using --jewel before a category is set stays on-brand gold */
+:root { --jewel: #C9A24B; --jewel-light: #E6C766; }
+
+/* Category badge — small colour-coded label */
+.jewel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid color-mix(in srgb, var(--jewel) 35%, transparent);
+  background: color-mix(in srgb, var(--jewel) 12%, transparent);
+  color: var(--jewel-light);
+  font-family: var(--font-manrope), "Manrope", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Jewel accent line */
+.jewel-line {
+  height: 2px;
+  width: 56px;
+  background: linear-gradient(90deg, var(--jewel), transparent);
+}
+
+/* Jewel glow on hover — for category-coded cards */
+.jewel-glow-hover {
+  transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.jewel-glow-hover:hover {
+  border-color: color-mix(in srgb, var(--jewel) 40%, transparent);
+  box-shadow: 0 0 40px color-mix(in srgb, var(--jewel) 14%, transparent),
+              0 8px 32px rgba(0, 0, 0, 0.35);
+  transform: translate3d(0, -4px, 0);
+}
+
+/* ============================================
+   CHAMPAGNE GRADIENT + SCRIPT FLOURISH
+   ============================================ */
+
+/* Champagne gradient text — primary "wow" headline treatment */
+.champagne-text {
+  background: linear-gradient(135deg, var(--color-champagne) 0%, var(--color-primary) 45%, var(--color-gold-deep) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* Script flourish — for one or two accent words only */
+.script-flourish {
+  font-family: var(--font-script), "Italianno", cursive;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 0.9;
+  /* Italianno runs small; bump optical size where used */
+  font-size: 1.35em;
+}
+
+/* ============================================
+   SECTION AURA — soft jewel glow behind a section
+   Add .section-aura + data-jewel + .aura-left/.aura-right,
+   plus -z-10 (Tailwind) so it sits behind static content.
+   ============================================ */
+
+.section-aura {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.section-aura::before {
+  content: "";
+  position: absolute;
+  top: 8%;
+  width: min(62vw, 660px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--jewel) 0%, transparent 70%);
+  opacity: 0.1;
+  filter: blur(100px);
+  will-change: transform;
+}
+.section-aura.aura-left::before  { left: -14%; }
+.section-aura.aura-right::before { right: -14%; }
+.section-aura.aura-bottom::before { top: auto; bottom: 4%; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .section-aura::before {
+    animation: aura-breathe 16s ease-in-out infinite;
+  }
+}
+
+@keyframes aura-breathe {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.08; }
+  33%      { transform: translate3d(34px, -20px, 0) scale(1.1); opacity: 0.13; }
+  66%      { transform: translate3d(-26px, 14px, 0) scale(0.96); opacity: 0.1; }
+}
+
+/* ============================================
+   BRAND WORDMARK + GOLD TEXT GLOW
+   ============================================ */
+
+.brand-wordmark {
+  font-family: var(--font-fraunces), "Fraunces", serif;
+  letter-spacing: -0.015em;
+}
+
+.text-glow-gold {
+  filter: drop-shadow(0 2px 18px rgba(212, 175, 55, 0.35));
+}
+/* ============================================
+   CARD SPOTLIGHT — cursor-follow jewel glow
+   ============================================ */
+.spotlight-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--jewel) 28%, transparent) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.spotlight-card:hover::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-card::after { transition: none; }
+}
+
+/* ============================================================
+   BRIGHT THEME OVERRIDES — "Champagne Daylight" (v2)
+   Loaded last so these win over the legacy dark rules.
+   ============================================================ */
+::selection { background-color: rgba(201,162,75,0.25); color: #2A2320; }
+::-webkit-scrollbar-track { background: #F2EADD; }
+::-webkit-scrollbar-thumb { background: rgba(201,162,75,0.45); }
+::-webkit-scrollbar-thumb:hover { background: rgba(201,162,75,0.7); }
+
+.nav-scrolled {
+  background: rgba(255,253,250,0.82) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  border-bottom-color: rgba(201,162,75,0.22) !important;
+  box-shadow: 0 6px 30px rgba(120,90,30,0.08) !important;
+}
+
+.glass-panel {
+  background: rgba(255,255,255,0.74);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(201,162,75,0.18);
+  box-shadow: 0 18px 44px rgba(120,90,30,0.10);
+}
+
+.glow-hover:hover {
+  box-shadow: 0 18px 40px rgba(201,162,75,0.18), 0 8px 24px rgba(120,90,30,0.10);
+  border-color: rgba(201,162,75,0.4);
+  transform: translate3d(0,-4px,0);
+}
+.magnetic-hover:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 22px 44px rgba(120,90,30,0.14), 0 0 30px rgba(201,162,75,0.12);
+}
+
+.gradient-text {
+  background: linear-gradient(120deg, #A07C2C 0%, #C9A24B 45%, #E6C766 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.gradient-text-white {
+  background: linear-gradient(120deg, #2A2320 0%, #4A3F36 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.champagne-text {
+  background: linear-gradient(120deg, #B8902F 0%, #E6C766 50%, #C9A24B 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.text-glow-gold { text-shadow: 0 2px 24px rgba(201,162,75,0.28); filter: none; }
+
+/* .gold-line is set to display:none above */
+.gold-line-left { background: linear-gradient(90deg, #C9A24B, transparent); }
+.stat-divider { background: linear-gradient(180deg, transparent, rgba(201,162,75,0.4), transparent); }
+.animated-border::before {
+  background: linear-gradient(135deg, rgba(201,162,75,0.45), transparent, rgba(201,162,75,0.2));
+}
+
+.ambient-orb-1 { background: radial-gradient(circle,#E6C766 0%,transparent 70%); opacity:0.30; }
+.ambient-orb-2 { background: radial-gradient(circle,#7FC3A9 0%,transparent 70%); opacity:0.20; }
+.ambient-orb-3 { background: radial-gradient(circle,#C2A3E8 0%,transparent 70%); opacity:0.20; }
+.ambient-orb-4 { background: radial-gradient(circle,#F4A6BE 0%,transparent 70%); opacity:0.22; }
+.ambient-orb-5 { background: radial-gradient(circle,#7FC3A9 0%,transparent 70%); opacity:0.16; }
+.sparkle-overlay { opacity: 0.7; }
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid rgba(201,162,75,0.6);
+}
+
+.hero-category-pill {
+  background: rgba(255,255,255,0.82);
+  border: 1px solid color-mix(in srgb, var(--jewel) 28%, #E7DECF);
+  color: var(--jewel, #6B5F54);
+  box-shadow: 0 4px 14px rgba(120,90,30,0.06);
+  font-weight: 600;
+}
+.hero-category-pill:hover {
+  border-color: color-mix(in srgb, var(--jewel) 60%, transparent);
+  background: color-mix(in srgb, var(--jewel) 12%, #ffffff);
+  color: color-mix(in srgb, var(--jewel) 70%, #2A2320);
+  transform: translateY(-2px);
+}
+.hero-category-pill.active {
+  border-color: color-mix(in srgb, var(--jewel) 70%, transparent);
+  background: color-mix(in srgb, var(--jewel) 16%, #ffffff);
+  color: color-mix(in srgb, var(--jewel) 78%, #2A2320);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--jewel) 24%, transparent);
+}
+
+.hero-form-panel {
+  background: color-mix(in srgb, var(--jewel) 8%, rgba(255, 252, 245, 0.85));
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1.5px solid color-mix(in srgb, var(--jewel) 25%, rgba(201,162,75,0.45));
+  border-radius: 22px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.15), 0 12px 28px rgba(0,0,0,0.08), 0 0 0 1px color-mix(in srgb, var(--jewel) 15%, transparent);
+}
+.hero-form-panel::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 5px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--jewel) 60%, #E6C766), #C9A24B 50%, color-mix(in srgb, var(--jewel) 60%, #E6C766));
+  z-index: 5;
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-manrope), "Manrope", sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: #8A7A66; margin-bottom: 6px;
+}
+.hero-input {
+  width: 100%;
+  background: #FBF7EF;
+  border: 1px solid #E7DECF;
+  border-radius: 10px;
+  color: #2A2320;
+  font-family: var(--font-manrope), "Manrope", sans-serif;
+  font-size: 13px;
+  padding: 11px 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  outline: none;
+}
+.hero-input::placeholder { color: #B6A78f; }
+.hero-input:focus {
+  background: #ffffff;
+  border-color: #C9A24B;
+  box-shadow: 0 0 0 3px rgba(201,162,75,0.18);
+}
+input:-webkit-autofill, input:-webkit-autofill:hover,
+input:-webkit-autofill:focus, input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #FBF7EF inset !important;
+  -webkit-text-fill-color: #2A2320 !important;
+}
+.hero-form-field select { color-scheme: light; }
+.hero-form-field select option { background: #ffffff; color: #2A2320; }
+.hero-spinner { border: 2px solid rgba(42,32,9,0.25); border-top-color: #2A2009; }
+
+.hero-light {
+  position: relative;
+  background:
+    radial-gradient(1200px 700px at 78% -10%, rgba(230,199,102,0.30), transparent 60%),
+    radial-gradient(900px 600px at 10% 110%, rgba(232,106,142,0.14), transparent 55%),
+    radial-gradient(700px 500px at 110% 60%, rgba(154,111,208,0.12), transparent 55%),
+    linear-gradient(180deg, #FFFDF9 0%, #FBF5EC 100%);
+  overflow: hidden;
+}
+.hero-aurora {
+  position: absolute; inset: -20%; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(40% 40% at 20% 30%, rgba(230,199,102,0.22), transparent 70%),
+    radial-gradient(35% 35% at 80% 20%, rgba(232,106,142,0.16), transparent 70%),
+    radial-gradient(40% 40% at 70% 80%, rgba(127,195,169,0.14), transparent 70%);
+  filter: blur(20px);
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+@keyframes aurora-drift {
+  0% { transform: translate3d(0,0,0) scale(1); }
+  100% { transform: translate3d(-3%, 2%, 0) scale(1.08); }
+}
+
+.hero-photo-card {
+  position: absolute;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 24px 50px rgba(120,90,30,0.20), 0 6px 16px rgba(0,0,0,0.06);
+  border: 4px solid #ffffff;
+  background: #fff;
+  will-change: transform;
+}
+.hero-photo-card img { width: 100%; height: 100%; object-fit: cover; }
+.float-a { animation: floatCard 7s ease-in-out infinite; }
+.float-b { animation: floatCard 9s ease-in-out infinite 0.6s; }
+.float-c { animation: floatCard 8s ease-in-out infinite 1.2s; }
+@keyframes floatCard {
+  0%,100% { transform: translateY(0) rotate(var(--rot,0deg)); }
+  50% { transform: translateY(-16px) rotate(calc(var(--rot,0deg) * -1)); }
+}
+
+.confetti-layer { position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.confetti {
+  position:absolute; top:-8%;
+  width:10px; height:14px; border-radius:2px; opacity:0.85;
+  animation: confettiFall linear infinite;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity:0; }
+  10% { opacity:0.9; }
+  100% { transform: translateY(110vh) rotate(540deg); opacity:0.2; }
+}
+.balloon {
+  position:absolute; bottom:-20%;
+  width:54px; height:68px; border-radius:50% 50% 48% 48%;
+  opacity:0.5; filter: drop-shadow(0 8px 14px rgba(0,0,0,0.06));
+  animation: balloonRise linear infinite;
+}
+.balloon::after {
+  content:""; position:absolute; left:50%; bottom:-34px; width:1px; height:34px;
+  background: rgba(120,90,30,0.25);
+}
+@keyframes balloonRise {
+  0% { transform: translateY(0) translateX(0); opacity:0; }
+  12% { opacity:0.55; }
+  100% { transform: translateY(-130vh) translateX(20px); opacity:0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-aurora, .float-a, .float-b, .float-c, .confetti, .balloon { animation: none !important; }
+}
+
+/* ============================================================
+   HERO POLISH v3 — cursor visibility, warm form, glassy pills
+   ============================================================ */
+
+/* Cursor: keep it visible everywhere (native), with correct variants */
+@media (pointer: fine) {
+  html.cursor-custom,
+  html.cursor-custom *,
+  html.cursor-custom *::before,
+  html.cursor-custom *::after { cursor: auto !important; }
+  html.cursor-custom a,
+  html.cursor-custom button,
+  html.cursor-custom [role="button"],
+  html.cursor-custom summary,
+  html.cursor-custom label[for],
+  html.cursor-custom .hero-category-pill { cursor: pointer !important; }
+  html.cursor-custom input,
+  html.cursor-custom textarea,
+  html.cursor-custom select,
+  html.cursor-custom [contenteditable="true"] { cursor: text !important; }
+}
+
+/* Form panel: warm, inviting (not flat white) — wins over earlier rule */
+.hero-form-panel {
+  background: linear-gradient(168deg, #FFFFFF 0%, #FFFDF6 52%, #FBF0DA 100%);
+  border: 1.5px solid rgba(201,162,75,0.55);
+  box-shadow: 0 40px 80px rgba(20,14,8,0.34), 0 14px 30px rgba(20,14,8,0.18), 0 0 0 6px rgba(230,199,102,0.16);
+}
+
+/* Glassy, premium hero pills over the dark photo */
+.hero-category-pill {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.32);
+  color: #FFFFFF;
+  backdrop-filter: blur(9px) saturate(140%);
+  -webkit-backdrop-filter: blur(9px) saturate(140%);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.45);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+.hero-category-pill:hover {
+  background: color-mix(in srgb, var(--jewel) 32%, rgba(255,255,255,0.18));
+  border-color: color-mix(in srgb, var(--jewel) 65%, #ffffff);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+.hero-category-pill.active {
+  background: color-mix(in srgb, var(--jewel) 58%, rgba(255,255,255,0.10));
+  border-color: var(--jewel-light);
+  color: #ffffff;
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--jewel) 50%, transparent);
+}
+
+/* ============================================================
+   PREMIUM LIVE GLOW v4 — animated borders on boxes + live bg
+   ============================================================ */
+
+@property --glow-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes glow-rotate { to { --glow-angle: 360deg; } }
+
+/* Hero form — always-on premium rotating gradient glow border */
+.hero-form-panel { position: relative; }
+.hero-form-panel::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 3px;
+  background: conic-gradient(from var(--glow-angle),
+    #E6C766, var(--jewel), #F4A6BE, var(--jewel), #E6C766);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0.9;
+  animation: glow-rotate 6s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Content cards — soft always-on breathing glow + richer glow on hover */
+.glass-panel {
+  animation: card-breathe 7s ease-in-out infinite;
+}
+@keyframes card-breathe {
+  0%, 100% { box-shadow: 0 10px 30px rgba(120, 90, 30, 0.08); }
+  50%      { box-shadow: 0 14px 38px rgba(120, 90, 30, 0.14),
+                         0 0 26px color-mix(in srgb, var(--jewel, #C9A24B) 16%, transparent); }
+}
+
+/* Reuse the existing .animated-border::before as a rotating jewel glow on hover */
+.animated-border:hover::before {
+  background: conic-gradient(from var(--glow-angle),
+    color-mix(in srgb, var(--jewel, #C9A24B) 60%, transparent),
+    transparent 30%,
+    color-mix(in srgb, var(--jewel, #C9A24B) 40%, transparent) 65%,
+    transparent 100%);
+  animation: glow-rotate 6s linear infinite;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-form-panel::after,
+  .glass-panel,
+  .animated-border:hover::before { animation: none !important; }
+}
+
+/* ============================================================
+   GALLERY TILES — premium framed look (white mat + gold ring)
+   ============================================================ */
+.gallery-item {
+  border-radius: 16px;
+  border: 2px solid rgba(201, 162, 75, 0.7);
+  outline: 2px solid rgba(255, 255, 255, 0.9);
+  outline-offset: -8px;
+  box-shadow: 0 18px 42px rgba(120, 90, 30, 0.22);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s ease, border-color 0.5s ease;
+}
+.gallery-item:hover {
+  transform: translateY(-8px) scale(1.015);
+  border-color: #C9A24B;
+  box-shadow: 0 30px 64px rgba(120, 90, 30, 0.34), 0 0 40px rgba(230, 199, 102, 0.5);
+}
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(230, 199, 102, 0.25), transparent 35%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 2;
+}
+.gallery-item:hover::after { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item, .gallery-item::after { transition: none !important; }
+}
+
+/* Premium gold button — soft champagne gradient + glow */
+.btn-gold {
+  background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%) !important;
+  color: var(--color-on-primary-container) !important;
+  border: 1px solid rgba(191, 160, 84, 0.4);
+  box-shadow: 0 6px 18px rgba(191, 160, 84, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.btn-gold:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 10px 24px rgba(191, 160, 84, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.metallic-sheen::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  animation: metallicSheen 5s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes metallicSheen {
+  0% { transform: translateX(-100%) rotate(30deg); }
+  15%, 100% { transform: translateX(100%) rotate(30deg); }
+}
+
+/* ============================================================
+   DARK PREMIUM THEME (v4) — deep warm dark + gold + glow.
+   Appended last so it overrides all earlier light rules.
+   ============================================================ */
+:root {
+  --color-background: #201913;            /* deep warm espresso (dark, not black) */
+  --color-on-surface: #F3ECE0;            /* warm cream text */
+  --color-on-surface-variant: #B9AC98;    /* muted warm grey */
+  --color-primary: #D9B860;
+  --color-primary-light: #F0D78A;
+  --color-primary-container: #D9B860;
+  --color-on-primary-container: #20180A;  /* dark text on gold buttons */
+  --color-champagne: #F0D78A;
+  --color-gold-deep: #E6C766;             /* gold text now light for dark bg */
+  --color-surface: #1E1811;
+  --color-surface-container-lowest: #171109;
+  --color-surface-container-low: #1C1610;
+  --color-surface-container: #241D14;
+  --color-surface-variant: #2A2218;
+  --color-surface-bright: #30271B;
+  --color-outline: rgba(230, 199, 102, 0.22);
+}
+
+body {
+  background-color: #201913;
+  background-image:
+    radial-gradient(1100px 600px at 84% -8%, rgba(217, 184, 96, 0.18), transparent 60%),
+    radial-gradient(900px 520px at -6% 12%, rgba(232, 106, 142, 0.10), transparent 55%),
+    radial-gradient(800px 600px at 50% 120%, rgba(154, 111, 208, 0.09), transparent 60%),
+    linear-gradient(180deg, #241D15 0%, #1A140D 100%);
+  color: var(--color-on-surface);
+}
+
+/* Selection + scrollbar */
+::selection { background-color: rgba(217,184,96,0.32); color: #fff; }
+::-webkit-scrollbar-track { background: #15100A; }
+::-webkit-scrollbar-thumb { background: rgba(217,184,96,0.35); }
+::-webkit-scrollbar-thumb:hover { background: rgba(217,184,96,0.55); }
+
+/* Navbar glass when scrolled — dark frosted */
+.nav-scrolled {
+  background: rgba(20, 15, 9, 0.82) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  border-bottom-color: rgba(230,199,102,0.20) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45) !important;
+}
+/* Logo — stronger gold glow so it reads on dark */
+#main-navbar img { filter: drop-shadow(0 1px 3px rgba(120,90,30,0.35)) !important; height: 4.25rem !important; width: auto !important; }
+
+/* Cards: dark glass with gold edge + glow */
+.glass-panel {
+  background: rgba(30, 24, 17, 0.66) !important;
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(230,199,102,0.16) !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.45), 0 0 24px rgba(230,199,102,0.05) !important;
+}
+.glow-hover:hover {
+  box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 40px rgba(230,199,102,0.18) !important;
+  border-color: rgba(230,199,102,0.4) !important;
+}
+.magnetic-hover:hover {
+  box-shadow: 0 28px 60px rgba(0,0,0,0.55), 0 0 36px rgba(230,199,102,0.16) !important;
+}
+
+/* Light text gradient helper (for any remaining usage) */
+.gradient-text-white {
+  background: linear-gradient(120deg, #FFFFFF 0%, #E7DCC8 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+
+/* Ambient orbs — glow brighter on the dark canvas */
+.ambient-orb-1 { background: radial-gradient(circle,#E6C766 0%,transparent 70%); opacity:0.16; }
+.ambient-orb-2 { background: radial-gradient(circle,#7FC3A9 0%,transparent 70%); opacity:0.10; }
+.ambient-orb-3 { background: radial-gradient(circle,#C2A3E8 0%,transparent 70%); opacity:0.10; }
+.ambient-orb-4 { background: radial-gradient(circle,#F4A6BE 0%,transparent 70%); opacity:0.10; }
+.ambient-orb-5 { background: radial-gradient(circle,#7FC3A9 0%,transparent 70%); opacity:0.09; }
+
+/* ---- Enquiry form: dark premium glass (no plain white) ---- */
+.hero-form-panel {
+  background: linear-gradient(165deg, rgba(38,30,20,0.94) 0%, rgba(24,19,12,0.94) 100%) !important;
+  border: 1.5px solid rgba(230,199,102,0.42) !important;
+  box-shadow: 0 44px 90px rgba(0,0,0,0.6), 0 0 0 6px rgba(230,199,102,0.07), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+.form-label { color: #CBBDA4 !important; }
+.hero-input {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(230,199,102,0.24) !important;
+  color: #F3ECE0 !important;
+}
+.hero-input::placeholder { color: rgba(243,236,224,0.40) !important; }
+.hero-input:focus {
+  background: rgba(255,255,255,0.10) !important;
+  border-color: #D9B860 !important;
+  box-shadow: 0 0 0 3px rgba(217,184,96,0.20) !important;
+}
+input:-webkit-autofill, input:-webkit-autofill:hover,
+input:-webkit-autofill:focus, input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #241D14 inset !important;
+  -webkit-text-fill-color: #F3ECE0 !important;
+}
+/* event-type trigger + dropdown menu inside the form -> dark */
+.hero-form-panel [aria-haspopup="listbox"] { background-color: rgba(255,255,255,0.06) !important; }
+.hero-form-panel [role="listbox"] { background-color: #241D14 !important; border-color: rgba(230,199,102,0.25) !important; }
+
+/* ============================================================
+   THEME v5 — WARM GREIGE (light-medium premium). Final, wins
+   over the v4 dark block. Not harsh white, not dark.
+   ============================================================ */
+:root {
+  --color-background: #E2D6C0;
+  --color-on-surface: #2A2018;
+  --color-on-surface-variant: #6A5C49;
+  --color-primary: #C9A24B;
+  --color-primary-light: #E0BE5A;
+  --color-primary-container: #C9A24B;
+  --color-on-primary-container: #2A2008;
+  --color-champagne: #EDD9A3;
+  --color-gold-deep: #8B6914;
+  --color-surface: #FFFDF8;
+  --color-surface-container-lowest: #FFFFFF;
+  --color-surface-container-low: #FBF6EC;
+  --color-surface-container: #F3EAD9;
+  --color-surface-variant: #EADFC9;
+  --color-surface-bright: #FFFFFF;
+  --color-outline: rgba(184,144,40,0.28);
+}
+body {
+  background-color: #E2D6C0;
+  background-image:
+    radial-gradient(1100px 600px at 84% -8%, rgba(201,162,75,0.20), transparent 60%),
+    radial-gradient(900px 520px at -6% 12%, rgba(232,106,142,0.07), transparent 55%),
+    radial-gradient(800px 600px at 50% 120%, rgba(154,111,208,0.05), transparent 60%),
+    linear-gradient(180deg, #E8DDC8 0%, #DCCEB6 100%);
+  color: #2A2018;
+}
+::selection { background-color: rgba(201,162,75,0.30); color: #2A2018; }
+::-webkit-scrollbar-track { background: #E0D3BB; }
+::-webkit-scrollbar-thumb { background: rgba(184,144,40,0.45); }
+
+/* Light frosted cards */
+.glass-panel {
+  background: rgba(255,253,248,0.80) !important;
+  border: 1px solid rgba(184,144,40,0.20) !important;
+  box-shadow: 0 18px 44px rgba(120,90,30,0.12) !important;
+}
+.glow-hover:hover {
+  box-shadow: 0 18px 40px rgba(201,162,75,0.18), 0 8px 24px rgba(120,90,30,0.12) !important;
+  border-color: rgba(184,144,40,0.4) !important;
+}
+.magnetic-hover:hover {
+  box-shadow: 0 22px 44px rgba(120,90,30,0.16), 0 0 30px rgba(201,162,75,0.12) !important;
+}
+
+/* Nav scrolled -> light frosted */
+.nav-scrolled {
+  background: rgba(247,241,230,0.86) !important;
+  border-bottom-color: rgba(184,144,40,0.22) !important;
+  box-shadow: 0 6px 30px rgba(120,90,30,0.10) !important;
+}
+
+/* Enquiry form -> premium light champagne card (pops on the photo hero) */
+.hero-form-panel {
+  background: linear-gradient(168deg, #FFFFFF 0%, #FFFDF6 52%, #FBF0DA 100%) !important;
+  border: 1.5px solid rgba(201,162,75,0.50) !important;
+  box-shadow: 0 40px 80px rgba(60,40,12,0.28), 0 14px 30px rgba(60,40,12,0.16), 0 0 0 6px rgba(230,199,102,0.14) !important;
+}
+.form-label { color: #8A7A66 !important; }
+.hero-input {
+  background: #FBF7EF !important;
+  border: 1px solid #E7DECF !important;
+  color: #2A2320 !important;
+}
+.hero-input::placeholder { color: #B6A78F !important; }
+.hero-input:focus {
+  background: #FFFFFF !important;
+  border-color: #C9A24B !important;
+  box-shadow: 0 0 0 3px rgba(201,162,75,0.18) !important;
+}
+input:-webkit-autofill, input:-webkit-autofill:hover,
+input:-webkit-autofill:focus, input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #FBF7EF inset !important;
+  -webkit-text-fill-color: #2A2320 !important;
+}
+.hero-form-panel [aria-haspopup="listbox"] { background-color: #FBF7EF !important; }
+.hero-form-panel [role="listbox"] { background-color: #FFFFFF !important; border-color: rgba(201,162,75,0.20) !important; }
+
+/* Ambient orbs softer on light */
+.ambient-orb-1 { opacity:0.18; }
+.ambient-orb-2 { opacity:0.10; }
+.ambient-orb-3 { opacity:0.10; }
+.ambient-orb-4 { opacity:0.12; }
+.ambient-orb-5 { opacity:0.09; }
+
+/* ============================================================
+   THEME v6 — 2026 MODERN: colourful glassmorphism + glow.
+   Cards subtly tinted by their theme colour; gradient gold;
+   glowing dividers. (No pseudo-elements — avoids conflicts.)
+   ============================================================ */
+.glass-panel {
+  background: linear-gradient(155deg, rgba(255,255,255,0.90) 0%, rgba(255,249,238,0.74) 100%) !important;
+  border: 1px solid rgba(201,162,75,0.22) !important;
+  box-shadow: 0 22px 55px rgba(120,90,30,0.13), inset 0 1px 0 rgba(255,255,255,0.8) !important;
+}
+[data-jewel].glass-panel {
+  background: linear-gradient(155deg, rgba(255,255,255,0.92) 0%, color-mix(in srgb, var(--jewel) 12%, rgba(255,250,240,0.70)) 100%) !important;
+}
+[data-jewel].magnetic-hover:hover,
+[data-jewel].glass-panel:hover {
+  border-color: color-mix(in srgb, var(--jewel) 48%, transparent) !important;
+  box-shadow: 0 30px 65px color-mix(in srgb, var(--jewel) 22%, rgba(120,90,30,0.16)), inset 0 1px 0 rgba(255,255,255,0.85) !important;
+}
+/* Gradient gold buttons (modern sheen pairs with .metallic-sheen) */
+.bg-primary { background-image: linear-gradient(135deg, #E6C766 0%, #C9A24B 50%, #B8901F 100%) !important; }
+/* Glowing gold dividers */
+.gold-line { background: linear-gradient(90deg, transparent, rgba(201,162,75,0.6), transparent) !important; box-shadow: 0 0 14px rgba(201,162,75,0.18); }
+.gold-line-left { background: linear-gradient(90deg, #C9A24B, #E6C766) !important; box-shadow: 0 0 12px rgba(201,162,75,0.25); }
+
+/* ============================================================
+   THEME v7 — colourful "wow" background mesh (smooth, no lines).
+   Top colour #E7DBC4 matches the hero bottom fade -> no seam.
+   ============================================================ */
+body {
+  background-color: #E4D8C2;
+  background-image:
+    radial-gradient(1000px 720px at 80% -10%, rgba(232,106,142,0.13), transparent 60%),
+    radial-gradient(900px 700px at 8% 6%, rgba(60,125,214,0.10), transparent 58%),
+    radial-gradient(1000px 820px at 96% 42%, rgba(201,162,75,0.16), transparent 60%),
+    radial-gradient(900px 800px at 2% 72%, rgba(154,111,208,0.10), transparent 60%),
+    radial-gradient(1000px 900px at 60% 112%, rgba(79,158,130,0.09), transparent 60%),
+    linear-gradient(180deg, #E7DBC4 0%, #DFD2BA 100%);
+  color: #2A2018;
+}
+
+/* ============================================================
+   THEME v8 — visibly colourful "wow" bg + premium gold/jewel
+   accent on EVERY card (consistent). Wins over all earlier.
+   ============================================================ */
+body {
+  background-color: #E5D9C3;
+  background-image:
+    radial-gradient(900px 650px at 82% -6%, rgba(232,106,142,0.26), transparent 58%),
+    radial-gradient(850px 650px at 6% 4%, rgba(60,125,214,0.20), transparent 56%),
+    radial-gradient(950px 760px at 98% 40%, rgba(201,162,75,0.28), transparent 58%),
+    radial-gradient(850px 760px at 0% 70%, rgba(154,111,208,0.20), transparent 58%),
+    radial-gradient(950px 820px at 58% 112%, rgba(79,158,130,0.18), transparent 58%),
+    linear-gradient(180deg, #E7DBC4 0%, #DED0B7 100%);
+  color: #2A2018;
+}
+
+/* Every glass card: warm gradient + gold top accent + premium shadow */
+.glass-panel {
+  background: linear-gradient(160deg, #FFFFFF 0%, #FFF6E4 100%) !important;
+  border: 1px solid rgba(201,162,75,0.30) !important;
+  box-shadow: inset 0 3px 0 rgba(201,162,75,0.55), 0 18px 44px rgba(120,90,30,0.14) !important;
+}
+.glass-panel:hover {
+  box-shadow: inset 0 3px 0 rgba(201,162,75,0.75), 0 26px 58px rgba(201,162,75,0.20) !important;
+  border-color: rgba(201,162,75,0.5) !important;
+}
+/* Cards that declare a theme colour get a coloured top accent + subtle tint */
+[data-jewel].glass-panel {
+  background: linear-gradient(160deg, #FFFFFF 0%, color-mix(in srgb, var(--jewel) 10%, #FFF6E4) 100%) !important;
+  box-shadow: inset 0 3px 0 color-mix(in srgb, var(--jewel) 65%, #C9A24B), 0 18px 44px rgba(120,90,30,0.14) !important;
+}
+[data-jewel].glass-panel:hover {
+  box-shadow: inset 0 3px 0 var(--jewel), 0 28px 60px color-mix(in srgb, var(--jewel) 24%, rgba(120,90,30,0.16)) !important;
+  border-color: color-mix(in srgb, var(--jewel) 48%, transparent) !important;
+}
+
+/* ============================================================
+   THEME v9 — subtle 3D depth (layered shadows) on glass cards.
+   ============================================================ */
+.glass-panel {
+  box-shadow: inset 0 3px 0 rgba(201,162,75,0.5), 0 2px 6px rgba(120,90,30,0.08), 0 18px 40px rgba(120,90,30,0.14), 0 36px 66px rgba(120,90,30,0.10) !important;
+}
+[data-jewel].glass-panel {
+  box-shadow: inset 0 3px 0 color-mix(in srgb, var(--jewel) 65%, #C9A24B), 0 2px 6px rgba(120,90,30,0.08), 0 18px 40px rgba(120,90,30,0.14), 0 36px 66px rgba(120,90,30,0.10) !important;
+}
+.glass-panel:hover, [data-jewel].glass-panel:hover {
+  transform: translateY(-6px);
+  transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease, border-color .45s ease;
+}
+
+/* ============================================================
+   THEME v10 — fix the colourful mesh so it's visible on EVERY
+   screen (viewport-fixed, distributed blobs). Final bg.
+   ============================================================ */
+body {
+  background-color: #E5D9C3;
+  background-attachment: fixed;
+  background-image:
+    radial-gradient(820px 620px at 18% 20%, rgba(60,125,214,0.22), transparent 55%),
+    radial-gradient(840px 640px at 84% 16%, rgba(232,106,142,0.24), transparent 55%),
+    radial-gradient(950px 720px at 62% 78%, rgba(201,162,75,0.24), transparent 55%),
+    radial-gradient(780px 620px at 8% 82%, rgba(154,111,208,0.20), transparent 55%),
+    radial-gradient(820px 660px at 96% 58%, rgba(79,158,130,0.17), transparent 55%),
+    linear-gradient(180deg, #E9DECA 0%, #DFD2BA 100%);
+  color: #2A2018;
+}
+
+/* ============================================================
+   THEME v11 — deeper warm sand bg so WHITE cards + gold text
+   POP (fixes the no-contrast / washed-out look).
+   ============================================================ */
+body {
+  background-color: #D8C8A8;
+  background-attachment: fixed;
+  background-image:
+    radial-gradient(820px 620px at 18% 20%, rgba(60,125,214,0.20), transparent 55%),
+    radial-gradient(840px 640px at 84% 16%, rgba(232,106,142,0.22), transparent 55%),
+    radial-gradient(950px 720px at 62% 78%, rgba(201,162,75,0.22), transparent 55%),
+    radial-gradient(780px 620px at 8% 82%, rgba(154,111,208,0.18), transparent 55%),
+    radial-gradient(820px 660px at 96% 58%, rgba(79,158,130,0.16), transparent 55%),
+    linear-gradient(180deg, #DDCEAE 0%, #D0BF9C 100%);
+  color: #251D12;
+}
+/* Crisp WHITE cards (pop on the warmer bg) + gold top + depth */
+.glass-panel {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(201,162,75,0.32) !important;
+  box-shadow: inset 0 3px 0 rgba(201,162,75,0.6), 0 4px 10px rgba(70,48,12,0.10), 0 22px 48px rgba(70,48,12,0.20) !important;
+}
+[data-jewel].glass-panel {
+  background: #FFFFFF !important;
+  box-shadow: inset 0 3px 0 color-mix(in srgb, var(--jewel) 68%, #C9A24B), 0 4px 10px rgba(70,48,12,0.10), 0 22px 48px rgba(70,48,12,0.20) !important;
+}
+/* Deeper, more readable gold for eyebrows / links / small labels */
+.text-primary { color: #9C7716 !important; }
+.gold-line-left { background: linear-gradient(90deg, #C9A24B, #E6C766) !important; }
+
+/* ============================================================
+   THEME v12 — deeper gold headings so the gradient words are
+   clearly readable on the warm light bg (no dark backing needed).
+   ============================================================ */
+.gradient-text {
+  background: linear-gradient(120deg, #6E5210 0%, #9C7716 45%, #C2922E 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+/* Eyebrow labels a touch bolder for clarity */
+.font-label-sm.uppercase, p.font-label-sm { font-weight: 600; }
+
+/* ============================================================
+   ABOUT — gold icon medallions + soft section separation bands
+   ============================================================ */
+.about-icon {
+  background: linear-gradient(135deg, #F0D78A 0%, #C9A24B 100%) !important;
+  border: none !important;
+  box-shadow: 0 8px 18px rgba(201, 162, 75, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.55) !important;
+}
+.about-icon .material-symbols-outlined { color: #2A1E06 !important; }
+
+/* Card body text — darker for clear readability on white cards */
+.about-feature-text { color: #4A3D2C !important; }
+
+/* Soft full-width band to separate alternating sections (fades at edges -> no hard seam) */
+.section-band {
+  position: relative;
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(45, 33, 18, 0.20) 9%, rgba(45, 33, 18, 0.22) 50%, rgba(45, 33, 18, 0.20) 91%, transparent 100%),
+    radial-gradient(1100px 460px at 82% 8%, rgba(201, 162, 75, 0.14), transparent 60%),
+    radial-gradient(900px 420px at 10% 100%, rgba(225, 29, 72, 0.06), transparent 60%);
 }

@@ -4,78 +4,126 @@ import Image from "next/image";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
+/* ============================================================
+   KIDS-FIRST themed categories. Each drives the accent colour
+   (data-jewel), the full-bleed hero image, dynamic copy and
+   theme suggestions. Swap `img` for new client photos anytime.
+   ============================================================ */
 const EVENT_CATEGORIES = [
   {
+    id: "superheroes",
+    label: "Superheroes",
+    icon: "shield",
+    jewel: "heroblue",
+    imgDesktop: "/images/hero-superhero-ls.webp",
+    imgMobile: "/images/hero-superhero.webp",
+    tagline: "Melbourne · Themed Kids Parties & Celebrations",
+    heading: <>Themed kids parties Melbourne <span className="gradient-text">go wild for</span></>,
+    description: "From Spider-Man and Batman to Avengers and custom hero themes — we design, style, and run the ultimate action-packed celebration. Custom backdrops, balloon garlands, prop hire, and full party coordination.",
+    themeGroups: [
+      { groupName: "Boys Favorites", themes: ["Spider-Man", "Batman", "Superman", "Avengers", "Ninja Turtles"] },
+      { groupName: "Girls & Co-ed", themes: ["Spider-Gwen", "Miraculous Ladybug", "Superhero Girls", "Custom Hero Theme"] },
+    ],
+  },
+  {
+    id: "princess",
+    label: "Princess & Barbie",
+    icon: "diamond",
+    jewel: "heropink",
+    imgDesktop: "/images/hero-barbie-ls.webp",
+    imgMobile: "/images/hero-barbie.webp",
+    tagline: "Melbourne · Fairytale Kids Parties",
+    heading: <>Magical princess & Barbie parties <span className="gradient-text">styled to perfection</span></>,
+    description: "Step into a world of pink magic and fairytale dreams. From Barbie dreamhouses to Disney princesses and enchanted fairy gardens, we create picture-perfect luxury setups that make dreams come true.",
+    themeGroups: [
+      { groupName: "Girls Favorites", themes: ["Barbie Dreamhouse", "Disney Princess", "Frozen Fairytale", "Fairy Garden", "Unicorn & Rainbow"] },
+      { groupName: "Co-ed & Neutral", themes: ["Mermaid Lagoon", "Alice in Wonderland", "Custom Princess Theme"] },
+    ],
+  },
+  {
     id: "birthday",
-    label: "Birthdays",
+    label: "1st Birthdays",
     icon: "cake",
-    img: "/images/hero-birthday.webp",
-    tagline: "Make Their Special Day Magical",
-    themes: ["Premium Gold", "Midnight Black", "Rose Gold Elegance", "Tropical Luxe", "Custom Theme"],
+    jewel: "blush",
+    imgDesktop: "/images/hero-1stbday-ls.webp",
+    imgMobile: "/images/hero-1stbday.webp",
+    tagline: "Melbourne · Milestone Celebrations",
+    heading: <>Bespoke milestone first birthdays <span className="gradient-text">to cherish forever</span></>,
+    description: "Celebrate your little one's very first milestone with breathtaking pastel arches, elegant backdrops, and custom details. We handle every detail so you can focus on making memories.",
+    themeGroups: [
+      { groupName: "Boys Themes", themes: ["Little Prince", "Safari Adventure", "Teddy Bear Picnic", "Blue & Gold Luxe"] },
+      { groupName: "Girls Themes", themes: ["Little Princess", "Floral Meadow", "Boho Rainbow", "Pink & Gold Luxe"] },
+      { groupName: "Neutral / Unisex", themes: ["Pastel Luxe", "Boho Neutral", "Jungle Safari", "Custom Milestone"] },
+    ],
   },
   {
     id: "themed",
-    label: "Themed Parties",
-    icon: "theater_comedy",
-    img: "/images/hero-themed.webp",
-    tagline: "Unique Themes, Unforgettable Moments",
-    themes: ["Neon Night", "Classic Elegance", "Festival Luxe", "Custom Theme"],
+    label: "Themed & Custom",
+    icon: "palette",
+    jewel: "amethyst",
+    imgDesktop: "/images/hero-themed-ls.webp",
+    imgMobile: "/images/hero-themed.webp",
+    tagline: "Melbourne · Bespoke Event Styling",
+    heading: <>Any theme they dream up, <span className="gradient-text">we bring to life</span></>,
+    description: "Jungle safaris, magical mermaids, prehistoric dinosaurs, or out-of-this-world space adventures — if they can dream it, we can style it. Fully bespoke luxury party styling for all ages.",
+    themeGroups: [
+      { groupName: "Boys Themes", themes: ["Dinosaur World", "Outer Space", "Jungle Safari", "Under the Sea"] },
+      { groupName: "Girls Themes", themes: ["Mermaid Magic", "Candyland", "Butterfly Garden", "Disco Party"] },
+      { groupName: "Neutral / Co-ed", themes: ["Carnival / Circus", "Movie Night", "Farmyard", "Custom Theme Idea"] },
+    ],
   },
   {
     id: "wedding",
     label: "Weddings",
     icon: "favorite",
-    img: "/images/hero-wedding-user.webp",
-    tagline: "Your Dream Day, Perfectly Styled",
-    themes: [],
+    jewel: "emerald",
+    imgDesktop: "/images/hero-wedding-ls.webp",
+    imgMobile: "/images/hero-wedding.webp",
+    tagline: "Melbourne · Luxury Wedding Styling",
+    heading: <>Elegant luxury weddings <span className="gradient-text">crafted with love</span></>,
+    description: "From intimate ceremonies to lavish receptions, we design sophisticated floral arrangements, stunning backdrops, and luxury table styling tailored to your unique love story.",
+    themeGroups: [
+      { groupName: "Wedding Styles", themes: ["Modern Luxe", "Classic White & Gold", "Rustic Romance", "Bohemian Chic", "Bespoke Styling"] },
+    ],
   },
   {
     id: "corporate",
     label: "Corporate",
     icon: "business_center",
-    img: "/images/hero-corporate-user.webp",
-    tagline: "Impress. Engage. Elevate.",
-    themes: [],
-  },
-  {
-    id: "festival",
-    label: "Festivals",
-    icon: "nightlife",
-    img: "/images/hero-festival.webp",
-    tagline: "Grand-Scale Celebrations",
-    themes: [],
+    jewel: "gold",
+    imgDesktop: "/images/hero-corporate-ls.webp",
+    imgMobile: "/images/hero-corporate.webp",
+    tagline: "Melbourne · Premium Corporate Events",
+    heading: <>Polished corporate events <span className="gradient-text">that make an impact</span></>,
+    description: "Elevate your brand with premium corporate event styling, EOFY celebrations, gala dinners, and product launches. Sophisticated, seamless, and tailored to your brand identity.",
+    themeGroups: [
+      { groupName: "Corporate Styling", themes: ["Gala Dinner Luxe", "EOFY Celebration", "Brand Launch", "Cocktail Party", "Custom Corporate Theme"] },
+    ],
   },
 ];
 
-const CYCLE_INTERVAL = 5000;
+const CYCLE_INTERVAL = 4500;
+
+/* Decorative confetti + balloons (pure CSS, no images). */
+const CONFETTI = [
+  { l: "6%", d: 7, delay: 0, c: "#E86A8E" }, { l: "14%", d: 9, delay: 1.5, c: "#3C7DD6" },
+  { l: "23%", d: 8, delay: 0.8, c: "#E6C766" }, { l: "34%", d: 10, delay: 2.2, c: "#9A6FD0" },
+  { l: "44%", d: 7.5, delay: 0.4, c: "#4F9E82" }, { l: "55%", d: 9.5, delay: 1.1, c: "#E84C9A" },
+  { l: "64%", d: 8.5, delay: 2.6, c: "#E6C766" }, { l: "73%", d: 7, delay: 0.6, c: "#3C7DD6" },
+  { l: "82%", d: 10, delay: 1.9, c: "#E86A8E" }, { l: "91%", d: 8, delay: 0.2, c: "#9A6FD0" },
+];
+const BALLOONS = [
+  { l: "8%", d: 22, delay: 0, c: "#F4A6BE" }, { l: "30%", d: 26, delay: 4, c: "#9CC2F0" },
+  { l: "60%", d: 24, delay: 2, c: "#F3D98C" }, { l: "85%", d: 28, delay: 6, c: "#C2A3E8" },
+];
 
 export default function HeroForm({ settings = {} }) {
-  // Use dynamic settings from CMS if available
-  const activeCategories = EVENT_CATEGORIES.map(cat => {
-    const dynamicImg = settings[`heroImage_${cat.id}`];
-    // Fallback to legacy single heroImage for birthday if dynamicImg isn't set yet
-    if (cat.id === "birthday" && !dynamicImg && settings.heroImage) {
-      return { ...cat, themes: [...cat.themes], img: settings.heroImage };
-    }
-    return { ...cat, themes: [...cat.themes], img: dynamicImg || cat.img };
-  });
-  
-  if (settings.eventThemesNew) {
-    activeCategories.forEach(cat => {
-      if (cat.id === "birthday") {
-        cat.themes = settings.eventThemesNew.birthday || cat.themes;
-      } else if (cat.id === "themed") {
-        cat.themes = settings.eventThemesNew.party || cat.themes;
-      }
-    });
-  } else if (settings.eventThemes && settings.eventThemes.length > 0) {
-    // Fallback for older data format
-    activeCategories.forEach(cat => {
-      if (cat.id === "birthday" || cat.id === "themed") {
-        cat.themes = settings.eventThemes;
-      }
-    });
-  }
+  const activeCategories = EVENT_CATEGORIES.map((cat) => ({
+    ...cat,
+    themeGroups: cat.themeGroups.map((g) => ({ ...g, themes: [...g.themes] })),
+    img: settings[`heroImage_${cat.id}`] || cat.img,
+  }));
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [formState, setFormState] = useState("idle"); // idle | sending | success
@@ -84,26 +132,25 @@ export default function HeroForm({ settings = {} }) {
     name: "",
     contact: "",
     location: "",
-    eventType: activeCategories[0].label,
+    eventType: EVENT_CATEGORIES[0].label,
     theme: "",
     message: "",
   });
-  const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
+  const [isEventDropdownOpen, setIsEventDropdownOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const timerRef = useRef(null);
   const resumeRef = useRef(null);
-  const dropdownRef = useRef(null);
+  const eventDropdownRef = useRef(null);
 
   const active = activeCategories[activeIndex];
-  const selectedCategory = activeCategories.find(c => c.label === formData.eventType) || activeCategories[0];
+  const selectedCategory = activeCategories.find((c) => c.label === formData.eventType) || activeCategories[0];
 
-  // Auto-cycle
   const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % activeCategories.length);
     }, CYCLE_INTERVAL);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -115,38 +162,31 @@ export default function HeroForm({ settings = {} }) {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsThemeDropdownOpen(false);
-      }
+      if (eventDropdownRef.current && !eventDropdownRef.current.contains(event.target)) setIsEventDropdownOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Sync event type when category changes
   useEffect(() => {
     if (!hasInteracted) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFormData((prev) => ({
-        ...prev,
-        eventType: activeCategories[activeIndex].label,
-        theme: "",
-      }));
+      setFormData((prev) => ({ ...prev, eventType: activeCategories[activeIndex].label, theme: "" }));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex, hasInteracted]);
 
-  const handleCategoryClick = (index) => {
-    setActiveIndex(index);
-    setFormData((prev) => ({
-      ...prev,
-      eventType: activeCategories[index].label,
-      theme: "",
-    }));
+  const pauseCycle = () => {
     setIsPaused(true);
     if (timerRef.current) clearInterval(timerRef.current);
     if (resumeRef.current) clearTimeout(resumeRef.current);
     resumeRef.current = setTimeout(() => setIsPaused(false), 15000);
+  };
+
+  const handleCategoryClick = (index) => {
+    setActiveIndex(index);
+    setFormData((prev) => ({ ...prev, eventType: activeCategories[index].label, theme: "" }));
+    pauseCycle();
   };
 
   const handleChange = (e) => {
@@ -155,34 +195,39 @@ export default function HeroForm({ settings = {} }) {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleEventTypeChange = (e) => {
+    const label = e.target.value;
+    const idx = activeCategories.findIndex((c) => c.label === label);
+    setHasInteracted(true);
+    setErrorMsg("");
+    if (idx >= 0) {
+      setActiveIndex(idx);
+      pauseCycle();
+    }
+    setFormData((prev) => ({ ...prev, eventType: label, theme: "" }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
-
     const { name, contact, location, eventType, theme, message } = formData;
-    
-    // Strict Validation
+
     if (name.trim().length < 2) {
       setErrorMsg("Please enter a valid name.");
       return;
     }
-    
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
     const isPhone = /^[\d\s\+\-\(\)]{8,15}$/.test(contact);
-    
     if (!isEmail && !isPhone) {
       setErrorMsg("Please enter a valid email or phone number.");
       return;
     }
-
-    if (location.trim().length < 2) {
-      setErrorMsg("Please enter a valid suburb.");
+    if (location.trim().length === 1) {
+      setErrorMsg("Please enter a valid suburb, or leave it blank.");
       return;
     }
 
     setFormState("sending");
-    
-    // Save inquiry to Firestore
     try {
       await addDoc(collection(db, "inquiries"), {
         name: name.trim(),
@@ -195,13 +240,10 @@ export default function HeroForm({ settings = {} }) {
       });
     } catch (err) {
       console.error("Failed to save inquiry:", err);
-      // Continue to WhatsApp even if Firestore fails
     }
 
     setTimeout(() => {
       setFormState("success");
-      
-      // Construct WhatsApp Message
       const text = `Hello Party in Style! 🎉
 I would like to inquire about an event booking.
 
@@ -210,119 +252,118 @@ I would like to inquire about an event booking.
 *Suburb:* ${location}
 *Event Type:* ${eventType}${theme ? `\n*Theme:* ${theme}` : ""}
 *Brief Details:* ${message || "N/A"}`;
-
-      const encodedText = encodeURIComponent(text);
-      const whatsappUrl = `https://wa.me/61494334934?text=${encodedText}`;
-      
-      // Redirect to WhatsApp
+      const whatsappUrl = `https://wa.me/61494334934?text=${encodeURIComponent(text)}`;
       window.open(whatsappUrl, "_blank");
 
       setTimeout(() => {
         setFormState("idle");
         setHasInteracted(false);
-        setFormData({
-          name: "",
-          contact: "",
-          location: "",
-          eventType: active.label,
-          theme: "",
-          message: "",
-        });
+        setFormData({ name: "", contact: "", location: "", eventType: active.label, theme: "", message: "" });
       }, 3000);
     }, 800);
   };
 
   return (
     <header
-      className="hero-dynamic relative w-full min-h-screen flex items-center justify-center overflow-hidden -mt-20"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      data-jewel={active.jewel}
+      className="hero-light hero-dynamic relative w-full min-h-screen flex items-center overflow-hidden -mt-20 pt-20"
     >
-      {/* ===== BACKGROUND IMAGES ===== */}
-      {activeCategories.map((cat, i) => (
-        <div
-          key={cat.id}
-          className="absolute inset-0 z-0"
-          style={{
-            opacity: i === activeIndex ? 1 : 0,
-            transition: "opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)",
-            willChange: "opacity",
-            backfaceVisibility: "hidden",
-            backgroundColor: "#0c0d0e",
-          }}
-        >
-          <Image
-            alt={`Luxury ${cat.label.toLowerCase()} event styling and design in Melbourne`}
-            className="w-full h-full object-cover"
-            style={{
-              animation: i === activeIndex ? "slowZoom 20s ease-in-out alternate infinite" : "none",
-              filter: "brightness(0.5) contrast(1.1)",
-              willChange: "transform",
-              backfaceVisibility: "hidden",
-              transform: "translateZ(0)",
-            }}
-            src={cat.img}
-            fill
-            sizes="100vw"
-            priority={i < 2}
-            loading={i < 2 ? "eager" : "lazy"}
-            unoptimized
-          />
-        </div>
-      ))}
+      {/* ===== FULL-BLEED CINEMATIC BACKGROUND (themed images cross-fade + ken-burns) ===== */}
+      <div className="absolute inset-0 z-0" aria-hidden="true">
+        {activeCategories.map((cat, idx) => (
+          <div
+            key={cat.id}
+            className={`absolute inset-0 transition-opacity duration-[1400ms] ease-in-out ${idx === activeIndex ? "opacity-100" : "opacity-0"}`}
+          >
+            {/* Desktop Landscape Image */}
+            <Image
+              src={cat.imgDesktop}
+              alt={`${cat.label} party styling in Melbourne by Party in Style`}
+              fill
+              priority={idx < 2}
+              sizes="100vw"
+              quality={100}
+              unoptimized
+              className="object-cover hidden lg:block"
+            />
+            {/* Mobile Portrait/Original Image */}
+            <Image
+              src={cat.imgMobile}
+              alt={`${cat.label} party styling in Melbourne by Party in Style`}
+              fill
+              priority={idx < 2}
+              sizes="100vw"
+              quality={100}
+              unoptimized
+              className="object-cover block lg:hidden"
+            />
+          </div>
+        ))}
+        {/* Premium legibility scrims - dark gradient so images pop and white text is readable */}
+        {/* Base dark overlay for mobile to ensure text is always readable */}
+        <div className="absolute inset-0 bg-black/20 lg:bg-transparent" />
+        
+        {/* Desktop legibility scrim (Left to right) */}
+        <div className="hidden lg:block absolute inset-0" style={{ background: "linear-gradient(102deg, rgba(20,14,8,0.9) 0%, rgba(20,14,8,0.7) 35%, rgba(20,14,8,0.1) 60%, transparent 100%)" }} />
+        
+        {/* Mobile legibility scrim (Top to bottom, stronger at bottom where text is) */}
+        <div className="block lg:hidden absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 0%, rgba(20,14,8,0.6) 40%, rgba(20,14,8,0.95) 100%)" }} />
 
-      {/* Darker gradient overlays to ensure text readability */}
-      <div className="absolute inset-0 z-[1]" style={{
-        background: "linear-gradient(to bottom, rgba(12,13,14,0.75) 0%, rgba(12,13,14,0.4) 40%, rgba(12,13,14,0.85) 85%, rgba(12,13,14,1) 100%)"
-      }} />
-      <div className="absolute inset-0 z-[1] hidden lg:block" style={{
-        background: "linear-gradient(to right, rgba(12,13,14,0.95) 0%, rgba(12,13,14,0.7) 40%, rgba(12,13,14,0.2) 65%, transparent 85%)"
-      }} />
-      <div className="sparkle-overlay" />
+        {/* Seamless transition into the next section (Champagne Cream) */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 0%, transparent 78%, #DDCEAE 100%)" }} />
+        
+        {/* Jewel tone overlay */}
+        <div className="absolute inset-0 transition-[background] duration-700" style={{ background: "linear-gradient(115deg, color-mix(in srgb, var(--jewel) 35%, transparent), transparent 60%)" }} />
+      </div>
+
+      {/* Confetti + balloons (subtle, over the photo) */}
+      <div className="confetti-layer z-[1]" aria-hidden="true">
+        {CONFETTI.map((p, i) => (
+          <span key={`c${i}`} className="confetti" style={{ left: p.l, background: p.c, animationDuration: `${p.d}s`, animationDelay: `${p.delay}s` }} />
+        ))}
+        {BALLOONS.map((b, i) => (
+          <span key={`b${i}`} className="balloon" style={{ left: b.l, background: b.c, animationDuration: `${b.d}s`, animationDelay: `${b.delay}s` }} />
+        ))}
+      </div>
 
       {/* ===== CONTENT ===== */}
-      <div className="relative z-20 w-full max-w-container-max mx-auto px-6 md:px-margin-x pt-28 pb-12 lg:pt-36 lg:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[70vh]">
-          {/* LEFT — Branding + Category Tabs */}
-          <div className="flex flex-col gap-6">
-            <div className="animate-hero-reveal">
-              <h1 className="font-display-xl text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
-                <span className="text-white font-bold tracking-wide">Unforgettable Events,</span>
-                <br />
-                <span className="gradient-text italic font-medium">Styled to Perfection.</span>
+      <div className="relative z-20 w-full max-w-[1500px] mx-auto px-6 md:px-margin-x">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pb-24 lg:pb-0">
+
+          {/* LEFT — branding + dynamic copy + pills */}
+          <div className="lg:col-span-7 flex flex-col gap-6 order-2 lg:order-1">
+            <div key={activeIndex} className="animate-hero-reveal">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="h-px w-10 bg-gradient-to-r from-primary to-transparent" />
+                <span className="font-label-sm text-[11px] md:text-xs uppercase tracking-[0.32em] font-semibold text-primary-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                  {active.tagline}
+                </span>
+              </div>
+
+              <p className="brand-wordmark champagne-text text-glow-gold text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.02] mb-3 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                Party in Style
+              </p>
+
+              <h1 className="font-display-xl text-3xl sm:text-4xl lg:text-[2.9rem] leading-[1.1] text-white font-semibold drop-shadow-[0_4px_16px_rgba(0,0,0,0.7)]">
+                {active.heading}
               </h1>
-              <p className="font-body-lg text-sm md:text-base text-[#f0eeeb] max-w-lg font-medium tracking-wide mt-6 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] bg-black/20 p-2 rounded-lg backdrop-blur-sm -ml-2">
-                Australia&#39;s premier event planners — from kids&#39; themed birthdays to grand galas. Tell us what you need, we&#39;ll make it happen.
+
+              <p className="font-body-lg text-sm md:text-base text-white/95 max-w-xl mt-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] font-medium">
+                {active.description}
               </p>
             </div>
 
-            {/* Step indicator: 1 → Select Event, 2 → Fill Form */}
-            <div className="animate-fade-up delay-200 hidden md:flex flex-wrap items-center gap-x-4 gap-y-2 mt-2 drop-shadow-md">
-              <div className="flex items-center gap-2">
-                <span className="hero-step-number bg-primary/20 border border-primary/40 text-primary font-bold">1</span>
-                <span className="font-label-sm text-[11px] text-[#f0eeeb] uppercase tracking-wider font-semibold">Pick your event</span>
-              </div>
-              <span className="material-symbols-outlined text-primary text-sm">arrow_forward</span>
-              <div className="flex items-center gap-2">
-                <span className="hero-step-number bg-primary/20 border border-primary/40 text-primary font-bold">2</span>
-                <span className="font-label-sm text-[11px] text-[#f0eeeb] uppercase tracking-wider font-semibold">Quick enquiry</span>
-              </div>
-              <span className="material-symbols-outlined text-primary text-sm">arrow_forward</span>
-              <div className="flex items-center gap-2">
-                <span className="hero-step-number bg-primary/20 border border-primary/40 text-primary font-bold">3</span>
-                <span className="font-label-sm text-[11px] text-[#f0eeeb] uppercase tracking-wider font-semibold">We call you</span>
-              </div>
-            </div>
-
-            <div className="animate-fade-up delay-300 mt-2 w-full">
-              <div className="flex overflow-x-auto pb-2 -mx-2 px-2 md:mx-0 md:px-0 md:pb-0 md:flex-wrap md:overflow-visible gap-3 hide-scrollbar snap-x snap-mandatory">
+            {/* Theme pills */}
+            <div className="hidden lg:block animate-fade-up delay-200">
+              <div className="flex overflow-x-auto pb-2 -mx-2 px-2 md:mx-0 md:px-0 md:pb-0 md:flex-wrap md:overflow-visible gap-2.5 hide-scrollbar snap-x">
                 {activeCategories.map((cat, i) => (
                   <button
                     key={cat.id}
                     onClick={() => handleCategoryClick(i)}
-                    className={`hero-category-pill whitespace-nowrap snap-start flex-shrink-0 ${i === activeIndex ? "active" : ""}`}
+                    data-jewel={cat.jewel}
+                    className={`hero-category-pill whitespace-nowrap snap-start flex-shrink-0 ${i === activeIndex ? "active shadow-lg" : ""}`}
                     type="button"
-                    aria-label={`Select ${cat.label} category`}
+                    aria-label={`Select ${cat.label}`}
                     aria-pressed={i === activeIndex}
                     suppressHydrationWarning
                   >
@@ -333,251 +374,102 @@ I would like to inquire about an event booking.
               </div>
             </div>
 
-            {/* Active category tagline */}
-            <div className="animate-fade-up delay-400 hidden lg:block">
-              <div className="flex items-center gap-3">
-                <div className="gold-line-left" />
-                <p
-                  className="font-headline-md text-lg text-on-surface-variant/80 italic transition-all duration-500"
-                  key={active.id}
-                  style={{ animation: "fadeInUp 0.5s ease both" }}
-                >
-                  {active.tagline}
-                </p>
-              </div>
-            </div>
-
-            {/* Progress dots */}
-            <div className="flex gap-2 items-center animate-fade-up delay-500">
-              {activeCategories.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => handleCategoryClick(i)}
-                  className="relative rounded-full overflow-hidden transition-all duration-500 py-5"
-                  style={{
-                    width: i === activeIndex ? "32px" : "12px",
-                  }}
-                  type="button"
-                  aria-label={`Go to ${activeCategories[i].label}`}
-                  suppressHydrationWarning
-                >
-                  <span 
-                    className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-1 rounded-full transition-colors duration-500 overflow-hidden"
-                    style={{
-                      backgroundColor: i === activeIndex ? "rgba(212,175,55,0.6)" : "rgba(212,175,55,0.15)",
-                    }}
-                  >
-                    {i === activeIndex && !isPaused && (
-                      <span
-                        className="absolute inset-0 bg-primary rounded-full"
-                        style={{ animation: `progressFill ${CYCLE_INTERVAL}ms linear` }}
-                      />
-                    )}
-                  </span>
-                </button>
+            {/* Trust strip */}
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 animate-fade-up delay-300">
+              {[
+                { icon: "verified", t: "Free consultation" },
+                { icon: "schedule", t: "24-hr response" },
+                { icon: "celebration", t: "500+ events styled" },
+              ].map((b) => (
+                <div key={b.t} className="flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-base text-primary-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" style={{ fontVariationSettings: "'FILL' 1" }}>{b.icon}</span>
+                  <span className="font-label-sm text-xs text-white font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">{b.t}</span>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* RIGHT — Quick Inquiry Form */}
-          <div className="animate-fade-up delay-400 lg:flex lg:justify-end">
-            <div className="hero-form-panel rounded-2xl p-6 md:p-8 relative overflow-hidden animated-border w-full lg:max-w-md">
-              <div className="sparkle-overlay opacity-10" />
+          {/* RIGHT — highlighted enquiry form floating over the photo */}
+          <div className="lg:col-span-5 order-1 lg:order-2 lg:flex lg:justify-end mt-12 lg:mt-0">
+            <div className="bg-[#0C0805]/85 backdrop-blur-xl border border-[#C9A24B]/30 shadow-[0_0_50px_rgba(201,162,75,0.15)] rounded-3xl p-6 md:p-8 relative overflow-hidden w-full lg:max-w-md animate-fade-up delay-200">
               <div className="relative z-10">
-                {/* Form header — clear purpose */}
-                <div className="flex items-start gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="material-symbols-outlined text-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>event_available</span>
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#C9A24B]/30 to-[#C9A24B]/5 flex items-center justify-center flex-shrink-0 shadow-inner border border-[#C9A24B]/20">
+                    <span className="material-symbols-outlined text-[#EAD08A] text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>event_available</span>
                   </div>
-                  <div>
-                    <h2 className="font-headline-md text-xl text-on-surface leading-snug">Plan Your Event</h2>
-                    <p className="font-body-md text-xs text-on-surface-variant/60 mt-1">
-                      Fill in the basics — we&#39;ll get back within 24 hours with a free quote.
-                    </p>
+                  <div className="pt-1">
+                    <h2 className="font-headline-md text-[22px] text-white leading-snug">Get a free quote</h2>
+                    <p className="font-body-md text-xs text-[#C8BDA5] mt-1.5 leading-relaxed">Quick details — we reply within 24 hours. No obligation to book.</p>
                   </div>
                 </div>
 
                 {formState === "success" ? (
                   <div role="alert" aria-live="polite" className="flex flex-col items-center justify-center py-10 gap-4" style={{ animation: "scaleIn 0.5s ease both" }}>
-                    <div className="w-16 h-16 rounded-full bg-green-500/15 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-green-400 text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                    <div className="w-16 h-16 rounded-full bg-emerald/15 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-emerald text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                     </div>
-                    <h3 className="font-headline-md text-xl text-on-surface">Thank You!</h3>
-                    <p className="font-body-md text-sm text-on-surface-variant text-center max-w-xs">
-                      We&#39;ve received your enquiry. Our team will reach out shortly.
-                    </p>
+                    <h3 className="font-headline-md text-xl text-white">Thank you!</h3>
+                    <p className="font-body-md text-sm text-[#C8BDA5] text-center max-w-xs">We&#39;ve received your enquiry and opened WhatsApp so you can send it instantly. We&#39;ll be in touch shortly.</p>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-5" aria-label="Quick enquiry form">
-                    {/* Event type — clear label above */}
-                    <div>
-                      <label className="font-label-sm text-[10px] text-on-surface-variant/50 uppercase tracking-[0.15em] mb-1.5 block">
-                        Event Type
-                      </label>
-                      <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-primary/20 bg-primary/5">
-                        <span className="material-symbols-outlined text-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{selectedCategory.icon}</span>
-                        <span className="font-label-sm text-sm text-primary font-medium flex-1">{selectedCategory.label}</span>
-                        <span className="font-label-sm text-[9px] text-on-surface-variant/40 uppercase tracking-wider bg-primary/8 px-2 py-0.5 rounded-full">
-                          {hasInteracted ? "Selected" : "Auto-selected"}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Theme selector (only for categories with themes) */}
-                    {selectedCategory.themes.length > 0 && (
-                      <div className="hero-form-field" ref={dropdownRef}>
-                        <label className="font-label-sm text-[10px] text-on-surface-variant/50 uppercase tracking-[0.15em] mb-1.5 block">
-                          Preferred Theme
-                        </label>
-                        <div 
-                          className="relative cursor-pointer w-full bg-transparent border-0 border-b border-outline/30 text-on-surface font-body-md text-sm py-2.5 px-0 transition-colors flex justify-between items-center"
-                          onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
-                          style={{ borderBottomColor: isThemeDropdownOpen ? '#d4af37' : '' }}
-                        >
-                          <span className={formData.theme ? "text-on-surface" : "text-on-surface-variant"}>
-                            {formData.theme || "e.g. Batman, Princess, Spiderman…"}
-                          </span>
-                          <span className={`material-symbols-outlined text-primary/40 text-lg transition-transform duration-300 ${isThemeDropdownOpen ? 'rotate-180' : ''}`}>
-                            expand_more
-                          </span>
-                        </div>
-                        
-                        <div 
-                          className={`absolute left-0 right-0 z-50 mt-2 bg-background/95 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-300 ${isThemeDropdownOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none'}`}
-                        >
-                          <div className="max-h-60 overflow-y-auto py-2" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(212,175,55,0.3) transparent' }}>
-                            {selectedCategory.themes.map((t) => (
-                              <div 
-                                key={t}
-                                className="px-5 py-3 text-sm text-on-surface hover:bg-primary/10 hover:text-primary cursor-pointer transition-colors flex items-center gap-3 group"
-                                onClick={() => {
-                                  setHasInteracted(true);
-                                  setFormData((prev) => ({ ...prev, theme: t }));
-                                  setIsThemeDropdownOpen(false);
-                                }}
-                              >
-                                <span className="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary group-hover:scale-150 transition-transform duration-300" />
-                                {t}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Name */}
-                    <div className="hero-form-field relative">
-                      <input
-                        type="text"
-                        name="name"
-                        id="hero-name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        placeholder="Your Name"
-                        className="hero-input peer placeholder-transparent"
-                        suppressHydrationWarning
-                      />
-                      <label htmlFor="hero-name" className="hero-label">
-                        Your Name *
-                      </label>
-                    </div>
-
-                    {/* Contact */}
-                    <div className="hero-form-field relative">
-                      <input
-                        type="text"
-                        name="contact"
-                        id="hero-contact"
-                        value={formData.contact}
-                        onChange={handleChange}
-                        required
-                        placeholder="Email or Phone"
-                        className="hero-input peer placeholder-transparent"
-                        suppressHydrationWarning
-                      />
-                      <label htmlFor="hero-contact" className="hero-label">
-                        Email or Phone *
-                      </label>
-                    </div>
-
-                    {/* Location */}
-                    <div className="hero-form-field relative">
-                      <input
-                        type="text"
-                        name="location"
-                        id="hero-location"
-                        value={formData.location}
-                        onChange={handleChange}
-                        required
-                        placeholder="Suburb (Melbourne Only)"
-                        className="hero-input peer placeholder-transparent"
-                        suppressHydrationWarning
-                      />
-                      <label htmlFor="hero-location" className="hero-label">
-                        Suburb (Melbourne Only) *
-                      </label>
-                    </div>
-
-                    {/* Quick message */}
-                    <div className="hero-form-field relative">
-                      <textarea
-                        name="message"
-                        id="hero-message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Tell us about your vision..."
-                        rows="2"
-                        className="hero-input peer placeholder-transparent resize-none"
-                        suppressHydrationWarning
-                      />
-                      <label htmlFor="hero-message" className="hero-label">
-                        Quick Message (Optional)
-                      </label>
-                    </div>
-
-                    {/* Submit */}
-                    <div className="flex flex-col gap-2">
-                      {errorMsg && (
-                        <p className="text-red-400 font-label-sm text-xs text-center bg-red-400/10 py-2 rounded-sm border border-red-400/20">
-                          {errorMsg}
-                        </p>
-                      )}
-                      <button
-                        type="submit"
-                        disabled={formState === "sending"}
-                        className="bg-primary text-on-primary-container font-label-sm text-xs font-bold px-8 py-3.5 rounded-sm uppercase tracking-[0.2em] metallic-sheen hover:bg-primary-light transition-all flex justify-center items-center gap-3 w-full disabled:opacity-60"
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-4" aria-label="Quick enquiry form">
+                    <div className="relative" ref={eventDropdownRef}>
+                      <label className="font-label-sm text-[11px] font-bold uppercase tracking-wider text-[#C8BDA5] mb-1.5 ml-1 block">Event Type</label>
+                      <div
+                        className="relative cursor-pointer w-full flex items-center gap-3 px-4 py-3.5 bg-white/5 border border-[#C9A24B]/30 rounded-xl transition-all duration-300 hover:border-[#C9A24B]/60 hover:bg-white/10"
+                        onClick={() => setIsEventDropdownOpen((o) => !o)}
+                        role="button" aria-haspopup="listbox" aria-expanded={isEventDropdownOpen} tabIndex={0}
+                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setIsEventDropdownOpen((o) => !o); } }}
+                        style={{ borderColor: isEventDropdownOpen ? "#EAD08A" : "", boxShadow: isEventDropdownOpen ? "0 0 0 4px rgba(201,162,75,0.15)" : "" }}
                         suppressHydrationWarning
                       >
-                        {formState === "sending" ? (
-                          <>
-                            <span className="hero-spinner" />
-                            Sending...
-                          </>
-                        ) : (
-                          <>
-                            <span className="material-symbols-outlined text-sm">send</span>
-                            Get Free Quote
-                          </>
-                        )}
-                      </button>
+                        <span className="material-symbols-outlined text-[#EAD08A] text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>{selectedCategory.icon}</span>
+                        <span className="font-label-sm text-sm text-white font-semibold flex-1">{selectedCategory.label}</span>
+                        <span className={`material-symbols-outlined text-[#EAD08A]/60 text-xl transition-transform duration-300 ${isEventDropdownOpen ? "rotate-180" : ""}`}>expand_more</span>
+                      </div>
+                      <div className={`absolute left-0 right-0 z-50 mt-2 bg-[#1A130D] border border-[#C9A24B]/30 rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-300 ${isEventDropdownOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-4 pointer-events-none"}`} role="listbox">
+                        <div className="py-2 max-h-60 overflow-y-auto">
+                          {activeCategories.map((c) => {
+                            const isSel = c.label === formData.eventType;
+                            return (
+                              <div key={c.id} role="option" aria-selected={isSel}
+                                className={`px-4 py-3 text-sm cursor-pointer transition-colors flex items-center gap-3 ${isSel ? "text-[#EAD08A] bg-[#C9A24B]/10 font-bold" : "text-[#C8BDA5] hover:bg-white/5 hover:text-[#EAD08A] font-medium"}`}
+                                onClick={() => { handleEventTypeChange({ target: { value: c.label } }); setIsEventDropdownOpen(false); }}>
+                                <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: isSel ? "'FILL' 1" : "'FILL' 0" }}>{c.icon}</span>
+                                {c.label}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </div>
 
-                    {/* Trust signals */}
-                    <div className="flex items-center justify-center gap-5 mt-0.5">
-                      <div className="flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-primary/40 text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                        <span className="font-label-sm text-[10px] text-on-surface-variant/50">Free Consultation</span>
-                      </div>
-                      <div className="w-px h-3 bg-outline/20" />
-                      <div className="flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-primary/40 text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
-                        <span className="font-label-sm text-[10px] text-on-surface-variant/50">24hr Response</span>
-                      </div>
-                      <div className="w-px h-3 bg-outline/20" />
-                      <div className="flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-primary/40 text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>shield</span>
-                        <span className="font-label-sm text-[10px] text-on-surface-variant/50">No Obligation</span>
+                    <div>
+                      <label htmlFor="hero-name" className="font-label-sm text-[11px] font-bold uppercase tracking-wider text-[#C8BDA5] mb-1.5 ml-1 block">Your Name *</label>
+                      <input type="text" name="name" id="hero-name" value={formData.name} onChange={handleChange} required placeholder="e.g. Sarah Williams" className="w-full px-4 py-3.5 bg-white/5 border border-[#C9A24B]/30 rounded-xl text-sm font-semibold text-white placeholder:text-white/30 placeholder:font-medium focus:outline-none focus:border-[#EAD08A] focus:ring-4 focus:ring-[#C9A24B]/20 focus:bg-white/10 transition-all duration-300" suppressHydrationWarning />
+                    </div>
+                    <div>
+                      <label htmlFor="hero-contact" className="font-label-sm text-[11px] font-bold uppercase tracking-wider text-[#C8BDA5] mb-1.5 ml-1 block">Email or Phone *</label>
+                      <input type="text" name="contact" id="hero-contact" value={formData.contact} onChange={handleChange} required placeholder="e.g. 04XX XXX XXX" className="w-full px-4 py-3.5 bg-white/5 border border-[#C9A24B]/30 rounded-xl text-sm font-semibold text-white placeholder:text-white/30 placeholder:font-medium focus:outline-none focus:border-[#EAD08A] focus:ring-4 focus:ring-[#C9A24B]/20 focus:bg-white/10 transition-all duration-300" suppressHydrationWarning />
+                    </div>
+                    <div>
+                      <label htmlFor="hero-location" className="font-label-sm text-[11px] font-bold uppercase tracking-wider text-[#C8BDA5] mb-1.5 ml-1 block">Suburb (Optional)</label>
+                      <input type="text" name="location" id="hero-location" value={formData.location} onChange={handleChange} placeholder="e.g. Cranbourne, Berwick" className="w-full px-4 py-3.5 bg-white/5 border border-[#C9A24B]/30 rounded-xl text-sm font-semibold text-white placeholder:text-white/30 placeholder:font-medium focus:outline-none focus:border-[#EAD08A] focus:ring-4 focus:ring-[#C9A24B]/20 focus:bg-white/10 transition-all duration-300" suppressHydrationWarning />
+                    </div>
+
+                    <div className="flex flex-col gap-3 mt-3">
+                      {errorMsg && (<p className="text-red-500 font-label-sm text-xs text-center bg-red-500/10 py-2.5 rounded-lg border border-red-500/20">{errorMsg}</p>)}
+                      <button type="submit" disabled={formState === "sending"}
+                        className="bg-gradient-to-r from-[#C9A24B] to-[#EAD08A] text-[#140E08] font-label-sm text-[13px] font-bold px-8 py-4 rounded-xl uppercase tracking-[0.2em] hover:brightness-110 hover:shadow-[0_15px_30px_rgba(201,162,75,0.4)] transition-all duration-300 flex justify-center items-center gap-3 w-full disabled:opacity-60 shadow-[0_10px_20px_rgba(201,162,75,0.25)] relative overflow-hidden"
+                        suppressHydrationWarning>
+                        <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-[150%] hover:animate-[sheen_2s_ease-in-out_infinite]" />
+                        {formState === "sending" ? (<><span className="hero-spinner border-[#140E08] border-t-transparent" />SENDING...</>) : (<><span className="material-symbols-outlined text-base">send</span>GET MY FREE QUOTE</>)}
+                      </button>
+                      <div className="flex items-center justify-center gap-2 mt-1">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="#25D366" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                        </svg>
+                        <p className="text-center font-label-sm text-[10.5px] text-[#C8BDA5] font-medium">Instant WhatsApp reply from our team.</p>
                       </div>
                     </div>
                   </form>
@@ -588,11 +480,11 @@ I would like to inquire about an event booking.
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-6 z-20 w-full flex justify-center pointer-events-none">
-        <div className="flex flex-col items-center gap-2" style={{ animation: "scroll-hint 2s ease-in-out infinite" }}>
-          <span className="font-label-sm text-[10px] text-primary/60 uppercase tracking-[0.3em]" style={{ paddingLeft: "0.3em" }}>Scroll</span>
-          <span className="material-symbols-outlined text-primary/40 text-lg">expand_more</span>
+      {/* Scroll hint */}
+      <div className="absolute bottom-5 left-0 right-0 z-20 flex justify-center pointer-events-none">
+        <div className="flex flex-col items-center gap-1" style={{ animation: "scroll-hint 2s ease-in-out infinite" }}>
+          <span className="font-label-sm text-[10px] uppercase tracking-[0.3em] pl-[0.3em]" style={{ color: "#FFFFFF", textShadow: "0 2px 8px rgba(0,0,0,0.75)" }}>Scroll</span>
+          <span className="material-symbols-outlined text-lg" style={{ color: "#FFFFFF", textShadow: "0 2px 8px rgba(0,0,0,0.75)" }}>expand_more</span>
         </div>
       </div>
     </header>

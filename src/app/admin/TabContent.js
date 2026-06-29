@@ -18,8 +18,8 @@ const IMAGE_ZONES = [
 export default function TabContent() {
   const [settings, setSettings] = useState({
     phone: "+61 494 334 934",
-    email: "concierge@partyinstyle.com.au",
-    facebook: "https://www.facebook.com/share/18SWJEeoe5/",
+    email: "Kosatheman@gmail.com",
+    facebook: "https://www.facebook.com/groups/1440866676676461/user/61586600203536/",
     instagram: "https://www.instagram.com/partyinstyle111",
     whatsapp: "61494334934",
     heroImage_birthday: "",

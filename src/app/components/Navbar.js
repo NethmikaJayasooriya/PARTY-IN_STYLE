@@ -16,6 +16,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const navRef = useRef(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -23,8 +24,9 @@ export default function Navbar() {
     const onScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          if (navRef.current)
-            navRef.current.classList.toggle("nav-scrolled", window.scrollY > 60);
+          const isScrolled = window.scrollY > 60;
+          if (navRef.current) navRef.current.classList.toggle("nav-scrolled", isScrolled);
+          setScrolled(isScrolled);
           ticking = false;
         });
         ticking = true;
@@ -56,10 +58,17 @@ export default function Navbar() {
               alt="Party in Style"
               width={80}
               height={80}
-              className="h-16 md:h-20 w-auto"
+              className="h-14 md:h-16 w-auto"
               priority
-              style={{ filter: "drop-shadow(0 0 8px rgba(212,175,55,0.3))" }}
+              style={{ filter: "drop-shadow(0 2px 6px rgba(20,14,8,0.55)) drop-shadow(0 0 14px rgba(201,162,75,0.6))" }}
             />
+            <span
+              className={`font-headline-md text-lg md:text-2xl font-bold tracking-tight whitespace-nowrap transition-colors duration-300 ${
+                scrolled || pathname !== "/" ? "text-[#8B6914]" : "text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)]"
+              }`}
+            >
+              Party in Style
+            </span>
           </Link>
 
           {/* Desktop links */}
@@ -71,7 +80,9 @@ export default function Navbar() {
                 className={`text-sm font-medium tracking-wide uppercase transition-colors duration-300 ${
                   pathname === l.href
                     ? "text-primary"
-                    : "text-on-surface-variant hover:text-primary"
+                    : scrolled || pathname !== "/"
+                    ? "text-on-surface hover:text-primary"
+                    : "text-white/90 hover:text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]"
                 }`}
               >
                 {l.label}
@@ -82,14 +93,14 @@ export default function Navbar() {
           {/* Desktop CTA */}
           <Link
             href="/contact"
-            className="hidden md:inline-flex items-center gap-2 bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-7 py-3 rounded-sm uppercase tracking-[0.15em] metallic-sheen hover:bg-primary-light transition-colors"
+            className="hidden md:inline-flex items-center gap-2 btn-gold font-label-sm text-xs font-semibold px-7 py-3 rounded-lg uppercase tracking-[0.15em] metallic-sheen"
           >
             Book Now
           </Link>
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden text-primary p-2"
+            className={`md:hidden p-2 ${scrolled || pathname !== "/" ? "text-primary" : "text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]"}`}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -135,7 +146,7 @@ export default function Navbar() {
           <div className="mt-4 pt-4 border-t border-outline/20">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 bg-primary text-on-primary-container font-label-sm text-xs font-semibold px-7 py-3 rounded-sm uppercase tracking-[0.15em] metallic-sheen w-full justify-center"
+              className="inline-flex items-center gap-2 btn-gold font-label-sm text-xs font-semibold px-7 py-3 rounded-lg uppercase tracking-[0.15em] metallic-sheen w-full justify-center"
             >
               Book Now
             </Link>

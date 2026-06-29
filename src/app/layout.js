@@ -4,44 +4,58 @@ import Footer from "./components/Footer";
 import Preloader from "./components/Preloader";
 import ScrollProgress from "./components/ScrollProgress";
 import CursorTrail from "./components/CursorTrail";
+import CardSpotlight from "./components/CardSpotlight";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { Outfit, Playfair_Display } from "next/font/google";
+import { Manrope, Fraunces, Italianno } from "next/font/google";
 
-const outfit = Outfit({
+// Body / UI — warm geometric sans
+const manrope = Manrope({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
   preload: true,
-  variable: "--font-outfit",
+  variable: "--font-manrope",
 });
 
-const playfairDisplay = Playfair_Display({
+// Display / headings — soft modern old-style serif
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "900"],
   style: ["normal", "italic"],
   display: "swap",
   preload: true,
-  variable: "--font-playfair",
+  variable: "--font-fraunces",
+});
+
+// Accent script — used sparingly for flourish words
+const italianno = Italianno({
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+  preload: false,
+  variable: "--font-script",
 });
 
 export const metadata = {
   metadataBase: new URL("https://partyinstyle.com.au"),
   title: {
-    default: "Party in Style | Melbourne's Premier Luxury Event Planners",
+    default: "Party in Style | Themed Kids Birthday Parties & Event Styling Melbourne",
     template: "%s | Party in Style",
   },
   description:
-    "Melbourne's premier luxury event planners with Australia-wide capability. Weddings, corporate galas, private parties — curated with elegance.",
+    "Melbourne's themed kids birthday party stylists — Spider-Man, Batman, Barbie, princess, unicorn & custom themes, balloon garlands, backdrops & full setup across the south-east suburbs (Cranbourne, Berwick, Pakenham, Narre Warren). Plus weddings, christenings & corporate events. Free quote.",
   keywords: [
-    "Luxury event planner Melbourne",
-    "milestone birthday party planner",
-    "corporate function coordinators Victoria",
-    "EOFY party planners Melbourne",
-    "high-end office parties",
-    "luxury private functions",
-    "bespoke weddings",
-    "event stylist",
+    "themed kids birthday parties Melbourne",
+    "kids party stylist Melbourne",
+    "superhero party Melbourne",
+    "Barbie and princess party Melbourne",
+    "balloon garland Melbourne",
+    "1st birthday party Melbourne",
+    "party hire Cranbourne Berwick Pakenham",
+    "backdrop and prop hire Melbourne",
+    "christening and naming day styling Melbourne",
+    "corporate and EOFY event styling Melbourne",
   ],
   alternates: {
     canonical: "/",
@@ -52,16 +66,16 @@ export const metadata = {
     apple: "/logo.png",
   },
   openGraph: {
-    title: "Party in Style | Melbourne's Premier Luxury Event Planners",
-    description: "Curating exclusive, high-octane experiences for a discerning clientele in Melbourne and across Australia.",
+    title: "Party in Style | Themed Kids Birthday Parties & Event Styling Melbourne",
+    description: "Melbourne's themed kids birthday party stylists — superhero, Barbie, princess & custom themes, balloon garlands, backdrops & full setup across the south-east. Plus weddings & corporate events.",
     url: "https://partyinstyle.com.au",
     siteName: "Party in Style",
     images: [
       {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Party in Style Logo",
+        url: "/images/hero-1stbday-ls.webp",
+        width: 1920,
+        height: 1080,
+        alt: "Themed kids birthday party styling in Melbourne by Party in Style",
       },
     ],
     locale: "en_AU",
@@ -69,9 +83,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Party in Style | Melbourne's Premier Luxury Event Planners",
-    description: "Curating exclusive, high-octane experiences for a discerning clientele in Melbourne and across Australia.",
-    images: ["/logo.png"],
+    title: "Party in Style | Themed Kids Birthday Parties Melbourne",
+    description: "Melbourne's themed kids birthday party stylists — superhero, Barbie, princess & custom themes, balloon garlands & full setup. Plus weddings & corporate events.",
+    images: ["/images/hero-1stbday-ls.webp"],
   },
   robots: {
     index: true,
@@ -92,6 +106,7 @@ export const metadata = {
 
 
 import { getSettings } from "@/lib/getSettings";
+import { HOME_FAQ } from "@/lib/homeFaq";
 
 export default async function RootLayout({ children }) {
   const settings = (await getSettings()) || {};
@@ -99,21 +114,51 @@ export default async function RootLayout({ children }) {
     "@context": "https://schema.org",
     "@type": "EventPlanningBusiness",
     name: "Party in Style",
-    description: "Luxury event planning across Australia. Bespoke Weddings, Corporate Functions, EOFY Parties, Milestone Birthdays, and Exclusive Private Events.",
+    description: "Melbourne's themed kids birthday party stylists and event styling team — superhero, Barbie, princess, unicorn and custom themes, balloon garlands, backdrops, prop hire and full setup, plus weddings, christenings and corporate events across Melbourne's south-east suburbs.",
+    slogan: "Themed kids parties, styled to the last balloon.",
     url: "https://partyinstyle.com.au",
     logo: "https://partyinstyle.com.au/logo.webp",
-    image: "https://partyinstyle.com.au/images/hero-wedding-user.webp",
+    image: "https://partyinstyle.com.au/images/hero-1stbday-ls.webp",
     telephone: "+61494334934",
-    priceRange: "$$$",
+    priceRange: "$$",
+    knowsAbout: [
+      "Themed kids birthday parties",
+      "Superhero parties",
+      "Barbie and princess parties",
+      "Balloon garlands and backdrops",
+      "1st birthday styling and cake smash",
+      "Christenings and naming days",
+      "Weddings and engagements",
+      "Corporate and EOFY events",
+    ],
     makesOffer: [
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bespoke Weddings" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Corporate Functions" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "EOFY Parties" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Milestone Birthdays" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exclusive Private Events" } }
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Themed Kids Birthday Parties" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Superhero Parties (Spider-Man & Batman)" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Princess & Barbie Parties" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "1st Birthday Styling & Cake Smash" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Balloon Garlands, Backdrops & Prop Hire" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Table Styling & Event Decoration" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Christenings & Naming Days" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Weddings & Engagements" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Corporate & EOFY Events" } }
     ],
     "@id": "https://partyinstyle.com.au/#business",
-    email: "concierge@partyinstyle.com.au",
+    email: "Kosatheman@gmail.com",
+    founder: {
+      "@type": "Person",
+      name: "Kosala Perera",
+      jobTitle: "Founder & Lead Stylist",
+      email: "Kosatheman@gmail.com",
+    },
+    foundingDate: "2014",
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "Customer Service",
+      telephone: "+61494334934",
+      email: "Kosatheman@gmail.com",
+      areaServed: "AU",
+      availableLanguage: "English",
+    },
     address: {
       "@type": "PostalAddress",
       streetAddress: "Cranbourne East",
@@ -129,6 +174,11 @@ export default async function RootLayout({ children }) {
     },
     areaServed: [
       { "@type": "City", name: "Melbourne" },
+      { "@type": "City", name: "Cranbourne" },
+      { "@type": "City", name: "Berwick" },
+      { "@type": "City", name: "Pakenham" },
+      { "@type": "City", name: "Narre Warren" },
+      { "@type": "AdministrativeArea", name: "South-East Melbourne" },
       { "@type": "State", name: "Victoria" },
     ],
     openingHoursSpecification: [
@@ -140,7 +190,7 @@ export default async function RootLayout({ children }) {
       }
     ],
     sameAs: [
-      "https://www.facebook.com/share/18SWJEeoe5/",
+      "https://www.facebook.com/groups/1440866676676461/user/61586600203536/",
       "https://www.instagram.com/partyinstyle111",
     ],
   };
@@ -148,40 +198,11 @@ export default async function RootLayout({ children }) {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What types of events do you plan in Melbourne?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "We organize everything from bespoke weddings to luxury corporate functions, EOFY parties, and milestone birthdays across Victoria.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can you organize high-end office parties or corporate functions?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Absolutely. We specialize in premium corporate events, brand launches, and executive dinners designed to impress.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How much does a luxury event planner in Melbourne cost?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Because every event is bespoke and styled to perfection, pricing varies based on scale, theme, and requirements. We offer a free initial consultation and bespoke quoting tailored to your specific event needs.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can Party in Style handle last-minute event bookings?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "While we recommend booking well in advance for large-scale and complex events, our experienced team is equipped to manage tight turnarounds and deliver extraordinary results when necessary.",
-        },
-      },
-    ],
+    mainEntity: HOME_FAQ.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
   };
 
   return (
@@ -206,7 +227,7 @@ export default async function RootLayout({ children }) {
               url: "https://partyinstyle.com.au",
               logo: "https://partyinstyle.com.au/logo.webp",
               sameAs: [
-                "https://www.facebook.com/share/18SWJEeoe5/",
+                "https://www.facebook.com/groups/1440866676676461/user/61586600203536/",
                 "https://www.instagram.com/partyinstyle111",
               ]
             })
@@ -242,21 +263,24 @@ export default async function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,arrow_back,arrow_forward,business_center,cake,call,celebration,check_circle,chevron_left,chevron_right,close,cloud_upload,delete,diamond,eco,error,event_available,expand_more,favorite,forum,groups,handshake,image,inbox,list_alt,location_on,logout,mail,menu,nightlife,palette,photo_library,play_arrow,progress_activity,save,schedule,sell,send,settings,shield,star,theater_comedy,tune,upload,verified,workspace_premium,zoom_in&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,arrow_back,arrow_forward,auto_awesome,business_center,cake,call,celebration,check_circle,chevron_left,chevron_right,close,cloud_upload,delete,diamond,eco,error,event_available,expand_more,favorite,forum,groups,handshake,image,inbox,list_alt,location_on,logout,mail,menu,nightlife,palette,photo_library,play_arrow,progress_activity,save,schedule,sell,send,settings,shield,star,theater_comedy,tune,upload,verified,workspace_premium,zoom_in&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning={true} className={`min-h-full flex flex-col bg-background text-on-surface antialiased font-body-md selection:bg-primary/30 selection:text-primary-light ${outfit.variable} ${playfairDisplay.variable}`}>
+      <body suppressHydrationWarning={true} className={`min-h-full flex flex-col bg-background text-on-surface antialiased font-body-md selection:bg-primary/30 selection:text-primary-light ${manrope.variable} ${fraunces.variable} ${italianno.variable}`}>
         <script dangerouslySetInnerHTML={{__html: "document.documentElement.classList.add('js')"}} />
         {/* Ambient luxury glow orbs */}
         <div className="ambient-glow site-chrome" aria-hidden="true">
           <div className="ambient-orb ambient-orb-1" />
           <div className="ambient-orb ambient-orb-2" />
           <div className="ambient-orb ambient-orb-3" />
+          <div className="ambient-orb ambient-orb-4" />
+          <div className="ambient-orb ambient-orb-5" />
         </div>
 
         <Preloader />
         <div className="site-chrome"><CursorTrail /></div>
+        <CardSpotlight />
         <ScrollProgress />
         <Navbar />
         <main className="flex-1 pt-20">{children}</main>

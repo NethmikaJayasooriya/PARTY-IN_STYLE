@@ -1,67 +1,119 @@
 import Link from "next/link";
+import { getSettings } from "@/lib/getSettings";
 
-const FOOTER_LINKS = [
+const EXPLORE = [
   { label: "Services", href: "/services" },
   { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 
-import { getSettings } from "@/lib/getSettings";
+const POPULAR = [
+  { label: "Superhero Parties", href: "/services" },
+  { label: "Princess & Barbie", href: "/services" },
+  { label: "1st Birthdays", href: "/services" },
+  { label: "Weddings & Corporate", href: "/services" },
+];
+
+function Social({ href, label, children }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
+      style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(230,199,102,0.25)" }}
+    >
+      <svg viewBox="0 0 24 24" className="w-5 h-5 text-white/80" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        {children}
+      </svg>
+    </a>
+  );
+}
 
 export default async function Footer() {
   const settings = (await getSettings()) || {};
+  const phone = settings.phone || "+61 494 334 934";
+  const email = settings.email || "Kosatheman@gmail.com";
 
   return (
-    <footer id="main-footer" className="w-full py-12 border-t border-outline/20 bg-surface-container-lowest">
-      <div className="max-w-container-max mx-auto px-6 md:px-margin-x">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <Link href="/">
-              <img
-                src="/logo.webp"
-                alt="Party in Style"
-                width={80}
-                height={80}
-                className="h-20 w-auto"
-                loading="lazy"
-                style={{ filter: "drop-shadow(0 0 6px rgba(212,175,55,0.2))" }}
-              />
-            </Link>
-            <div className="flex gap-4 items-center">
-              <a href={settings.facebook || "#"} target="_blank" rel="noopener noreferrer" aria-label="Visit our Facebook page" className="text-on-surface-variant/70 hover:text-primary hover:scale-110 transition-all">
-                <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-              </a>
-              <a href={settings.instagram || "#"} target="_blank" rel="noopener noreferrer" aria-label="Visit our Instagram profile" className="text-on-surface-variant/70 hover:text-primary hover:scale-110 transition-all">
-                <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                </svg>
-              </a>
+    <footer
+      id="main-footer"
+      className="relative w-full overflow-hidden text-white"
+      style={{
+        backgroundColor: "#171009",
+        backgroundImage:
+          "radial-gradient(900px 400px at 85% -20%, rgba(230,199,102,0.16), transparent 60%), radial-gradient(700px 360px at 0% 120%, rgba(232,106,142,0.10), transparent 55%)",
+      }}
+    >
+      <div style={{ height: "3px", background: "linear-gradient(90deg, transparent, #C9A24B, #E6C766, #C9A24B, transparent)" }} />
+
+      <div className="max-w-container-max mx-auto px-6 md:px-margin-x py-14">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
+          {/* Brand */}
+          <div className="md:col-span-4 flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <img src="/logo.webp" alt="Party in Style" width={64} height={64} className="h-16 w-auto" loading="lazy" style={{ filter: "drop-shadow(0 0 8px rgba(230,199,102,0.35))" }} />
+              <span className="champagne-text font-headline-md text-2xl font-bold">Party in Style</span>
+            </div>
+            <p className="font-body-md text-sm text-white/65 max-w-xs leading-relaxed">
+              Melbourne&#39;s themed kids&#39; party &amp; event stylists — Spider-Man to Barbie, 1st birthdays to weddings. We design, style and run the whole celebration.
+            </p>
+            <div className="flex gap-3 items-center mt-1">
+              <Social href={settings.facebook || "https://www.facebook.com/groups/1440866676676461/user/61586600203536/"} label="Facebook">
+                <path d="M14 8h2V5h-2a3 3 0 00-3 3v2H9v3h2v6h3v-6h2l1-3h-3V8a1 1 0 011-1z" fill="currentColor" stroke="none" />
+              </Social>
+              <Social href={settings.instagram || "https://www.instagram.com/partyinstyle111"} label="Instagram">
+                <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+                <circle cx="12" cy="12" r="3.8" />
+                <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+              </Social>
+              <Social href="https://wa.me/61494334934" label="WhatsApp">
+                <path d="M12 3a9 9 0 00-7.7 13.6L3 21l4.6-1.2A9 9 0 1012 3z" />
+                <path d="M8.5 9.5c0 4 3 6.5 6 6.5.7 0 1.3-.6 1.3-1.1 0-.3-1.6-1-1.9-.8-.4.4-.7.7-1.4.3-1-.5-1.8-1.6-2-2.2-.1-.4.4-.7.6-1 .2-.3-.6-1.8-.9-1.8-.5 0-1.2.5-1.3 1.3z" fill="currentColor" stroke="none" />
+              </Social>
             </div>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8">
-            {FOOTER_LINKS.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="text-on-surface-variant/80 text-xs uppercase tracking-wider hover:text-primary transition-colors py-2"
-              >
-                {l.label}
-              </Link>
-            ))}
+
+          {/* Explore */}
+          <div className="md:col-span-2">
+            <h3 className="font-label-sm text-xs uppercase tracking-[0.2em] mb-4" style={{ color: "#E6C766" }}>Explore</h3>
+            <ul className="flex flex-col gap-2.5">
+              {EXPLORE.map((l) => (
+                <li key={l.label}><Link href={l.href} className="text-sm text-white/65 hover:text-white transition-colors">{l.label}</Link></li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Popular */}
+          <div className="md:col-span-3">
+            <h3 className="font-label-sm text-xs uppercase tracking-[0.2em] mb-4" style={{ color: "#E6C766" }}>Popular Themes</h3>
+            <ul className="flex flex-col gap-2.5">
+              {POPULAR.map((l) => (
+                <li key={l.label}><Link href={l.href} className="text-sm text-white/65 hover:text-white transition-colors">{l.label}</Link></li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="md:col-span-3">
+            <h3 className="font-label-sm text-xs uppercase tracking-[0.2em] mb-4" style={{ color: "#E6C766" }}>Get in Touch</h3>
+            <ul className="flex flex-col gap-3 text-sm text-white/70">
+              <li className="flex items-center gap-2"><span className="material-symbols-outlined text-base" style={{ color: "#E6C766" }}>call</span><a href={`tel:${phone.replace(/\s/g, "")}`} className="hover:text-white transition-colors">{phone}</a></li>
+              <li className="flex items-center gap-2"><span className="material-symbols-outlined text-base" style={{ color: "#E6C766" }}>mail</span><a href={`mailto:${email}`} className="hover:text-white transition-colors break-all">{email}</a></li>
+              <li className="flex items-start gap-2"><span className="material-symbols-outlined text-base" style={{ color: "#E6C766" }}>location_on</span><span>Cranbourne, Berwick, Pakenham &amp; all Melbourne</span></li>
+            </ul>
+            <Link href="/contact" className="inline-flex items-center gap-2 mt-5 bg-primary text-on-primary-container font-label-sm text-xs font-bold px-6 py-3 rounded-lg uppercase tracking-[0.15em] metallic-sheen hover:bg-primary-light transition-colors">
+              <span className="material-symbols-outlined text-sm">event_available</span>Book Now
+            </Link>
           </div>
         </div>
-        <div className="gold-line mb-8" />
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="font-body-md text-xs text-on-surface-variant/70 uppercase tracking-widest">
-            &copy; 2026 Party in Style. All rights reserved.
-          </p>
 
-          <p className="font-body-md text-xs text-on-surface-variant/70">
-            Melbourne Based
-          </p>
+        <div className="mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style={{ borderTop: "1px solid rgba(230,199,102,0.15)" }}>
+          <p className="font-body-md text-xs text-white/50 uppercase tracking-widest">&copy; 2026 Party in Style. All rights reserved.</p>
+          <p className="font-body-md text-xs text-white/50">Melbourne&#39;s premier themed party stylists</p>
         </div>
       </div>
     </footer>

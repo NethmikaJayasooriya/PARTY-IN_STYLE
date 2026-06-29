@@ -5,8 +5,10 @@ import JsonLd from "../components/JsonLd";
 import { blogPosts } from "@/lib/blogData";
 
 export const metadata = {
-  title: "Blog & Guides",
-  description: "Insights, trends, and inspiration from Melbourne's premier luxury event planners.",
+  title: "Party Ideas & Guides | Melbourne Kids Birthday Parties",
+  description: "Expert guides on themed kids' birthday parties in Melbourne — trending 2026 themes, superhero & princess parties, balloon garlands, 1st birthdays, party costs, venues and planning tips from Party in Style.",
+  alternates: { canonical: "/blog" },
+  keywords: ["Melbourne kids party ideas", "birthday party themes 2026", "party planner Melbourne", "balloon garland Melbourne", "1st birthday Melbourne"],
 };
 
 export default function BlogPage() {
@@ -48,10 +50,16 @@ export default function BlogPage() {
                     className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
+                  {post.category && (
+                    <span className="absolute top-4 left-4 z-10 font-label-sm text-[10px] font-semibold uppercase tracking-widest px-3 py-1 rounded-full text-on-primary-container" style={{ background: "linear-gradient(135deg, #E6C766, #C9A24B)" }}>
+                      {post.category}
+                    </span>
+                  )}
                 </div>
                 <div className="space-y-3">
                   <p className="font-label-sm text-xs text-primary uppercase tracking-widest">
                     {new Date(post.date).toLocaleDateString("en-AU", { year: "numeric", month: "long", day: "numeric" })}
+                    {post.readTime && <span className="text-on-surface-variant normal-case tracking-normal"> · {post.readTime}</span>}
                   </p>
                   <h2 className="font-headline-md text-2xl text-on-surface group-hover:text-primary transition-colors duration-300">
                     {post.title}

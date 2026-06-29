@@ -5,8 +5,7 @@ import Lightbox from "../components/Lightbox";
 import JsonLd from "../components/JsonLd";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
-
-const CATEGORIES = ["All", "Weddings", "Corporate", "Private", "Proposals"];
+import { GALLERY_ITEMS, CATEGORIES } from "./galleryData";
 
 function isVideo(src) {
   return /\.(mp4|webm|ogg|mov)$/i.test(src);
@@ -14,8 +13,8 @@ function isVideo(src) {
 
 export default function GalleryPage() {
   const [active, setActive] = useState("All");
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState(GALLERY_ITEMS); // curated fallback shown instantly
+  const [loading, setLoading] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12);
 
   useEffect(() => {
@@ -23,11 +22,13 @@ export default function GalleryPage() {
       try {
         const q = query(collection(db, "gallery"), orderBy("createdAt", "desc"));
         const snap = await getDocs(q);
-        setItems(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        // Only override the curated set if Firestore actually has items
+        if (!snap.empty) {
+          setItems(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        }
       } catch (err) {
-        console.error("Error fetching gallery:", err);
-      } finally {
-        setLoading(false);
+        // Permissions/offline — keep the curated fallback, no crash
+        console.warn("Gallery: using curated fallback set.", err?.code || err);
       }
     };
     fetchGallery();

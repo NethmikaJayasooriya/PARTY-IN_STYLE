@@ -32,12 +32,12 @@ export default function Preloader() {
     <div className={`site-chrome fixed inset-0 z-[999999] flex items-center justify-center overflow-hidden ${isRevealing ? "pointer-events-none" : ""}`}>
       {/* Cinematic Split Doors */}
       <div 
-        className={`absolute top-0 left-0 w-full h-1/2 bg-[#0c0d0e] transition-transform duration-[400ms] ease-[cubic-bezier(0.7,0,0.3,1)] ${
+        className={`absolute top-0 left-0 w-full h-1/2 bg-[#15101a] transition-transform duration-[400ms] ease-[cubic-bezier(0.7,0,0.3,1)] ${
           isRevealing ? "-translate-y-full" : "translate-y-0"
         }`} 
       />
       <div 
-        className={`absolute bottom-0 left-0 w-full h-1/2 bg-[#0c0d0e] transition-transform duration-[400ms] ease-[cubic-bezier(0.7,0,0.3,1)] ${
+        className={`absolute bottom-0 left-0 w-full h-1/2 bg-[#15101a] transition-transform duration-[400ms] ease-[cubic-bezier(0.7,0,0.3,1)] ${
           isRevealing ? "translate-y-full" : "translate-y-0"
         }`} 
       />

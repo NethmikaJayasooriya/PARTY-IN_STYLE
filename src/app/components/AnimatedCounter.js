@@ -42,7 +42,7 @@ export default function AnimatedCounter({ value, label }) {
   }, [value]);
 
   return (
-    <div ref={ref} className="text-center md:text-left">
+    <div ref={ref} className="text-center relative z-10 flex flex-col items-center">
       <div className="font-headline-lg text-4xl md:text-5xl gradient-text font-light">{display}</div>
       <div className="font-label-sm text-[11px] text-on-surface-variant uppercase tracking-[0.2em] mt-1">{label}</div>
     </div>
