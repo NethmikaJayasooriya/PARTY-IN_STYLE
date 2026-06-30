@@ -1,4 +1,5 @@
 import { blogPosts } from "@/lib/blogData";
+import { themes } from "@/lib/themesData";
 
 export default function sitemap() {
   const routes = [
@@ -8,6 +9,7 @@ export default function sitemap() {
     { url: "https://partyinstyle.com.au/about", lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: "https://partyinstyle.com.au/contact", lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: "https://partyinstyle.com.au/blog", lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
+    { url: "https://partyinstyle.com.au/themes", lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
   ];
 
   const blogRoutes = blogPosts.map((post) => ({
@@ -17,5 +19,12 @@ export default function sitemap() {
     priority: 0.7,
   }));
 
-  return [...routes, ...blogRoutes];
+  const themeRoutes = themes.map((t) => ({
+    url: `https://partyinstyle.com.au/themes/${t.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.85,
+  }));
+
+  return [...routes, ...themeRoutes, ...blogRoutes];
 }

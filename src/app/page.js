@@ -4,8 +4,8 @@ import RevealSection from "./components/RevealSection";
 import { HOME_FAQ } from "@/lib/homeFaq";
 
 export const metadata = {
-  title: "Melbourne's Premier Luxury Event Planners",
-  description: "Melbourne's top luxury event planners with Australia-wide capability. We specialise in bespoke weddings, high-end corporate galas, and immersive private parties.",
+  title: "Themed Kids Birthday Parties & Event Styling Melbourne",
+  description: "Party in Style - Melbourne's themed kids birthday party stylists. Spider-Man, Batman, Barbie, princess, unicorn & custom themes, balloon garlands, backdrops, table styling & full setup across Cranbourne, Berwick, Pakenham & all Melbourne. Plus weddings, christenings & corporate events. Free quote.",
 };
 import dynamic from "next/dynamic";
 import HeroForm from "./components/HeroForm";

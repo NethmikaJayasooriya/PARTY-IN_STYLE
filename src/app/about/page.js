@@ -88,11 +88,22 @@ export default async function AboutPage() {
     })),
   };
 
+  const founderSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Kosala Perera",
+    jobTitle: "Founder & Lead Stylist",
+    worksFor: { "@id": "https://partyinstyle.com.au/#business" },
+    url: "https://partyinstyle.com.au/about",
+    description: "Kosala Perera is the founder and lead stylist of Party in Style, a Melbourne-based themed kids' birthday party and event styling team serving the south-east suburbs of Melbourne.",
+  };
+
   return (
     <>
       <JsonLd schema={breadcrumbSchema} />
       <JsonLd schema={aboutSchema} />
       <JsonLd schema={faqSchema} />
+      <JsonLd schema={founderSchema} />
 
       {/* ── HERO ── */}
       <section className="relative py-stack-md overflow-hidden">
@@ -150,6 +161,9 @@ export default async function AboutPage() {
               </p>
               <p className="font-body-md text-base text-[#D8CBB5] font-light leading-relaxed mb-8">
                 With deep local knowledge of Cranbourne, Berwick, Pakenham, Narre Warren and greater Melbourne, we know the venues, halls and backyards — so your event feels effortless, personal and unmistakably yours. Beyond birthdays, we also style weddings, engagements, christenings and corporate events.
+              </p>
+              <p className="font-headline-md text-lg text-white italic mb-8">
+                &mdash; Kosala Perera, <span className="text-[#E6C766] not-italic font-normal">Founder &amp; Lead Stylist</span>
               </p>
               <div className="flex flex-wrap gap-3">
                 {["Setup & Pack-down Included", "Local & Reliable", "500+ Families Served"].map((t) => (

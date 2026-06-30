@@ -3,6 +3,7 @@ import { getSettings } from "@/lib/getSettings";
 
 const EXPLORE = [
   { label: "Services", href: "/services" },
+  { label: "Themes", href: "/themes" },
   { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "Blog", href: "/blog" },
@@ -10,10 +11,10 @@ const EXPLORE = [
 ];
 
 const POPULAR = [
-  { label: "Superhero Parties", href: "/services" },
-  { label: "Princess & Barbie", href: "/services" },
-  { label: "1st Birthdays", href: "/services" },
-  { label: "Weddings & Corporate", href: "/services" },
+  { label: "Spider-Man Parties", href: "/themes/spiderman-party-melbourne" },
+  { label: "Barbie & Princess", href: "/themes/barbie-party-melbourne" },
+  { label: "1st Birthdays", href: "/themes/first-birthday-melbourne" },
+  { label: "All Party Themes", href: "/themes" },
 ];
 
 function Social({ href, label, children }) {
