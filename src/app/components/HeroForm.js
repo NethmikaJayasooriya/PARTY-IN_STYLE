@@ -253,6 +253,7 @@ I would like to inquire about an event booking.
 *Event Type:* ${eventType}${theme ? `\n*Theme:* ${theme}` : ""}
 *Brief Details:* ${message || "N/A"}`;
       const whatsappUrl = `https://wa.me/61494334934?text=${encodeURIComponent(text)}`;
+      if (typeof window !== "undefined" && window.gtag) window.gtag("event", "generate_lead", { event_category: "enquiry", event_label: eventType, value: 1 });
       window.open(whatsappUrl, "_blank");
 
       setTimeout(() => {

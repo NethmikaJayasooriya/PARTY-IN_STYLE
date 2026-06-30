@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx skills *)",
+      "Bash(npx impeccable *)",
+      "Bash(Get-ChildItem -Path \"D:\\\\CLIENTS\\\\PARTY IN STYLE\\\\party-in-style\" -Filter \"*.md\" -File)",
+      "Bash(Select-Object Name)",
+      "Bash(npm run *)",
+      "Bash(git checkout *)",
+      "Bash(npm install *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}

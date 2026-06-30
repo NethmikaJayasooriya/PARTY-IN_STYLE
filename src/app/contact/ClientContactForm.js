@@ -57,6 +57,7 @@ I would like to inquire about an event booking.
     const whatsappUrl = `https://wa.me/61494334934?text=${encodedText}`;
     
     // Redirect to WhatsApp
+    if (typeof window !== "undefined" && window.gtag) window.gtag("event", "generate_lead", { event_category: "enquiry", event_label: eventType, value: 1 });
     window.open(whatsappUrl, "_blank");
 
     setIsSending(false);
