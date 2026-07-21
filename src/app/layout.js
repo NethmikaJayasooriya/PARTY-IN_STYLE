@@ -263,7 +263,7 @@ export default async function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,arrow_back,arrow_forward,auto_awesome,business_center,cake,call,celebration,check_circle,chevron_left,chevron_right,close,cloud_upload,delete,diamond,eco,error,event_available,expand_more,favorite,forum,groups,handshake,image,inbox,list_alt,location_on,logout,mail,menu,nightlife,palette,photo_library,play_arrow,progress_activity,save,schedule,sell,send,settings,shield,star,theater_comedy,tune,upload,verified,workspace_premium,zoom_in&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,arrow_back,arrow_forward,auto_awesome,business_center,cake,call,celebration,check_circle,chevron_left,chevron_right,close,cloud_upload,delete,diamond,eco,error,event_available,expand_more,favorite,forum,grid_on,groups,handshake,image,inbox,list_alt,location_on,logout,mail,menu,movie,nightlife,palette,photo_camera,photo_library,play_arrow,progress_activity,save,schedule,sell,send,settings,shield,star,theater_comedy,tune,upload,verified,workspace_premium,zoom_in&display=swap"
           rel="stylesheet"
         />
       </head>

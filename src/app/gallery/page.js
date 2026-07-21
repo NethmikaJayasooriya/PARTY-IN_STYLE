@@ -13,6 +13,7 @@ function isVideo(src) {
 
 export default function GalleryPage() {
   const [active, setActive] = useState("All");
+  const [mediaType, setMediaType] = useState("all"); // "all", "image", "video"
   const [items, setItems] = useState(GALLERY_ITEMS); // curated fallback shown instantly
   const [loading, setLoading] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12);
@@ -35,19 +36,32 @@ export default function GalleryPage() {
   }, []);
 
   const filtered = useMemo(() => {
-    return active === "All" ? items : items.filter((g) => g.cat === active);
-  }, [active, items]);
+    let result = items;
+    if (active !== "All") {
+      result = result.filter(g => g.cat === active);
+    }
+    if (mediaType === "video") {
+      result = result.filter(g => isVideo(g.src));
+    } else if (mediaType === "image") {
+      result = result.filter(g => !isVideo(g.src));
+    }
+    return result;
+  }, [active, items, mediaType]);
 
   const visibleItems = useMemo(() => filtered.slice(0, visibleCount), [filtered, visibleCount]);
 
   // Count per category
   const counts = useMemo(() => {
     const c = {};
+    let baseItems = items;
+    if (mediaType === "video") baseItems = items.filter(g => isVideo(g.src));
+    if (mediaType === "image") baseItems = items.filter(g => !isVideo(g.src));
+
     CATEGORIES.forEach((cat) => {
-      c[cat] = cat === "All" ? items.length : items.filter((g) => g.cat === cat).length;
+      c[cat] = cat === "All" ? baseItems.length : baseItems.filter((g) => g.cat === cat).length;
     });
     return c;
-  }, [items]);
+  }, [items, mediaType]);
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -73,7 +87,40 @@ export default function GalleryPage() {
         </p>
       </section>
 
-      {/* ── Filter Tabs ── */}
+      {/* ── Instagram-Style Media Tabs ── */}
+      <div className="max-w-2xl mx-auto px-6 mb-6">
+        <div className="flex justify-center border-t border-outline/20">
+          <button
+            onClick={() => { setMediaType("all"); setVisibleCount(12); }}
+            className={`px-8 md:px-12 py-4 transition-colors duration-300 flex justify-center items-center flex-col gap-1 -mt-[1px] ${
+              mediaType === "all" ? "text-primary border-t-[3px] border-primary" : "text-on-surface-variant hover:text-on-surface border-t-[3px] border-transparent"
+            }`}
+            title="All Posts"
+          >
+            <span className="material-symbols-outlined text-[32px]">grid_on</span>
+          </button>
+          <button
+            onClick={() => { setMediaType("image"); setVisibleCount(12); }}
+            className={`px-8 md:px-12 py-4 transition-colors duration-300 flex justify-center items-center flex-col gap-1 -mt-[1px] ${
+              mediaType === "image" ? "text-primary border-t-[3px] border-primary" : "text-on-surface-variant hover:text-on-surface border-t-[3px] border-transparent"
+            }`}
+            title="Photos"
+          >
+            <span className="material-symbols-outlined text-[32px]">photo_camera</span>
+          </button>
+          <button
+            onClick={() => { setMediaType("video"); setVisibleCount(12); }}
+            className={`px-8 md:px-12 py-4 transition-colors duration-300 flex justify-center items-center flex-col gap-1 -mt-[1px] ${
+              mediaType === "video" ? "text-primary border-t-[3px] border-primary" : "text-on-surface-variant hover:text-on-surface border-t-[3px] border-transparent"
+            }`}
+            title="Videos"
+          >
+            <span className="material-symbols-outlined text-[32px]">movie</span>
+          </button>
+        </div>
+      </div>
+
+      {/* ── Category Filter Tabs ── */}
       <div className="max-w-container-max mx-auto px-6 md:px-margin-x mb-12">
         <div className="flex flex-wrap justify-center gap-3">
           {CATEGORIES.map((c) => (
@@ -109,13 +156,11 @@ export default function GalleryPage() {
           </div>
         ) : (
           <>
-            <div className="gallery-masonry">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1 md:gap-4">
               {visibleItems.map((g, i) => (
                 <RevealSection key={`${g.id || g.src}-${active}`} delay={i * 60}>
-                  <Lightbox src={g.src} alt={g.alt} galleryItems={filtered} currentIndex={i}>
-                    <div className={`gallery-item relative rounded-xl overflow-hidden group ${
-                      g.aspect === "tall" ? "gallery-tall" : g.aspect === "wide" ? "gallery-wide" : ""
-                    }`}>
+                  <Lightbox src={g.src} alt={g.alt} galleryItems={g.type === "carousel" ? g.images : filtered} currentIndex={g.type === "carousel" ? 0 : i}>
+                    <div className="relative rounded-xl overflow-hidden group aspect-square">
                       {/* Image or Video thumbnail */}
                       {isVideo(g.src) ? (
                         <video
@@ -147,9 +192,13 @@ export default function GalleryPage() {
                       </div>
 
                       {/* Top-right action icon */}
-                      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                        {isVideo(g.src) ? (
-                          <div className="w-10 h-10 rounded-full glass-panel flex items-center justify-center border border-primary/20">
+                      <div className={`absolute top-3 right-3 transition-all duration-300 ${isVideo(g.src) || g.type === "carousel" ? "opacity-100" : "opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0"}`}>
+                        {g.type === "carousel" ? (
+                          <div className="w-10 h-10 rounded-full glass-panel flex items-center justify-center border border-primary/20 shadow-md">
+                            <span className="material-symbols-outlined text-primary text-lg">photo_library</span>
+                          </div>
+                        ) : isVideo(g.src) ? (
+                          <div className="w-10 h-10 rounded-full glass-panel flex items-center justify-center border border-primary/20 shadow-md">
                             <span className="material-symbols-outlined text-primary text-lg">play_arrow</span>
                           </div>
                         ) : (
