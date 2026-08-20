@@ -22,12 +22,12 @@ const STATS = [
 ];
 
 const SERVICES_PREVIEW = [
-  { icon: "shield", title: "Superhero Parties", jewel: "heroblue", img: "/images/hero-superhero-ls.png", desc: "Spider-Man, Batman & more — styled to the last balloon." },
-  { icon: "diamond", title: "Princess & Barbie", jewel: "heropink", img: "/images/hero-barbie-ls.png", desc: "Pretty-in-pink Barbie & fairytale princess setups." },
-  { icon: "cake", title: "Milestone Birthdays", jewel: "blush", img: "/images/hero-1stbday-ls.png", desc: "Unforgettable first birthdays & custom themes." },
-  { icon: "business_center", title: "Corporate Events", jewel: "gold", img: "/images/hero-corporate-ls.png", desc: "Premium galas, product launches & EOFY parties." },
-  { icon: "favorite", title: "Luxury Weddings", jewel: "emerald", img: "/images/hero-wedding-ls.png", desc: "Elegant floral arrangements & reception styling." },
-  { icon: "palette", title: "Bespoke Themes", jewel: "amethyst", img: "/images/hero-themed-ls.png", desc: "Jungle safaris, space adventures & more." },
+  { icon: "shield", title: "Superhero Parties", jewel: "heroblue", img: "/images/hero-superhero-ls.webp", desc: "Spider-Man, Batman & more — styled to the last balloon." },
+  { icon: "diamond", title: "Princess & Barbie", jewel: "heropink", img: "/images/hero-barbie-ls.webp", desc: "Pretty-in-pink Barbie & fairytale princess setups." },
+  { icon: "cake", title: "Milestone Birthdays", jewel: "blush", img: "/images/hero-1stbday-ls.webp", desc: "Unforgettable first birthdays & custom themes." },
+  { icon: "business_center", title: "Corporate Events", jewel: "gold", img: "/images/hero-corporate-ls.webp", desc: "Premium galas, product launches & EOFY parties." },
+  { icon: "favorite", title: "Luxury Weddings", jewel: "emerald", img: "/images/hero-wedding-ls.webp", desc: "Elegant floral arrangements & reception styling." },
+  { icon: "palette", title: "Bespoke Themes", jewel: "amethyst", img: "/images/hero-themed-ls.webp", desc: "Jungle safaris, space adventures & more." },
 ];
 
 const TESTIMONIALS = [
@@ -202,7 +202,7 @@ export default async function Home() {
         <section aria-label="Get in touch" className="py-stack-lg relative overflow-hidden">
           <div className="absolute inset-0 z-0">
             <Image
-              src="/images/hero-corporate-ls.png"
+              src="/images/hero-corporate-ls.webp"
               alt="Premium event styling and luxury coordination by Party in Style Melbourne"
               fill
               sizes="100vw"

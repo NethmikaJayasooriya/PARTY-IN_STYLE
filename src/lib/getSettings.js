@@ -1,5 +1,5 @@
 export async function getSettings() {
-  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "party-in-style-dd2ad";
   if (!projectId) return null;
   
   try {
